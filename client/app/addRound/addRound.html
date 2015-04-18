@@ -1,0 +1,52 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+    <div class="col-xs-12">
+        <h4>
+            <strong>
+                Add a Round for {{ playerName }}
+            </strong>
+        </h4>
+         <form class="form-horizontal" ng-submit="addRound()">
+            <div class="row">
+                <div class="form-group">
+                    <label for="date" class="col-xs-1 control-label">Date:</label>
+                    <div class="col-xs-3">
+                        <input type="datetime-local" name="roundDate" class="form-control col-xs-2" required ng-model="round.date">
+                    </div>
+                    <div class="col-xs-1"></div>
+                    <div class="col-xs-2">
+                        <input type="submit" class="btn btn-primary"></input>
+                    </div>
+                </div>
+            </div>
+<!--
+  -- Form label and input select box for Courseinput:
+-->
+            <div class="row">
+                <div class="form-group">
+                    <label for="crs" class="col-xs-1 control-label">Course:</label>
+                    <div class="col-xs-3">
+                        <select ng-model="round.courseId"
+                                ng-options="course._id as course.tag for course in courses"
+                                ng-change="updateTeeBoxes()">
+                        </select>
+                    </div>
+                </div>
+            </div>
+<!--
+  -- Form label and input field for Tee Box input:
+-->
+            <div class="row">
+                <div class="form-group">
+                    <label for="inputTee" class="col-xs-1 control-label">Tee:</label>
+                    <div class="col-xs-2">
+                        <select ng-model="round.teeId"
+                                ng-options="tee._id as tee.teeName for tee in tees">
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

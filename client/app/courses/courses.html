@@ -1,0 +1,41 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <h3>Courses</h3>
+            <hr>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-xs-7">
+            <a class="btn btn-primary btn-sm" style="text-align: center" href="/addCourse" role="button">Add a Course</a>    
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-7">
+            <p><small>Click on <font color="0000ff"><strong>blue</strong></font> column headers to sort the list; click again to reverse sort. Click on <font color="0000ff">course name</font> for course details.</small></p>
+            <table class="table table-condensed table-bordered">
+                <tr>
+                    <th ng-click="doSort('tag')"><font color="0000ff">Name</font></th>
+                    <th ng-click="doSort('city')"><font color="0000ff">City</font></th>
+                    <th ng-click="doSort('state')"><font color="0000ff">State</font></th>
+                 </tr>
+                <tr>
+                    <td><input type="text" ng-model="courseFilter.tag" /></td>
+                    <td><input type="text" ng-model="courseFilter.city" /></td>
+                    <td><input type="text" ng-model="courseFilter.state"/></td>
+                </tr>
+                <tr ng-repeat="course in courses | filter:courseFilter | orderBy:cSortBy:cReverse">
+                    <td><a href="/viewCourse/{{ course._id }}">{{ course.tag }}</td>
+                    <td>{{ course.city }}</td>
+                    <td>{{ course.state }}</td>
+                </tr>
+            </table>
+            <br />
+            <span>Total courses: {{ courses.length }}</span>
+        </div>
+    </div>
+</div>

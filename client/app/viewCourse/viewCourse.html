@@ -1,0 +1,196 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+    <div  class="col-xs-6">
+        <div class="row">
+                <h3><strong>Course Details: <a href="/editCourse/{{ course._id }}">{{ course.tag }}</a></strong></h2>
+        </div>
+        <div class="row">
+            <p>&nbsp;</p>
+        </div>
+        <div class="row">
+            <a class="btn btn-primary btn-sm" href="/addTeeBox/{{ course._id }}" role="button">Add Tee Box</a>
+        </div>
+    </div>
+    <div class="col-xs-6">
+        <small>
+            <p>{{ course.name }}</p>
+            <p>{{ course.street }}</p>
+            <p>{{ course.city }}, {{ course.state}} {{ course.zip }}</p>
+            <p>{{ course.phone }}</p>
+            <p><a href="http://{{ course.web }}">{{ course.web}}</a></p>
+            <br/>
+        </small>
+    </div>
+    <div class="col-xs-12">
+        <small>
+            <table class="table table-condensed table-bordered"  style="text-align:center">
+                <tr>
+                    <th>Tee</th>
+                    <th>Course</th>
+                    <th>Slope</th>
+                    <th>&nbsp;</th>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>4</th>
+                    <th>5</th>
+                    <th>6</th>
+                    <th>7</th>
+                    <th>8</th>
+                    <th>9</th>
+                    <th>&nbsp;</th>
+                    <th>Front</th>
+                    <th>&nbsp;</th>
+                    <th>10</th>
+                    <th>11</th>
+                    <th>12</th>
+                    <th>13</th>
+                    <th>14</th>
+                    <th>15</th>
+                    <th>16</th>
+                    <th>17</th>
+                    <th>18</th>
+                    <th>&nbsp;</th>
+                    <th>Back</th>
+                    <th>&nbsp;</th>
+                    <th>Total</th>
+                    <th>Del</th>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td><b>Hdcp</b></td>
+                    <td>{{ course.hcp[0] }}</td>
+                    <td>{{ course.hcp[1] }}</td>
+                    <td>{{ course.hcp[2] }}</td>
+                    <td>{{ course.hcp[3] }}</td>
+                    <td>{{ course.hcp[4] }}</td>
+                    <td>{{ course.hcp[5] }}</td>
+                    <td>{{ course.hcp[6] }}</td>
+                    <td>{{ course.hcp[7] }}</td>
+                    <td>{{ course.hcp[8] }}</td>
+                    <th>&nbsp;</th>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>{{ course.hcp[9] }}</td>
+                    <td>{{ course.hcp[10] }}</td>
+                    <td>{{ course.hcp[11] }}</td>
+                    <td>{{ course.hcp[12] }}</td>
+                    <td>{{ course.hcp[13] }}</td>
+                    <td>{{ course.hcp[14] }}</td>
+                    <td>{{ course.hcp[15] }}</td>
+                    <td>{{ course.hcp[16] }}</td>
+                    <td>{{ course.hcp[17] }}</td>
+                    <th>&nbsp;</th>
+                    <td>&nbsp;</td>
+                    <th>&nbsp;</th>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td><b>Par</b></td>
+                    <td>{{ course.par[0] }}</td>
+                    <td>{{ course.par[1] }}</td>
+                    <td>{{ course.par[2] }}</td>
+                    <td>{{ course.par[3] }}</td>
+                    <td>{{ course.par[4] }}</td>
+                    <td>{{ course.par[5] }}</td>
+                    <td>{{ course.par[6] }}</td>
+                    <td>{{ course.par[7] }}</td>
+                    <td>{{ course.par[8] }}</td>
+                    <th>&nbsp;</th>
+                    <td>{{ course.par[18] }}</td>
+                    <th>&nbsp;</th>
+                    <td>{{ course.par[9] }}</td>
+                    <td>{{ course.par[10] }}</td>
+                    <td>{{ course.par[11] }}</td>
+                    <td>{{ course.par[12] }}</td>
+                    <td>{{ course.par[13] }}</td>
+                    <td>{{ course.par[14] }}</td>
+                    <td>{{ course.par[15] }}</td>
+                    <td>{{ course.par[16] }}</td>
+                    <td>{{ course.par[17] }}</td>
+                    <th>&nbsp;</th>
+                    <td>{{ course.par[19] }}</td>
+                    <th>&nbsp;</th>
+                    <td>{{ course.par[20] }}</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr ng-repeat="tee in tees">
+                     <td style="text-align:left"><a href="/editTeeBox/{{ tee._id }}">{{ tee.teeName }}</td>
+                    <td>{{ tee.rating | number:1 }}</td>
+                    <td>{{ tee.slope | number:0 }}</td>
+                    <td><b>Yards</b></td>
+                    <td>{{ tee.yds[0] }}</td>
+                    <td>{{ tee.yds[1] }}</td>
+                    <td>{{ tee.yds[2] }}</td>
+                    <td>{{ tee.yds[3] }}</td>
+                    <td>{{ tee.yds[4] }}</td>
+                    <td>{{ tee.yds[5] }}</td>
+                    <td>{{ tee.yds[6] }}</td>
+                    <td>{{ tee.yds[7] }}</td>
+                    <td>{{ tee.yds[8] }}</td>
+                    <th>&nbsp;</th>
+                    <td>{{ tee.yds[18] | number:0 }}</td>
+                    <td>&nbsp;</td>
+                    <td>{{ tee.yds[9] }}</td>
+                    <td>{{ tee.yds[10] }}</td>
+                    <td>{{ tee.yds[11] }}</td>
+                    <td>{{ tee.yds[12] }}</td>
+                    <td>{{ tee.yds[13] }}</td>
+                    <td>{{ tee.yds[14] }}</td>
+                    <td>{{ tee.yds[15] }}</td>
+                    <td>{{ tee.yds[16] }}</td>
+                    <td>{{ tee.yds[17] }}</td>
+                    <th>&nbsp;</th>
+                    <td>{{ tee.yds[19] | number:0 }}</td>
+                    <th>&nbsp;</th>
+                    <td>{{ tee.yds[20] | number:0 }}</td>
+                    <td>
+                        <font color="ff0000">
+                            <span class="glyphicon glyphicon-remove" 
+                                  aria-hidden="true" 
+                                  ng-click="removeTeeBox(tee._id)">
+                            </span>
+                        </font>
+                    </td>
+                </tr>
+            </table>
+        </small>
+        <br/><br/>
+        <div class="col-xs-12">
+            <small>
+                <h4><b>Posted Rounds ({{ rounds.length }} total):</b></h4>
+                <table class="table table-condensed table-bordered" style="text-align:center">
+                    <tr>
+                        <th style="text-align:center">Date / Time</th>
+                        <th style="text-align:center">Player</th>
+                        <th style="text-align:center">Front</th>
+                        <th style="text-align:center">Back</th>
+                        <th style="text-align:center">Gross</th>
+                        <th style="text-align:center">CrsHcp</th>
+                        <th style="text-align:center">Net</th>
+                        <th style="text-align:center">Diff</th>
+                        <th style="text-align:center">Adj</th>
+                    </tr>
+                    <tr ng-repeat="round in rounds | orderBy:'date':'true'">
+                        <td>{{ round.date | date: 'yyyy.MM.dd @ h:mm a' }}</a></td>
+                        <td>{{ round.playerName }}</td>
+                        <td>{{ round.grossScore[18] }}</td>
+                        <td>{{ round.grossScore[19] }}</td>
+                        <td>{{ round.grossScore[20] }}</td>
+                        <td>{{ round.crsHdcp }}</td>
+                        <td>{{ round.netScore }}</td>
+                        <td>{{ round.hdcpDiff | number:1 }}</td>
+                        <td>{{ round.adjGrossScore[20] }}</td>
+                    </tr>
+                </table>
+            </small>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,94 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+    <div class="col-xs-12">
+        <div  class="col-xs-3">
+            <small>
+                <h4><b>Player Details:</b></h4>
+                <table class="table table-condensed table-bordered" style="text-align:left">
+                    <tr>
+                        <td style="text-align:right"><b>Name:</b></td>
+                        <td>{{ player.lastName }}, {{ player.firstName }}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right"><b>Email:</b></td>
+                        <td>{{ player.email }}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right"><b>Tel:</b></td>
+                        <td>{{ player.phone }}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right" ng-click="calcHandicap()"><font color="0000ff"><b>Hcp:</b></font></td>
+                        <td>{{ player.hdcp }} / {{ hdcpIndex }}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right"><b>GHIN#:</b></td>
+                        <td>{{ player.ghinNo }}</td>
+                    </tr>
+                    </tr>
+                </table>
+
+                <h4><b>Upcoming Events:</b></h4>
+                <table class="table table-condensed table-bordered" style="text-align: left">
+                    <tr>
+                        <th>Date / Time</th>
+                        <th>Event Type</th>
+                    </tr>
+                    <tr ng-repeat="event in events">
+                        <td>{{ event.dateTime | date: 'yyyy.MM.dd @ h:mm a' }}</td>
+                        <td>{{ event.eventType }}</td>
+                    </tr>
+                </table>
+            </small>
+        </div>
+    
+        <div class="col-xs-9">
+            <small>
+                <div class="col-xs-4">
+                    <h4><b>Posted Rounds ({{ rounds.length }} total):</b></h4>
+                </div>
+                <div class="col-xs-2">
+                    <small>
+                        <a class="btn btn-primary btn-sm" href="/addRound/{{ player._id }}" role="button">Add a Round</a>
+                    </small>
+                </div>
+                <div class="col-xs-9">
+                    <table class="table table-condensed table-bordered" style="text-align:center">
+                        <tr>
+                            <th style="text-align:center">Date / Time</th>
+                            <th style="text-align:center">Course</th>
+                            <th style="text-align:center">Front</th>
+                            <th style="text-align:center">Back</th>
+                            <th style="text-align:center">Gross</th>
+                            <th style="text-align:center">CrsHcp</th>
+                            <th style="text-align:center">Net</th>
+                            <th style="text-align:center">Diff</th>
+                            <th style="text-align:center">Adj</th>
+                            <th style="text-align:center">Del</th>
+                        </tr>
+                        <tr ng-repeat="round in rounds | orderBy:'date':'true'">
+                            <td><a href="/editRound/{{ round._id }}">{{ round.date | date: 'M/d/yy H:mm' }}</a></td>
+                            <td style="text-align:left">{{ round.courseTag }}</td>
+                            <td>{{ round.grossScore[18] }}</td>
+                            <td>{{ round.grossScore[19] }}</td>
+                            <td>{{ round.grossScore[20] }}</td>
+                            <td>{{ round.crsHdcp }}</td>
+                            <td>{{ round.netScore }}</td>
+                            <td>{{ round.hdcpDiff | number:1 }}</td>
+                            <td>{{ round.adjGrossScore[20] }}</td>
+                            <td>
+                                <font color="ff0000">
+                                    <span class="glyphicon glyphicon-remove" 
+                                          aria-hidden="true" 
+                                          ng-click="removeRound(round._id)">
+                                    </span>
+                                </font>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </small>
+        </div>
+    </div>
+</div>

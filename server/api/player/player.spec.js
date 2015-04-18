@@ -1,0 +1,23 @@
+/*jslint node: true, nomen: true  */
+/*global describe, it  */
+
+'use strict';
+
+var should = require('should');
+var app = require('../../app');
+var request = require('supertest');
+
+describe('GET /api/players', function () {
+
+    it('should respond with JSON array', function (done) {
+        request(app)
+            .get('/api/players')
+            .expect(200)
+            .expect('Content-Type', /json/)
+            .end(function (err, res) {
+                if (err) { return done(err); }
+                res.body.should.be.instanceof(Array);
+                done();
+            });
+    });
+});

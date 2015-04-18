@@ -1,0 +1,104 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+    <h2><strong>Schedule of Events</strong></h2>
+</div>
+<br/>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <a class="btn btn-primary btn-sm" style="text-align: center" href="/addTeeTime" role="button">Add Tee Time</a>
+        </div>
+    </div>
+    <div class="row col-xs-12">
+        <h4>
+            <strong>
+                Upcoming Tee Times ({{ scheduledTeeTimes.length }}):
+            </strong>
+        </h4>
+        <br />
+    </div>
+    <div class="row">
+        <div class="row col-xs-12">
+            <small>
+                <table class="table table-condensed table-bordered">
+                    <tr>
+                        <th>Date and Time</th>
+                        <th>Course</th>
+                        <th>Player 1</th>
+                        <th>Player 2</th>
+                        <th>Player 3</th>
+                        <th>Player 4</th>
+                        <th>Fees</th>
+                        <th>Notes</th>
+                        <th>Del</th>
+                    </tr>
+                    <tr ng-repeat="teeTime in scheduledTeeTimes | orderBy:'dateTime': false">
+                        <td><a href="/editTeeTime/{{ teeTime._id }}">{{ teeTime.dateTime | date: 'yyyy.MM.dd @ h:mm a' }}</td>
+                        <td><a href="/viewCourse/{{ teeTime.courseId }}">{{ teeTime.courseTag }}</td>
+                        <td>{{ teeTime.playerName[0] }}</td>
+                        <td>{{ teeTime.playerName[1] }}</td>
+                        <td>{{ teeTime.playerName[2] }}</td>
+                        <td>{{ teeTime.playerName[3] }}</td>
+                        <td>{{ teeTime.fees }}</td>
+                        <td>{{ teeTime.notes }}</td>
+                        <td>
+                            <font color="ff0000">
+                                <span class="glyphicon glyphicon-remove" 
+                                      aria-hidden="true" 
+                                      ng-click="removeEvent(teeTime._id)">
+                                </span>
+                            </font>
+                        </td>
+                    </tr>
+                </table>
+            </small>
+        </div>
+    </div>
+    <br/><br/>
+    <div class="row col-xs-12">
+        <h4>
+            <strong>
+                Past Tee Times ({{ pastTeeTimes.length }}):
+            </strong>
+        </h4>
+        <br />
+    </div>
+    <div class="row">
+        <div class="row col-xs-12">
+            <small>
+                <table class="table table-condensed table-bordered">
+                    <tr>
+                        <th>Date and Time</th>
+                        <th>Course</th>
+                        <th>Player 1</th>
+                        <th>Player 2</th>
+                        <th>Player 3</th>
+                        <th>Player 4</th>
+                        <th>Fees</th>
+                        <th>Notes</th>
+                        <th>Del</th>
+                    </tr>
+                    <tr ng-repeat="teeTime in pastTeeTimes | orderBy:'dateTime' : true">
+                        <td><a href="/editTeeTime/{{ teeTime._id }}">{{ teeTime.dateTime | date: 'yyyy.MM.dd @ h:mm a' }}</td>
+                        <td><a href="/viewCourse/{{ teeTime.courseId }}">{{ teeTime.courseTag }}</td>
+                        <td>{{ teeTime.playerName[0] }}</td>
+                        <td>{{ teeTime.playerName[1] }}</td>
+                        <td>{{ teeTime.playerName[2] }}</td>
+                        <td>{{ teeTime.playerName[3] }}</td>
+                        <td>{{ teeTime.fees }}</td>
+                        <td>{{ teeTime.notes }}</td>
+                        <td>
+                            <font color="ff0000">
+                                <span class="glyphicon glyphicon-remove" 
+                                      aria-hidden="true"
+                                      ng-click="removeEvent(teeTime._id)">
+                                </span>
+                            </font>
+                        </td>
+                    </tr>
+                </table>
+            </small>
+        </div>
+    </div>
+</div>

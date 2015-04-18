@@ -1,0 +1,223 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div  class="container">
+    <div class="col-md-12">
+        <h4>
+            <strong>
+                Edit Course: {{ course.name }}
+            </strong>
+        </h4>
+        <br/>
+
+        <!-- Database Schema for Course
+            tag: String,
+            name: String,
+            street: String,
+            city: String,
+            state: String,
+            zip: String,
+            phone: String,
+            hcp: [],
+            par: []
+        -->
+        <form class="form-horizontal"  ng-submit="updateCourse()">
+            <div class="form-group">
+                <label for="inputTag" class="col-md-1 control-label">Tag</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" id="inputTag" placeholder="Short Name" ng-model="course.tag">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputStreet" class="col-md-1 control-label">Address</label>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" id="inputStreet" placeholder="Number and Street" ng-model="course.street">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputCity" class="col-md-1 control-label">City</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" id="inputCity" placeholder="City" ng-model="course.city">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputState" class="col-md-1 control-label">State</label>
+                <div class="col-md-2">
+                    <input type="text" class="form-control" id="inputState" placeholder="ST" ng-model="course.state">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputZip" class="col-sm-1 control-label">Zip</label>
+                <div class="col-md-2">
+                    <input type="text" class="form-control" id="inputZip" placeholder="90210" ng-model="course.zip">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPhone" class="col-md-1 control-label">Phone</label>
+                <div class="col-md-3">
+                    <input type="tel" class="form-control" id="inputPhone" placeholder="888-555-1234" ng-model="course.phone">
+                </div>
+            </div>
+            <br/>
+            <div class="form-group">
+                <label for="inputWeb" class="col-md-1 control-label">Website</label>
+                <div class="col-md-7">
+                    <input type="url" class="form-control" id="inputWeb" placeholder="www.coursename.com" ng-model="course.web">
+            </div>
+            <br/><br/>
+            <div class="form-group col-md-12">
+                <h5><b>Hole Par Values:</b></h5>
+                <div class="row">
+                    <label class="col-xs-1">Hole</label>
+                    <label class="col-xs-1" align="center"><b>1</b></label>
+                    <label class="col-xs-1" align="center"><b>2</b></label>
+                    <label class="col-xs-1" align="center"><b>3</b></label>
+                    <label class="col-xs-1" align="center"><b>4</b></label>
+                    <label class="col-xs-1" align="center"><b>5</b></label>
+                    <label class="col-xs-1" align="center"><b>6</b></label>
+                    <label class="col-xs-1" align="center"><b>7</b></label>
+                    <label class="col-xs-1" align="center"><b>8</b></label>
+                    <label class="col-xs-1" align="center"><b>9</b></label>
+                </div>
+                <label for="inputPar1" class="col-xs-1 control-label">Front</label>
+                <div class="row">
+                    <small>
+                    <div class="col-xs-1">
+                        <input type="number" id="inputPar1" class="form-control" ng-model="course.par[0]">
+                    </div>
+                    <div class="col-xs-1">
+                        <input type="number" id="inputPar2" class="form-control" ng-model="course.par[1]">
+                    </div>
+                    <div class="col-xs-1">
+                        <input type="number" id="inputPar3" class="form-control" ng-model="course.par[2]">
+                    </div>
+                    <div class="col-xs-1">
+                        <input type="number" id="inputPar4" class="form-control" ng-model="course.par[3]">
+                    </div>
+                    <div class="col-xs-1">
+                        <input type="number" id="inputPar5" class="form-control" ng-model="course.par[4]">
+                    </div>
+                    <div class="col-xs-1">
+                        <input type="number" id="inputPar6" class="form-control" ng-model="course.par[5]">
+                    </div>
+                    <div class="col-xs-1">
+                        <input type="number" id="inputPar7" class="form-control" ng-model="course.par[6]">
+                    </div>
+                    <div class="col-xs-1">
+                        <input type="number" id="inputPar8" class="form-control" ng-model="course.par[7]">
+                    </div>
+                    <div class="col-xs-1">
+                        <input type="number" id="inputPar9" class="form-control" ng-model="course.par[8]">
+                    </div>
+                    </small>
+                </div>
+            </div>
+            <div class="form-group col-md-12">
+                <label for="inputPar10" class="col-xs-1 control-label">Back</label>
+                <div class="row">
+                    <small>
+                    <div class="col-xs-1">
+                        <input type="number" id="inputPar10" class="form-control" ng-model="course.par[9]">
+                    </div>
+                    <div class="col-xs-1">
+                        <input type="number" id="inputPar10" class="form-control" ng-model="course.par[10]">
+                    </div>
+                    <div class="col-xs-1">
+                        <input type="number" id="inputPar10" class="form-control" ng-model="course.par[11]">
+                    </div>
+                    <div class="col-xs-1">
+                        <input type="number" id="inputPar10" class="form-control" ng-model="course.par[12]">
+                    </div>
+                    <div class="col-xs-1">
+                        <input type="number" id="inputPar10" class="form-control" ng-model="course.par[13]">
+                    </div>
+                    <div class="col-xs-1">
+                        <input type="number" id="inputPar10" class="form-control" ng-model="course.par[14]">
+                    </div>
+                    <div class="col-xs-1">
+                        <input type="number" id="inputPar10" class="form-control" ng-model="course.par[15]">
+                    </div>
+                    <div class="col-xs-1">
+                        <input type="number" id="inputPar10" class="form-control" ng-model="course.par[16]">
+                    </div>
+                    <div class="col-xs-1">
+                        <input type="number" id="inputPar10" class="form-control" ng-model="course.par[17]">
+                    </div>
+                    </small>
+                </div>
+            </div>
+            <br/><br/>
+            <div class="form-group col-md-12">
+                <h5><b>Hole Handicaps:</b></h5>
+                <label for="inputHcp1" class="col-xs-1 control-label">Front</label>
+                <div class="row">
+                    <div class="col-xs-1">
+                        <input type="number" id="inputHcp1" class="form-control" ng-model="course.hcp[0]">
+                    </div>
+                    <div class="col-xs-1">
+                        <input type="number" id="inputHcp2" class="form-control" ng-model="course.hcp[1]">
+                    </div>
+                    <div class="col-xs-1">
+                        <input type="number" id="inputHcp3" class="form-control" ng-model="course.hcp[2]">
+                    </div>
+                    <div class="col-xs-1">
+                        <input type="number" id="inputHcp4" class="form-control" ng-model="course.hcp[3]">
+                    </div>
+                    <div class="col-xs-1">
+                        <input type="number" id="inputHcp5" class="form-control" ng-model="course.hcp[4]">
+                    </div>
+                    <div class="col-xs-1">
+                        <input type="number" id="inputHcp6" class="form-control" ng-model="course.hcp[5]">
+                    </div>
+                    <div class="col-xs-1">
+                        <input type="number" id="inputHcp7" class="form-control" ng-model="course.hcp[6]">
+                    </div>
+                    <div class="col-xs-1">
+                        <input type="number" id="inputHcp8" class="form-control" ng-model="course.hcp[7]">
+                    </div>
+                    <div class="col-xs-1">
+                        <input type="number" id="inputHcp9" class="form-control" ng-model="course.hcp[8]">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-12">
+                <label for="inputHcp10" class="col-xs-1 control-label">Back</label>
+                <div class="row">
+                    <div class="col-xs-1">
+                        <input type="number" id="inputHcp10" class="form-control" ng-model="course.hcp[9]">
+                    </div>
+                    <div class="col-xs-1">
+                        <input type="number" id="inputHcp11" class="form-control" ng-model="course.hcp[10]">
+                    </div>
+                    <div class="col-xs-1">
+                        <input type="number" id="inputHcp12" class="form-control" ng-model="course.hcp[11]">
+                    </div>
+                    <div class="col-xs-1">
+                        <input type="number" id="inputHcp13" class="form-control" ng-model="course.hcp[12]">
+                    </div>
+                    <div class="col-xs-1">
+                        <input type="number" id="inputHcp14" class="form-control" ng-model="course.hcp[13]">
+                    </div>
+                    <div class="col-xs-1">
+                        <input type="number" id="inputHcp15" class="form-control" ng-model="course.hcp[14]">
+                    </div>
+                    <div class="col-xs-1">
+                        <input type="number" id="inputHcp16" class="form-control" ng-model="course.hcp[15]">
+                    </div>
+                    <div class="col-xs-1">
+                        <input type="number" id="inputHcp17" class="form-control" ng-model="course.hcp[16]">
+                    </div>
+                    <div class="col-xs-1">
+                        <input type="number" id="inputHcp10" class="form-control" ng-model="course.hcp[17]">
+                    </div>
+                </div>
+                <br/>
+                <span>{{ cMsg1 }}</span>
+                <br/>
+                <div class="col-md-5"></div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </div>        
+        </form>
+    </div>
+</div>

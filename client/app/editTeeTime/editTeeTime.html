@@ -1,0 +1,71 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+    <div class="col-xs-12">
+        <h4>
+            <strong>
+                Update {{ event.eventType }} Event
+            </strong>
+        </h4>
+        <br />
+        <form class="form-horizontal" ng-submit="updateTeeTime()">
+            <div class="row">
+                <div class="form-group">
+                    <label class="col-xs-1 control-label">Date/Time:</label>
+                    <div class="col-xs-3">
+                        <input type="datetime-local" class="form-control" ng-model="dt"> 
+                    </div>
+                    <div class="col-xs-1"></div>
+                    <div>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </div>
+                </div>
+            </div>
+            <!--             Form label and input field for Course input  -->
+            <div class="row">
+                <div class="form-group">
+                    <label for="crs" class="col-xs-1 control-label">Course:</label>
+                    <div class="col-xs-3">
+                        <select ng-model="event.courseId"
+                                ng-options="course._id as course.tag for course in courses">
+                        </select>
+                    </div>
+                    <br/>
+                </div>
+            </div>
+            <!--             Form label and textarea field for Fees input -->
+            <div class="row">
+                <div class="form-group">
+                    <label class="col-xs-1 control-label">Fees:</label>
+                    <div class="col-xs-2">
+                        <input type="number" min="0.01" step="0.01" max="999" class="form-control col-xs-2" ng-model="event.fees" />
+                    </div>
+                </div>
+            </div>
+            <!--             Form label and input field for Player 1 input  -->
+            <div class="row">
+                <div class="form-group">
+                    <label class="col-xs-1 control-label">Players:</label>
+                    <div class="col-xs-3">
+                        <select ng-model="event.players"
+                                ng-options="player._id as player.lastName for player in players"
+                                multiple="multiple">
+                        </select>
+                        <p><small>Ctrl-click names to select/de-select.</small></p>
+                    </div>
+                </div>
+            </div>
+            <!--             Form label and textarea field for Notes input -->
+            <div class="row">
+                <div class="form-group">
+                    <label for="notes" class="col-xs-1 control-label">Notes:</label>
+                    <div class="col-xs-5">
+    <!--                    <input type="text" class="form-control" ng-model="event.notes">                         -->
+                        <textarea type="text" class="form-control" rows="3" ng-model="event.notes"></textarea>
+                    </div>
+                    <br/>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

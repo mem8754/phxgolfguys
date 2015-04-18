@@ -1,0 +1,26 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+    <div  class="col-md-6">
+        <h2>Registered Players</h2>
+        <br/>
+        <small>
+            <p>Click on the <font color="0000ff"><strong>blue</strong></font> column headers below to sort the list; click again to reverse the sort.</p>
+        </small>
+        <br/>
+        <table class="table table-condensed">
+            <tr>
+                <th ng-click="doSort('lastName')"><font color="0000FF">Player Name</font></th>
+                <th ng-click="doSort('email')"><font color="0000FF">Email</font></th>
+                <th>Phone</th>
+            </tr>
+            <tr ng-repeat="player in players | orderBy:pSortBy:pReverse">
+                <td><a href="/viewPlayer/{{ player._id }}">{{ player.lastName}}, {{ player.firstName }}</a></td>
+                <td>{{ player.email }}</td>
+                <td>{{ player.phone }}</td>
+            </tr>
+        </table>
+        <br />
+        <span>Total players: {{ players.length }}</span>
+    </div>
+</div>
