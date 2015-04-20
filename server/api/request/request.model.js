@@ -4,7 +4,7 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
-var playerSchema = new Schema(
+var requestSchema = new Schema(
     {
         firstName: String,
         lastName: String,
@@ -14,8 +14,8 @@ var playerSchema = new Schema(
         ghinNo: String,
     },
     {
-        collection: 'players'
+        collection: 'requests'
     }
 );
 
-module.exports = mongoose.model('Player', playerSchema);
+module.exports = mongoose.model('Request', requestSchema);

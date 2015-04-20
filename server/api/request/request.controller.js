@@ -3,37 +3,36 @@
 
 /**
  * Using Rails-like standard naming convention for endpoints.
- * GET     /players              ->  index
- * POST    /players              ->  create
- * GET     /players/:id          ->  show
- * PUT     /players/:id          ->  update
- * DELETE  /players/:id          ->  destroy
+ * GET     /requests              ->  index
+ * POST    /requests              ->  create
+ * GET     /requests/:id          ->  show
+ * PUT     /requests/:id          ->  update
+ * DELETE  /requests/:id          ->  destroy
  */
 
 'use strict';
 
 var _ = require('lodash');
-var Player = require('./player.model');
+var Player = require('./request.model');
 
-// Get list of players
+// Get list of requests
 exports.index = function (req, res) {
-    console.log("Players query.");
-    Player.find(req.query, function (err, players) {
+    Player.find(req.query, function (err, requests) {
         if (err) { return handleError(res, err); }
-        return res.status(200).json(players);
+        return res.status(200).json(requests);
     });
 };
 
-// Get a single player
+// Get a single request
 exports.show = function (req, res) {
-    Player.findById(req.params.id, function (err, player) {
+    Player.findById(req.params.id, function (err, request) {
         if (err) { return handleError(res, err); }
-        if (!player) { return res.send(404); }
-        return res.json(player);
+        if (!request) { return res.send(404); }
+        return res.json(request);
     });
 };
 
-// Creates a new player in the DB.
+// Creates a new request in the DB.
 exports.create = function (req, res) {
     Player.create(req.body, function (err, thing) {
         if (err) { return handleError(res, err); }
@@ -41,26 +40,26 @@ exports.create = function (req, res) {
     });
 };
 
-// Updates an existing player in the DB.
+// Updates an existing request in the DB.
 exports.update = function (req, res) {
     if (req.body._id) { delete req.body._id; }
-    Player.findById(req.params.id, function (err, player) {
+    Player.findById(req.params.id, function (err, request) {
         if (err) { return handleError(res, err); }
-        if (!player) { return res.send(404); }
-        var updated = _.merge(player, req.body);
+        if (!request) { return res.send(404); }
+        var updated = _.merge(request, req.body);
         updated.save(function (err) {
             if (err) { return handleError(res, err); }
-            return res.status(200).json(player);
+            return res.status(200).json(request);
         });
     });
 };
 
-// Deletes a player from the DB.
+// Deletes a request from the DB.
 exports.destroy = function (req, res) {
-    Player.findById(req.params.id, function (err, player) {
+    Player.findById(req.params.id, function (err, request) {
         if (err) { return handleError(res, err); }
-        if (!player) { return res.send(404); }
-        player.remove(function (err) {
+        if (!request) { return res.send(404); }
+        request.remove(function (err) {
             if (err) { return handleError(res, err); }
             return res.send(204);
         });

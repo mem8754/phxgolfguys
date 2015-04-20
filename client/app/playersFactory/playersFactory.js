@@ -95,13 +95,19 @@ angular.module('phoenixGolfGuysApp')
             hcpIndex = Math.min(hcpIndex, 36.4);    /*  Can't be over 36.4                  */
             return (hcpIndex);
         }
-            
+
+//  routes related to "players"
+        
         factory.getPlayers = function () {
             return $http.get('/api/players');
         };
         
         factory.getPlayerNames = function () {
-            return $http.get('/api/players');
+            return $http.get('/api/players?ok=true');
+        };
+
+        factory.getPlayerByEmail = function (email) {
+            return $http.get('/api/players?email=' + email);
         };
         
         factory.getPlayer = function (playerId) {
@@ -119,7 +125,20 @@ angular.module('phoenixGolfGuysApp')
         factory.updatePlayerHdcp = function (player, hcp) {
             return $http.put('/api/players/' + player._id, { hdcp: hcp });
         };
+        
+        factory.updatePlayer = function (player) {
+            return $http.put('/api/players/' + player._id, player);
+        };
 
+//  Routes related to "requests"
+        
+        factory.getRequests = function (email) {
+            return $http.get('/api/requests?email=' + email);
+        };
+        
+        factory.addRequest = function (player) {
+            return $http.post('/api/requests', player);
+        };
            
         return factory;
     };

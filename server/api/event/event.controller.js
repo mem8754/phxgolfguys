@@ -23,7 +23,6 @@ exports.index = function (req, res) {
         req.query.dateTime = { '$gt' : refTime };
         delete req.query.future;
     }
-    console.log("Query: ", req.query);
     Event.find(req.query, function (err, events) {
         if (err) { return handleError(res, err); }
         return res.status(200).json(events);

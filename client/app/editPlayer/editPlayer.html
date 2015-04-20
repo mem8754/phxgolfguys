@@ -1,3 +1,56 @@
-<div class="col-md-12">
-This is the editPlayer view.
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+    <div class="col-xs-12">
+        <h4>
+            <strong>
+                Edit Player Profile for {{ player.email }}
+            </strong>
+        </h4>
+        <form class="form-horizontal" ng-submit="updatePlayer()">
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-xs-1 control-label">First Name:</label>
+                    <div class="col-xs-3">
+                        <input type="text" class="form-control" ng-model="player.firstName">
+                    </div>
+                     <div class="col-xs-4">
+                        <button type="submit" class="btn btn-primary">Update Profile</button>
+                    </div>
+                </div>
+           </div>
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-xs-1 control-label">Last Name:</label>
+                    <div class="col-xs-2">
+                        <input type="text" class="form-control" ng-model="player.lastName">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-xs-1 control-label">Telephone:</label>
+                    <div class="col-xs-2">
+                        <input type="text" class="form-control" ng-model="player.phone">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-xs-1 control-label">Handicap Index:</label>
+                    <div class="col-xs-2">
+                        <input type="number step=0.1" class="form-control" ng-model="player.hdcp">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-xs-1 control-label">GHIN # (opt):</label>
+                    <div class="col-xs-2">
+                        <input type="text" class="form-control" ng-model="player.ghinNo">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>

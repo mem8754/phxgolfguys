@@ -1,10 +1,16 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
 <div class="container">
+    <div  class="col-xs-6">
+        <div class="row">
+                <h3><strong>Player Profile: <a href="/editPlayer/{{ player._id }}">{{ player.email }}</a>
+    </div>
+    </div>
     <div class="col-xs-12">
         <div  class="col-xs-3">
             <small>
                 <h4><b>Player Details:</b></h4>
+                <p><small>Click on Player Name to edit profile.</small></p>
                 <table class="table table-condensed table-bordered" style="text-align:left">
                     <tr>
                         <td style="text-align:right"><b>Name:</b></td>

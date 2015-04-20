@@ -37,11 +37,12 @@ module.exports = function (app) {
     // Insert routes below
     app.use('/api/things', spMiddleware.authenticate, require('./api/thing'));
     app.use('/api/courses', spMiddleware.authenticate, require('./api/course'));
-    app.use('/api/players', spMiddleware.authenticate, require('./api/player'));
+    app.use('/api/players', require('./api/player'));
     app.use('/api/events', spMiddleware.authenticate, require('./api/event'));
     app.use('/api/teeTimes', spMiddleware.authenticate, require('./api/teeTime'));
     app.use('/api/tees', spMiddleware.authenticate, require('./api/tee'));
     app.use('/api/rounds', spMiddleware.authenticate, require('./api/round'));
+    app.use('/api/requests', require('./api/request'));
     
     // All undefined asset or api routes should return a 404
     app.route('/:url(api|auth|components|app|bower_components|assets)/*')
