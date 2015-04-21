@@ -8,9 +8,9 @@ angular.module('phoenixGolfGuysApp', [
     'ngResource',
     'ngSanitize',
     'ui.router',
-    'ui.bootstrap',
     'stormpath',
-    'stormpath.templates'
+    'stormpath.templates',
+    'ui.bootstrap'
 ])
     .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         $urlRouterProvider

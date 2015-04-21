@@ -40,7 +40,7 @@
                         <td>{{ teeTime.playerName[1] }}</td>
                         <td>{{ teeTime.playerName[2] }}</td>
                         <td>{{ teeTime.playerName[3] }}</td>
-                        <td>{{ teeTime.fees }}</td>
+                        <td>$ {{ teeTime.fees | number: 2 }}</td>
                         <td>{{ teeTime.notes }}</td>
                         <td>
                             <font color="ff0000">
@@ -86,7 +86,7 @@
                         <td>{{ teeTime.playerName[1] }}</td>
                         <td>{{ teeTime.playerName[2] }}</td>
                         <td>{{ teeTime.playerName[3] }}</td>
-                        <td>{{ teeTime.fees }}</td>
+                        <td>$ {{ teeTime.fees | number: 2 }}</td>
                         <td>{{ teeTime.notes }}</td>
                         <td>
                             <font color="ff0000">

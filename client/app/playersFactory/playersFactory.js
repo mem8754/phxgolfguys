@@ -103,7 +103,7 @@ angular.module('phoenixGolfGuysApp')
         };
         
         factory.getPlayerNames = function () {
-            return $http.get('/api/players?ok=true');
+            return $http.get('/api/players');
         };
 
         factory.getPlayerByEmail = function (email) {

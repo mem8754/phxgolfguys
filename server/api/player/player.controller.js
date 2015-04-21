@@ -17,7 +17,6 @@ var Player = require('./player.model');
 
 // Get list of players
 exports.index = function (req, res) {
-    console.log("Players query.");
     Player.find(req.query, function (err, players) {
         if (err) { return handleError(res, err); }
         return res.status(200).json(players);

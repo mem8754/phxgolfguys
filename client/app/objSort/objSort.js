@@ -7,7 +7,7 @@ GNU General Public License version 2 as published by the Free
 Software Foundation. It is distributed without any warranty.
 */
 
-tfObjSort={
+var tfObjSort={
 	init:function(){
 		Array.prototype.objSort=function(){
 			tfObjSort.setThings(this);

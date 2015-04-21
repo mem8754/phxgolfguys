@@ -11,7 +11,7 @@ var stormpathExpressSdk = require('stormpath-sdk-express'),
     bodyParser = require('body-parser'),
     methodOverride = require('method-override');
 
-var spMiddleware = stormpathExpressSdk.createMiddleware();
+ var spMiddleware = stormpathExpressSdk.createMiddleware();
 
 module.exports = function (app) {
 
