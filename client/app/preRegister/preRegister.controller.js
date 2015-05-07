@@ -45,7 +45,8 @@ angular.module('phoenixGolfGuysApp')
                 })
                 .success(function (data) {
                     if (data.length > 0) {
-                        $window.alert("\nRequest being processed.\n");
+                        $window.alert("\nA request for this email ID has been submitted previously, " + 
+                                      "and is being processed.\n");
                         $state.go('main');
                         return;
                     }
@@ -59,7 +60,10 @@ angular.module('phoenixGolfGuysApp')
                         })
                         .success(function (data) {
                             if (data.length > 0) {
-                                $window.alert("\nEmail already provisioned.\n");
+                                $window.alert("\nRequest approved. \n" + 
+                                              "You will receive an email shortly with instructions on \n" +
+                                              "completing the registration process.\n");
+                                
                                 $state.go('main');
                                 return;
                             }

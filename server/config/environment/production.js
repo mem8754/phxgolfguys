@@ -18,6 +18,6 @@ module.exports = {
     uri:    process.env.MONGOLAB_URI ||
             process.env.MONGOHQ_URL ||
             process.env.OPENSHIFT_MONGODB_DB_URL+process.env.OPENSHIFT_APP_NAME ||
-            'mongodb://mem:1234@ds031531.mongolab.com:31531/golfdb'
+            'mongodb://localhost/golfdb'
   }
 };

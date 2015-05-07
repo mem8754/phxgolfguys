@@ -1,14 +1,17 @@
 'use strict';
 
-angular.module('phoenixGolfGuysApp')
-  .controller('MainCtrl', function ($scope, $http) {
-    $scope.awesomeThings = [];
+angular.module('phoenixGolfGuysApp').controller('MainCtrl', function ($scope, $http) {
+    $scope.upcomingEvents = [];
 
-    $http.get('/api/things').success(function(awesomeThings) {
-      $scope.awesomeThings = awesomeThings;
+//    $http.get('/api/things').success(function(awesomeThings) {
+//      $scope.awesomeThings = awesomeThings;
+//    });
+    
+    $http.get('/api/events?future=true').success(function (events) {
+        $scope.upcomingEvents = events.objSort("dateTime");
     });
-
-    $scope.addThing = function() {
+    
+    $scope.addThing = function () {
       if($scope.newThing === '') {
         return;
       }
