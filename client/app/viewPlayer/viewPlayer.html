@@ -3,7 +3,12 @@
 <div class="container">
     <div  class="col-xs-6">
         <div class="row">
-                <h3><strong>Player Profile: <a href="/editPlayer/{{ player._id }}">{{ player.email }}</a>
+                <h3><strong>Player Profile: {{ player.email }}&nbsp;
+                    <font color="00ff00">
+                        <a href="/editPlayer/{{ player._id }}">
+                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                        </a>
+                    </font>
     </div>
     </div>
     <div class="col-xs-12">
@@ -25,8 +30,18 @@
                         <td>{{ player.phone }}</td>
                     </tr>
                     <tr>
-                        <td style="text-align:right" ng-click="calcHandicap()"><font color="0000ff"><b>Hcp:</b></font></td>
-                        <td>{{ player.hdcp }} / {{ hdcpIndex }}</td>
+ <!--                       <td style="text-align:right" ng-click="calcHandicap()"><font color="0000ff"><b>Hcp:</b></font></td>  -->
+                    <td style="text-align: right">
+                        <font color="0000ff">
+                            <span class="glyphicon glyphicon-refresh"
+                                  aria-hidden="true"
+                                  ng-click="calcHandicap()">
+                            </span>
+                        </font>
+                        <b>Hcp:</b>
+                    </td>
+                    <td>{{ player.hdcp }} / {{ hdcpIndex }}</td>
+                        
                     </tr>
                     <tr>
                         <td style="text-align:right"><b>GHIN#:</b></td>
@@ -54,11 +69,6 @@
                 <div class="col-xs-4">
                     <h4><b>Posted Rounds ({{ rounds.length }} total):</b></h4>
                 </div>
-                <div class="col-xs-2">
-                    <small>
-                        <a class="btn btn-primary btn-sm" href="/addRound/{{ player._id }}" role="button">Add a Round</a>
-                    </small>
-                </div>
                 <div class="col-xs-9">
                     <table class="table table-condensed table-bordered" style="text-align:center">
                         <tr>
@@ -74,7 +84,7 @@
                             <th style="text-align:center">Del</th>
                         </tr>
                         <tr ng-repeat="round in rounds | orderBy:'date':'true'">
-                            <td><a href="/editRound/{{ round._id }}">{{ round.date | date: 'M/d/yy H:mm' }}</a></td>
+                            <td>{{ round.date | date: 'M/d H:mm' }}</td>
                             <td style="text-align:left">{{ round.courseTag }}</td>
                             <td>{{ round.grossScore[18] }}</td>
                             <td>{{ round.grossScore[19] }}</td>
@@ -84,12 +94,31 @@
                             <td>{{ round.hdcpDiff | number:1 }}</td>
                             <td>{{ round.adjGrossScore[20] }}</td>
                             <td>
+                                <font color="0000ff">
+                                    <a href="/editRound/{{ round._id }}">
+                                        <span class="glyphicon glyphicon-pencil"
+                                              aria-hidden="true">
+                                        </span>
+                                    </a>
+                                </font>
+                            </td>
+                            <td>
                                 <font color="ff0000">
-                                    <span class="glyphicon glyphicon-remove" 
+                                    <span class="glyphicon glyphicon-trash" 
                                           aria-hidden="true" 
                                           ng-click="removeRound(round._id)">
                                     </span>
                                 </font>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <font color="00ff00">
+                                    <a href="/addRound/{{ player._id }}">
+                                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                                    </a>
+                                </font>
+                                New
                             </td>
                         </tr>
                     </table>
