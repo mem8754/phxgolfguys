@@ -2,216 +2,226 @@
 
 <div  class="container">
     <div class="col-xs-12">
-        <h4><strong>Edit Course: {{ course.name }}</strong></h4>
+        <h4><strong>Course: {{ course.tag }}</strong></h4>
         <br/>
         <form class="form-horizontal"  ng-submit="updateCourse()">
-            <div class="form-group">
-                <label for="inputTag" class="col-xs-1 control-label">Tag</label>
-                <div class="col-xs-4">
-                    <input type="text" class="form-control" id="inputTag" placeholder="Short Name" ng-model="course.tag">
-                </div>
-            </div><!-- form group for Course Tag -->
-            <div class="form-group">
-                <label for="inputStreet" class="col-xs-1 control-label">Street</label>
-                <div class="col-xs-5">
-                    <input type="text" class="form-control" id="inputStreet" placeholder="Number and Street" ng-model="course.street">
-                </div>
-            </div><!-- form group for Course Address -->
-            <div class="form-group">
-                <label for="inputCity" class="col-xs-1 control-label">City</label>
-                <div class="col-xs-4">
-                    <input type="text" class="form-control" id="inputCity" placeholder="City" ng-model="course.city">
-                </div>
-            </div><!-- form group for Course City -->
-            <div class="form-group">
-                <label for="inputState" class="col-xs-1 control-label">State</label>
-                <div class="col-xs-2">
-                    <input type="text" class="form-control" id="inputState" placeholder="ST" ng-model="course.state">
-                </div>
-            </div><!-- form group for Course State -->
-            <div class="form-group">
-                <label for="inputZip" class="col-xs-1 control-label">Zip</label>
-                <div class="col-xs-2">
-                    <input type="text" class="form-control" id="inputZip" placeholder="90210" ng-model="course.zip">
-                </div>
-            </div><!-- form group for Course Zipcode -->
-            <div class="form-group">
-                <label for="inputPhone" class="col-xs-1 control-label">Phone</label>
-                <div class="col-xs-3">
-                    <input type="tel" class="form-control" id="inputPhone" placeholder="888-555-1234" ng-model="course.phone">
-                </div>
-            </div><!-- form group for Course Phone -->
-            <div class="form-group">
-                <label for="inputWeb" class="col-xs-1 control-label">Web</label>
-                <div class="col-xs-5">
-                    <input type="text" class="form-control" id="inputWeb" placeholder="www.coursename.com" ng-model="course.web">
-                </div>
-            </div><!-- form group for Course Web URL -->
-            <div class="container">
-                <div class="form-group col-xs-12">
-                    <div class="row">
-                        <label class="col-xs-1" align="left">Par</label>
-                        <label class="col-xs-1" align="right">1</label>
-                        <label class="col-xs-1" align="right">2</label>
-                        <label class="col-xs-1" align="right">3</label>
-                        <label class="col-xs-1" align="right">4</label>
-                        <label class="col-xs-1" align="right">5</label>
-                        <label class="col-xs-1" align="right">6</label>
-                        <label class="col-xs-1" align="right">7</label>
-                        <label class="col-xs-1" align="right">8</label>
-                        <label class="col-xs-1" align="right">9</label>
-                    </div><!-- row for headings -->
-                </div><!-- form group for headings -->
-                <br/>
-            </div><!-- inner container for headings -->
-            <div class="container">
-                <!-- form fields for Par - holes 1 through 9 -->
-                <label class="col-xs-1 control-label" align="left">Front</label>
-                <div class="row">
-                    <div class="col-xs-1">
+            <div class="row">
+                <div class="form-group">
+                    <label class="col-xs-4 control-label">Name</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" placeholder="Full Course Name" ng-model="course.name">
+                    </div>
+                </div><!-- row for Course Tag -->
+                <div class="form-group">
+                    <label class="col-xs-4 control-label">Tag</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" id="inputTag" placeholder="Short Name" ng-model="course.tag">
+                    </div>
+                </div><!-- row for Course Tag -->
+                <div class="form-group">
+                    <label class="col-xs-4 control-label">Street</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" id="inputStreet" placeholder="Number and Street" ng-model="course.street">
+                    </div>
+                </div><!-- row for Course Address -->
+                <div class="form-group">
+                    <label class="col-xs-4 control-label">City</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" id="inputCity" placeholder="City" ng-model="course.city">
+                    </div>
+                </div><!-- row for Course City -->
+                <div class="form-group">
+                    <label class="col-xs-4 control-label">State</label>
+                    <div class="col-xs-3">
+                        <input type="text" class="form-control" id="inputState" placeholder="ST" ng-model="course.state">
+                    </div>
+                </div><!-- row for Course State -->
+                <div class="form-group">
+                    <label class="col-xs-4 control-label">Zip</label>
+                    <div class="col-xs-6">
+                        <input type="text" class="form-control" id="inputZip" placeholder="90210" ng-model="course.zip">
+                    </div>
+                </div><!-- row for Course Zipcode -->
+                <div class="form-group">
+                    <label class="col-xs-4 control-label">Phone</label>
+                    <div class="col-xs-6">
+                        <input type="tel" class="form-control" id="inputPhone" placeholder="888-555-1234" ng-model="course.phone">
+                    </div>
+                </div><!-- row for Course Phone -->
+                <div class="form-group">
+                    <label class="col-xs-4 control-label">Web</label>
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" id="inputWeb" placeholder="www.coursename.com" ng-model="course.web">
+                    </div>
+                </div><!-- row for Course Web URL -->
+            </div>
+            </br>
+        
+        <!-- This section is the form for entry of the par values -->
+        
+            <div class="row">
+                <h5><strong>Hole Par Values:</strong></h5>
+                <div class="form-group">
+                    <label class="col-xs-3">1 - 3</label>
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.par[0]">
                     </div>
-                    <div class="col-xs-1">
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.par[1]">
                     </div>
-                    <div class="col-xs-1">
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.par[2]">
                     </div>
-                    <div class="col-xs-1">
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3">4 - 6</label>
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.par[3]">
                     </div>
-                    <div class="col-xs-1">
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.par[4]">
                     </div>
-                    <div class="col-xs-1">
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.par[5]">
                     </div>
-                    <div class="col-xs-1">
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3">7 - 9</label>
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.par[6]">
                     </div>
-                    <div class="col-xs-1">
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.par[7]">
                     </div>
-                    <div class="col-xs-1">
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.par[8]">
                     </div>
-                </div><!-- form row for front 9 par values -->
-                
-                <!-- form fields for Par - holes 10 through 18 -->
-                <label class="col-xs-1 control-label" align="left">Back</label>
-                <div class="row">
-                    <div class="col-xs-1">
+                </div>
+                <br/>
+                <div class="form-group">
+                    <label class="col-xs-3">10 - 12</label>
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.par[9]">
                     </div>
-                    <div class="col-xs-1">
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.par[10]">
                     </div>
-                    <div class="col-xs-1">
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.par[11]">
                     </div>
-                    <div class="col-xs-1">
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3">13 - 15</label>
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.par[12]">
                     </div>
-                    <div class="col-xs-1">
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.par[13]">
                     </div>
-                    <div class="col-xs-1">
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.par[14]">
                     </div>
-                    <div class="col-xs-1">
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3">16 - 18</label>
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.par[15]">
                     </div>
-                    <div class="col-xs-1">
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.par[16]">
                     </div>
-                    <div class="col-xs-1">
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.par[17]">
                     </div>
-                </div><!-- form row for back 9 par values -->
-                <br/>
-                <div class="form-group col-xs-12">
-                    <div class="row">
-                        <label class="col-xs-1" align="left">Handicap</label>
-                        <label class="col-xs-1" align="right">1</label>
-                        <label class="col-xs-1" align="right">2</label>
-                        <label class="col-xs-1" align="right">3</label>
-                        <label class="col-xs-1" align="right">4</label>
-                        <label class="col-xs-1" align="right">5</label>
-                        <label class="col-xs-1" align="right">6</label>
-                        <label class="col-xs-1" align="right">7</label>
-                        <label class="col-xs-1" align="right">8</label>
-                        <label class="col-xs-1" align="right">9</label>
-                    </div><!-- row for headings -->
-                </div><!-- form group for headings -->
-
-                <!-- form fields for handicap ratings for holes 1 through 9 -->
-                <label class="col-xs-1 control-label" align="left">Front</label>
-                <div class="row">
-                    <div class="col-xs-1">
+                </div>
+            </div><!-- form row for  par values -->
+            <br/>
+        
+        <!-- this section is the form entry for handicap values -->
+        
+            <div class="row">
+                <h5><strong>Hole Handicap Values:</strong></h5>
+                <div class="form-group">
+                    <label class="col-xs-3">1 - 3</label>
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.hcp[0]">
                     </div>
-                    <div class="col-xs-1">
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.hcp[1]">
                     </div>
-                    <div class="col-xs-1">
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.hcp[2]">
                     </div>
-                    <div class="col-xs-1">
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3">4 - 6</label>
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.hcp[3]">
                     </div>
-                    <div class="col-xs-1">
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.hcp[4]">
                     </div>
-                    <div class="col-xs-1">
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.hcp[5]">
                     </div>
-                    <div class="col-xs-1">
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3">7 - 9</label>
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.hcp[6]">
                     </div>
-                    <div class="col-xs-1">
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.hcp[7]">
                     </div>
-                    <div class="col-xs-1">
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.hcp[8]">
                     </div>
-                </div><!-- form row for front 9 handicap values -->
-                
-                <!-- form fields for handicap ratings for holes 10 through 18 -->
-                <label class="col-xs-1 control-label">Back</label>
-                <div class="row">
-                    <div class="col-xs-1">
+                </div>
+                <br/>
+                <div class="form-group">
+                    <label class="col-xs-3">10 - 12</label>
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.hcp[9]">
                     </div>
-                    <div class="col-xs-1">
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.hcp[10]">
                     </div>
-                    <div class="col-xs-1">
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.hcp[11]">
                     </div>
-                    <div class="col-xs-1">
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3">13 - 15</label>
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.hcp[12]">
                     </div>
-                    <div class="col-xs-1">
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.hcp[13]">
                     </div>
-                    <div class="col-xs-1">
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.hcp[14]">
                     </div>
-                    <div class="col-xs-1">
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3">16 - 18</label>
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.hcp[15]">
                     </div>
-                    <div class="col-xs-1">
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.hcp[16]">
                     </div>
-                    <div class="col-xs-1">
+                    <div class="col-xs-3">
                         <input type="number" class="form-control" ng-model="course.hcp[17]">
                     </div>
-                </div><!-- form row for back 9 handicap values -->
-                <br/>
-            </div><!-- inner container for hole handicap and par value form groups -->
+                </div>
+            </div><!-- form group for handicap values -->
+            <br/>
+        
+        <!-- This section is the "update" button for the form -->
+        
             <div class="col-xs-5"></div><!-- spacer for button -->
             <div class="col-xs-2">
-                <button type="submit" class="btn btn-primary">Update this Course</button>
+                <button type="submit" class="btn btn-primary">Update Course</button>
             </div><!-- Update button -->
         </form><!-- main input form for Course info -->
     </div><!-- col-xs-12 -->

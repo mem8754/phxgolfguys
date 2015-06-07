@@ -6,6 +6,7 @@
 angular.module('phoenixGolfGuysApp')
     .controller('AddTeeTimeCtrl', function ($scope,
                                             $state,
+                                            $stateParams,
                                             $window,
                                             $log,
                                             eventsFactory,
@@ -29,6 +30,9 @@ angular.module('phoenixGolfGuysApp')
                 })
                 .success(function (courses) {
                     $scope.courses = courses.objSort("state", "tag");
+                    if ($stateParams.courseId) {
+                        $scope.event.courseId = $stateParams.courseId;
+                    }
 
                     playersFactory.getPlayerNames()
                         .error(function (data, status, headers, config) {

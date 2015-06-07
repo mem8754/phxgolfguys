@@ -2,19 +2,16 @@
 
 <header class="hero-unit" id="banner">
     <div class="container">
-        <img src="assets/images/azgolf.jpg" alt=""><br/>
-        <strong>
-            <p>Golfing the Valley of the Sun</p>
-        </strong>
+        <img src="assets/images/az-golf.jpg" alt=""><br/>
     </div>
 </header>
 
 <div class="container">
   <div class="row">
-    <div class="col-lg-12">
+    <div>
       <h4 class="page-header"><strong>Upcoming Events:</strong></h4>
-      <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6" ng-repeat="thing in upcomingEvents">
-        <li><a href="#">{{thing.dateTime | date: 'MM/d (EEE) @ h:mm a' }} - {{thing.eventType}} - {{thing.notes}}</a></li>
+      <ul ng-repeat="thing in upcomingEvents">
+        <li>{{thing.dateTime | date: 'h:mm a EEE, d-MMM-yyyy' }}: {{thing.eventType}} at {{ thing.loc }}. {{thing.notes}}</li>
       </ul>
     </div>
   </div>
@@ -22,6 +19,6 @@
 
 <footer class="footer">
   <div class="container">
-      <p>Built using Angular Fullstack v2.0.13</p>
+      <p>Built using AngularJS, Angular Fullstack, MongoDB and Stormpath.</p>
   </div>
 </footer>

@@ -1,50 +1,50 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
-<div class="container">
-    <div>
-        <div class="col-xs-12">
-            <h2>
-                <strong>Courses ({{ courses.length }})</strong></h2>
-            <hr>
-        </div>
-
+<div class="container col-xs-12">
+    <div class="col-xs-12">
+        <h4>Courses ({{ courses.length }})&nbsp;&nbsp;&nbsp;
+            <font color="00ff00">
+                <a class="btn btn-primary" href="/addCourse">
+                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                    &nbsp;Add
+                </a>
+            </font>
+            
+        </h4>
     </div>
     <div class="row">
-        <div class="col-xs-7">
-            <p><small>Click on column headers to sort the list; click again to reverse sort.</small></p>
-            <table class="table table-condensed table-bordered">
+        <div class="col-xs-12">
+            <table class="table table-condensed table-bordered table-striped table-responsive">
+                <thead>
                 <tr>
-                    <font color="0000ff">
-                        <th ng-click="doSort('tag')">Name</th>
-                        <th ng-click="doSort('city')">City</th>
-                        <th ng-click="doSort('state')">State</th>
-                    </font>
+                    <th ng-click="doSort('tag')" style="text-align:center">
+                        Name &nbsp;
+                        <span class="glyphicon glyphicon-sort"
+                              aria-hidden="true">
+                        </span>
+                    </th>
+                    <th ng-click="doSort('city')" style="text-align:center">
+                        City &nbsp;
+                        <span class="glyphicon glyphicon-sort"
+                              aria-hidden="true">
+                        </span>
+                    </th>
                  </tr>
                 <tr>
                     <td><input type="text" ng-model="courseFilter.tag" /></td>
                     <td><input type="text" ng-model="courseFilter.city" /></td>
-                    <td><input type="text" ng-model="courseFilter.state"/></td>
                 </tr>
-                <tr ng-repeat="course in courses | filter:courseFilter | orderBy:cSortBy:cReverse">
-                    <td>
-                        <a href="/viewCourse/{{ course._id }}">
-                            <span class="glyphicon glyphicon-info-sign"
-                                  aria-hidden="true">
-                            </span>
-                        </a>
-                        &nbsp;{{ course.tag }}
-                     </td>
-                    <td>{{ course.city }}</td>
-                    <td>{{ course.state }}</td>
-                </tr>
-                <tr>
-                    <td>
-                        <a href="/addCourse">
-                            <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                        </a>
-                        <strong>&nbsp;Add New Course</strong>
-                    </td>
-                </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="course in courses | filter:courseFilter | orderBy:cSortBy:cReverse">
+                        <td>
+                            <a href="/viewCourse/{{ course._id }}">{{ course.tag }}</a>
+                        </td>
+                        <td>
+                            {{ course.city }}
+                        </td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     </div>

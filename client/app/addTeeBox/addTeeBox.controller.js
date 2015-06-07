@@ -58,6 +58,7 @@ angular.module('phoenixGolfGuysApp')
                         $scope.tee.yds[19] += $scope.tee.yds[i + 9];
                     }
                     $scope.tee.yds[20] = $scope.tee.yds[18] + $scope.tee.yds[19];
+                    $scope.tee.courseId = courseId;
 
                     coursesFactory.addTee($scope.tee)                /*  Step 4  */
                         .error(function (data, status, headers, config) {

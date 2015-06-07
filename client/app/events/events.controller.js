@@ -10,6 +10,8 @@ angular.module('phoenixGolfGuysApp')
         $scope.pastTeeTimes = null;
         $scope.courseNames = null;
         $scope.playerNames = null;
+        $scope.futureEventsFound = false;
+        $scope.pastEventsFound = false;
 
         $scope.removeEvent = function (teeTimeId) {
 
@@ -65,6 +67,9 @@ angular.module('phoenixGolfGuysApp')
                 })
                 .success(function (futureTT) {
                     $scope.scheduledTeeTimes = futureTT;
+                    if (futureTT.length > 0) {
+                        $scope.futureEventsFound = true;
+                    }
                 
 // If successful, read the past Tee Times from the database.
                 
@@ -74,6 +79,9 @@ angular.module('phoenixGolfGuysApp')
                         })
                         .success(function (pastTT) {
                             $scope.pastTeeTimes = pastTT;
+                            if (pastTT.length > 0) {
+                                $scope.pastEventsFound = true;
+                            }
 
 // If successful, read the course tags (and _id's) from the database.
                         

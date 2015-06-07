@@ -7,16 +7,13 @@
                 Add a Round for {{ playerName }}
             </strong>
         </h4>
-         <form class="form-horizontal" ng-submit="addRound()">
+        <br/>
+        <form class="form-horizontal" ng-submit="addRound()">
             <div class="row">
                 <div class="form-group">
-                    <label for="date" class="col-xs-1 control-label">Date:</label>
-                    <div class="col-xs-3">
-                        <input type="datetime-local" name="roundDate" class="form-control col-xs-2" required ng-model="round.date">
-                    </div>
-                    <div class="col-xs-1"></div>
-                    <div class="col-xs-2">
-                        <input type="submit" class="btn btn-primary"></input>
+                    <label for="date" class="col-xs-4 control-label">Date:</label>
+                    <div class="col-xs-8">
+                        <input type="datetime-local" name="roundDate" required ng-model="round.date">
                     </div>
                 </div>
             </div>
@@ -25,8 +22,8 @@
 -->
             <div class="row">
                 <div class="form-group">
-                    <label for="crs" class="col-xs-1 control-label">Course:</label>
-                    <div class="col-xs-3">
+                    <label for="crs" class="col-xs-4 control-label">Course:</label>
+                    <div class="col-xs-8">
                         <select ng-model="round.courseId"
                                 ng-options="course._id as course.tag for course in courses"
                                 ng-change="updateTeeBoxes()">
@@ -39,14 +36,19 @@
 -->
             <div class="row">
                 <div class="form-group">
-                    <label for="inputTee" class="col-xs-1 control-label">Tee:</label>
-                    <div class="col-xs-2">
+                    <label for="inputTee" class="col-xs-4 control-label">Tee:</label>
+                    <div class="col-xs-8">
                         <select ng-model="round.teeId"
                                 ng-options="tee._id as tee.teeName for tee in tees">
                         </select>
                     </div>
                 </div>
             </div>
+            <div class="col-xs-4"></div>
+            <div class="col-xs-2">
+                <input type="submit" class="btn btn-primary"></input>
+            </div>
+             
         </form>
     </div>
 </div>

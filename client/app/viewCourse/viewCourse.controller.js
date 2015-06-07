@@ -27,6 +27,7 @@ angular.module('phoenixGolfGuysApp')
         $scope.course = null;
         $scope.rounds = null;
         $scope.tees = null;
+        $scope.roundsFound = false;
         
         function init() {
             coursesFactory.getCourse(courseId)
@@ -61,6 +62,7 @@ angular.module('phoenixGolfGuysApp')
                                     var i = Number,
                                         j = Number;
                                     for (i = 0; i < rounds.length; i += 1) {
+                                        $scope.roundsFound = true;
                                         for (j = 0; j < players.length; j += 1) {
                                             if (rounds[i].playerId === players[j]._id) {
                                                 rounds[i].playerName = players[j].firstName + " " + players[j].lastName;
@@ -75,60 +77,6 @@ angular.module('phoenixGolfGuysApp')
         }
         
         init();
-        
-// Procedure to remove a Tee Box:
-//      0.  confirm that no rounds exist for the tee box to be removed.      
-//      1.  query the database for the Tee Box to be removed.
-//      2.  prompt the user for confirmation on the removal.
-//      3.  call the Courses factory to process the removal.
-//      4.  confirm that the Tee Box has been removed by attempting to query again
-
-        $scope.removeTeeBox = function (teeId) {                                                /*  Step 0  */
-            roundsFactory.getTeeBoxRounds(teeId)
-                .error(function (data, status, headers, config) {
-                    $log.warn("Server error reading rounds for Tee Box remove: ", status);
-                    $log.log("Data: ", data);
-                    $window.alert("Unable to remove Tee Box; cannot confirm linked rounds.");
-                    return;
-                })
-                .success(function (rounds) {
-                    if (rounds !== null && rounds.length > 0) {
-                        $window.alert("Rounds exist for this Tee Box, cannot delete.\n" +
-                                      "Remove rounds before removing Tee Box.");
-                        return;
-                    }
-                });
-            coursesFactory.getTee(teeId)                                                          /*  Step 1  */
-                .error(function (data, status, headers, config) {
-                    $window.alert("Server Error " + status + " retrieving Tee Box data.\nTee Box not removed.");
-                })
-                .success(function (tee) {
-                    var userResp = $window.confirm("Remove " + tee.teeName + " Tee Box from " + tee.courseTag + "?");
-                    if (userResp) {                                                                     /*  Step 2  */
-                        coursesFactory.removeTeeBox(tee._id)                                            /*  Step 3  */
-                            .error(function (data, status, headers, config) {
-                                $window.alert("Server error " + status + " removing Tee Box.\nTee Box not removed from database.");
-                            })
-                            .success(function (data) {
-                                coursesFactory.getTee(data.electionId)                                     /*  Step 4  */
-                                    .error(function (data, status, headers, config) {
-                                        $log.warn("Remove Tee Box - unable to confirm removal.", status);
-                                        $window.alert("Tee Box removal requested, unable to confirm. Please refresh page.");
-                                    })
-                                    .success(function (tee) {
-                                        if (null !== tee) {
-                                            $window.alert("Error removing Tee Box.");
-                                        } else {
-                                            $window.alert("Tee Box successfully removed.");
-                                            $state.go('viewCourse', { id : $scope.course._id });
-                                        }
-                                    });
-                                
-                            });
-                    }
-                });
-        };
-        
 
     });
     

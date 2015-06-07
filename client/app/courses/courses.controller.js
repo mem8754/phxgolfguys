@@ -1,12 +1,3 @@
-/* 
-'use strict';
-
-angular.module('phoenixGolfGuysApp')
-  .controller('CoursesCtrl', function ($scope) {
-    $scope.message = 'Hello';
-  });
-*/
-
 /*global angular */
 
 (function () {
@@ -17,6 +8,8 @@ angular.module('phoenixGolfGuysApp')
         $scope.courses = [];
         
         function init() {
+            if (undefined === $rootscope.userAuth) {
+                
             coursesFactory.getCourses()
                 .success(function (courses) {
                     $scope.courses = courses;

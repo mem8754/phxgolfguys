@@ -11,11 +11,10 @@ var stormpathExpressSdk = require('stormpath-sdk-express'),
     bodyParser = require('body-parser'),
     methodOverride = require('method-override');
 
- var spMiddleware = stormpathExpressSdk.createMiddleware();
+var spMiddleware = stormpathExpressSdk.createMiddleware();
 
 module.exports = function (app) {
 
-    // Insert StormPath middleware
     spMiddleware.attachDefaults(app);
     
 // get all data/stuff of the body (POST) parameters
@@ -34,21 +33,22 @@ module.exports = function (app) {
 // parse cookies with cookie-parser and cookieSecret
 //    app.use(cookieParser(credentials.cookieSecret));
     
-    // Insert routes below
     app.use('/api/things', spMiddleware.authenticate, require('./api/thing'));
     app.use('/api/courses', spMiddleware.authenticate, require('./api/course'));
-    app.use('/api/players', require('./api/player'));
+    app.use('/api/players', require('./api/player')); // no auth
     app.use('/api/events', spMiddleware.authenticate, require('./api/event'));
     app.use('/api/teeTimes', spMiddleware.authenticate, require('./api/teeTime'));
     app.use('/api/tees', spMiddleware.authenticate, require('./api/tee'));
     app.use('/api/rounds', spMiddleware.authenticate, require('./api/round'));
-    app.use('/api/requests', require('./api/request'));
+    app.use('/api/requests', require('./api/request')); // no auth
+
+// , spMiddleware.authenticate
     
-    // All undefined asset or api routes should return a 404
+// All undefined asset or api routes should return a 404
     app.route('/:url(api|auth|components|app|bower_components|assets)/*')
         .get(errors[404]);
 
-    // All other routes should redirect to the index.html
+// All other routes should redirect to the index.html
     app.route('/*')
         .get(function (req, res) {
             res.sendfile(app.get('appPath') + '/index.html');

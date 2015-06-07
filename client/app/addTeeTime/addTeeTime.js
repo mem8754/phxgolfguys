@@ -7,7 +7,7 @@ angular.module('phoenixGolfGuysApp')
     .config(function ($stateProvider) {
         $stateProvider
             .state('addTeeTime', {
-                url: '/addTeeTime',
+                url: '/addTeeTime/:courseId',
                 templateUrl: 'app/addTeeTime/addTeeTime.html',
                 controller: 'AddTeeTimeCtrl',
                 sp: {

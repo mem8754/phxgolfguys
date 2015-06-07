@@ -1,0 +1,8 @@
+.pointer {
+    cursor: pointer;
+}
+.font-small {
+    font-size: 75%;
+    font-weight: normal;
+    line-height: 1;
+}

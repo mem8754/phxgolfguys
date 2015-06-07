@@ -1,0 +1,5 @@
+.table-scroll {
+    height: 70vh;
+    overflow-y: auto;
+    display: block;
+}

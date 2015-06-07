@@ -1,129 +1,114 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
 <div class="container">
-    <div  class="col-xs-6">
+    <div  class="col-lg-6">
         <div class="row">
-                <h3><strong>Player Profile: {{ player.email }}&nbsp;
-                    <font color="00ff00">
-                        <a href="/editPlayer/{{ player._id }}">
-                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                        </a>
-                    </font>
+            <h3><b>Player Profile</b>&nbsp;
+                <font color="00ff00">
+                    <a href="/editPlayer/{{ player._id }}">
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                    </a>
+                </font>
+            </h3>
+        </div>
     </div>
+    <div class="well">
+        <table class="table table-responsive" style="text-align: left">
+            <tr>
+                <td><b>Name:</b></td>
+                <td>{{ player.firstName }} {{ player.lastName }}</td>
+            </tr>
+            <tr>
+                <td><b>Email:</b></td>
+                <td>{{ player.email }}</td>
+            </tr>
+            <tr>
+                <td><b>Phone:</b></td>
+                <td>{{ player.phone }}</td>
+            </tr>
+            <tr>
+                <td><b>Handicap:</b></td>
+                <td>{{ player.hdcp }} / {{ hdcpIndex }} &nbsp;
+                    <font color="0000ff">
+                    <span class="glyphicon glyphicon-refresh pointer"
+                          aria-hidden="true"
+                          ng-click="calcHandicap()">
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td><b>GHIN #:</b></td>
+                <td>{{ player.ghinNo }}</td>
+            </tr>
+        </table>
     </div>
-    <div class="col-xs-12">
-        <div  class="col-xs-3">
-            <small>
-                <h4><b>Player Details:</b></h4>
-                <p><small>Click on Player Name to edit profile.</small></p>
-                <table class="table table-condensed table-bordered" style="text-align:left">
-                    <tr>
-                        <td style="text-align:right"><b>Name:</b></td>
-                        <td>{{ player.lastName }}, {{ player.firstName }}</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:right"><b>Email:</b></td>
-                        <td>{{ player.email }}</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:right"><b>Tel:</b></td>
-                        <td>{{ player.phone }}</td>
-                    </tr>
-                    <tr>
- <!--                       <td style="text-align:right" ng-click="calcHandicap()"><font color="0000ff"><b>Hcp:</b></font></td>  -->
-                    <td style="text-align: right">
-                        <font color="0000ff">
-                            <span class="glyphicon glyphicon-refresh"
-                                  aria-hidden="true"
-                                  ng-click="calcHandicap()">
-                            </span>
-                        </font>
-                        <b>Hcp:</b>
-                    </td>
-                    <td>{{ player.hdcp }} / {{ hdcpIndex }}</td>
-                        
-                    </tr>
-                    <tr>
-                        <td style="text-align:right"><b>GHIN#:</b></td>
-                        <td>{{ player.ghinNo }}</td>
-                    </tr>
-                    </tr>
-                </table>
+    <div>
 
-                <h4><b>Upcoming Events:</b></h4>
-                <table class="table table-condensed table-bordered" style="text-align: left">
-                    <tr>
-                        <th>Date / Time</th>
-                        <th>Event Type</th>
-                    </tr>
-                    <tr ng-repeat="event in events">
-                        <td>{{ event.dateTime | date: 'yyyy.MM.dd @ h:mm a' }}</td>
-                        <td>{{ event.eventType }}</td>
-                    </tr>
-                </table>
-            </small>
+        <div ng-show="eventsFound">
+            <br/>
+            <h4>
+                <b>
+                    Upcoming Tee Times
+                </b>
+                &nbsp;({{ events.length }})&nbsp;
+                <a class="font-small" href="/events">See all</a>
+            </h4>
+            <table class="table table-condensed table-bordered table-striped table-responsive" style="text-align: left">
+                <tr>
+                    <th style="text-align:center">Date</th>
+                    <th style="text-align:center">Time</th>
+                    <th style="text-align:center">Event Type</th>
+                    <th style="text-align:center">Location</th>
+                </tr>
+                <tr ng-repeat="event in events">
+                    <td>
+                        {{ event.dateTime | date: 'MM/dd/yy' }}
+                    </td>
+                    <td>
+                        {{ event.dateTime | date: 'h:mm a' }}
+                    </td>
+                    <td>
+                        {{ event.eventType }}
+                    </td>
+                    <td>
+                        {{ event.location }}
+                    </td>
+                </tr>
+            </table>
         </div>
-    
-        <div class="col-xs-9">
-            <small>
-                <div class="col-xs-4">
-                    <h4><b>Posted Rounds ({{ rounds.length }} total):</b></h4>
-                </div>
-                <div class="col-xs-9">
-                    <table class="table table-condensed table-bordered" style="text-align:center">
-                        <tr>
-                            <th style="text-align:center">Date / Time</th>
-                            <th style="text-align:center">Course</th>
-                            <th style="text-align:center">Front</th>
-                            <th style="text-align:center">Back</th>
-                            <th style="text-align:center">Gross</th>
-                            <th style="text-align:center">CrsHcp</th>
-                            <th style="text-align:center">Net</th>
-                            <th style="text-align:center">Diff</th>
-                            <th style="text-align:center">Adj</th>
-                            <th style="text-align:center">Del</th>
-                        </tr>
-                        <tr ng-repeat="round in rounds | orderBy:'date':'true'">
-                            <td>{{ round.date | date: 'M/d H:mm' }}</td>
-                            <td style="text-align:left">{{ round.courseTag }}</td>
-                            <td>{{ round.grossScore[18] }}</td>
-                            <td>{{ round.grossScore[19] }}</td>
-                            <td>{{ round.grossScore[20] }}</td>
-                            <td>{{ round.crsHdcp }}</td>
-                            <td>{{ round.netScore }}</td>
-                            <td>{{ round.hdcpDiff | number:1 }}</td>
-                            <td>{{ round.adjGrossScore[20] }}</td>
-                            <td>
-                                <font color="0000ff">
-                                    <a href="/editRound/{{ round._id }}">
-                                        <span class="glyphicon glyphicon-pencil"
-                                              aria-hidden="true">
-                                        </span>
-                                    </a>
-                                </font>
-                            </td>
-                            <td>
-                                <font color="ff0000">
-                                    <span class="glyphicon glyphicon-trash" 
-                                          aria-hidden="true" 
-                                          ng-click="removeRound(round._id)">
-                                    </span>
-                                </font>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <font color="00ff00">
-                                    <a href="/addRound/{{ player._id }}">
-                                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                                    </a>
-                                </font>
-                                New
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </small>
+        <br/>
+        <div>
+            <h4><b>Posted Rounds</b>&nbsp;({{ rounds.length }})&nbsp;
+                <small>
+                    <a href="/addRound/{{ player._id }}">
+                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                        Add a Round
+                    </a>
+                </small>
+            </h4>
         </div>
+        
+        <div class="col-lg-9" ng-show="roundsFound">
+            <table class="table table-condensed table-bordered table-striped table-responsive" style="text-align:center">
+                <tr>
+                    <th style="text-align:center">Date</th>
+                    <th style="text-align:center">Course</th>
+                    <th style="text-align:center">Score</th>
+                </tr>
+                <tr ng-repeat="round in rounds | orderBy:'date':'true'">
+                    <td>
+                        {{ round.date | date: 'MM/dd' }}
+                    </td>
+                    <td style="text-align:left">
+                        <a href="/editRound/{{ round._id }}">
+                            {{ round.courseTag }}
+                        </a>
+                    </td>
+                    <td>{{ round.grossScore[20] }}</td>
+                </tr>
+            </table>
+        </div>
+
+
     </div>
 </div>

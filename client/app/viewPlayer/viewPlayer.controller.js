@@ -4,12 +4,22 @@
 'use strict';
 
 angular.module('phoenixGolfGuysApp')
-    .controller('ViewPlayerCtrl', function ($scope, $state, $stateParams, $window, $log, playersFactory, roundsFactory, eventsFactory) {
+    .controller('ViewPlayerCtrl', function ($scope,
+                                            $state,
+                                            $stateParams,
+                                            $window,
+                                            $log,
+                                            playersFactory,
+                                            roundsFactory,
+                                            eventsFactory,
+                                            coursesFactory) {
         
         var playerId = $stateParams.id;
         
         $scope.player = {};
         $scope.rounds = [];
+        $scope.eventsFound = false;
+        $scope.roundsFound = false;
         
 // Procedure to remove a Round:
 //      1.  query the database for the Round ID to be removed.
@@ -67,6 +77,9 @@ angular.module('phoenixGolfGuysApp')
             roundsFactory.getPlayerRounds(playerId)
                 .success(function (playerRounds) {
                     $scope.rounds = playerRounds;
+                    if (playerRounds.length > 0) {
+                        $scope.roundsFound = true;
+                    }
                 })
                 .error(function (data, status, headers, config) {
                     $log.warn('Error reading player rounds: ', status);
@@ -78,17 +91,30 @@ angular.module('phoenixGolfGuysApp')
                 })
                 .success(function (playerEvents) {
                     $scope.events = playerEvents.objSort("dateTime");
-//                    var i = 0,
-//                        j = 0;
-//                    $scope.events = [];
-//                    for (i = 0; i < playerEvents.length; i += 1) {
-//                        for (j = 0; j < playerEvents[i].players.length; j += 1) {
-//                            if (playerEvents[i].players[j] === playerId) {
-//                                $scope.events.push(playerEvents[i]);
-//                                break;
-//                            }
-//                        }
-//                    }
+                    if (playerEvents.length > 0) {
+                        $scope.eventsFound = true;
+                        
+//  Future tee times have been retrieved, and at least one exists. 
+//  Retrieve course info and set a location for each event.
+                        
+                        coursesFactory.getCourses()
+                            .error(function (data, status, headers, config) {
+                                $log.warn("Error reading course info: ", status);
+                            })
+                            .success(function (courses) {
+                                var i = 0,
+                                    j = 0;
+                                for (i = 0; i < $scope.events.length; i += 1) {
+                                    for (j = 0; j < courses.length; j += 1) {
+                                        if ($scope.events[i].courseId === courses[j]._id) {
+                                            $scope.events[i].location = courses[j].tag;
+                                            break;
+                                        }
+                                    }
+                                }
+                                
+                            });
+                    }
                 });
         }
         

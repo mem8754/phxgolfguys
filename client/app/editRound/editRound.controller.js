@@ -13,7 +13,90 @@ angular.module('phoenixGolfGuysApp')
             adjGrossScore: []
         };
         $scope.hcpData = {};
-                                 
+
+// Procedure to remove a Round:
+//      1.  query the database for the Round ID to be removed.
+//      2.  prompt the user for confirmation on the removal.
+//      3.  call the Rounds factory to process the removal.
+//      4.  confirm that the Round has been removed by attempting to query again
+
+        $scope.removeRound = function (roundId) {
+            $scope.roundId = roundId;
+            
+            // Step 1
+            roundsFactory.getRound(roundId)
+                .error(function (data, status, headers, config) {
+                    $log.warn("Remove Round - server error reading Round info: ", status);
+                    $window.alert("Unable to access Round in database.\nRound not removed.");
+                })
+                .success(function (round) {
+                    var userResp = $window.confirm("Remove Round at " + round.courseTag + " on " + round.date + "?");
+                    if (userResp) {
+                        
+                        // Step 2
+                        
+                        roundsFactory.removeRound(round._id)
+                        
+                        // Step 3
+                        
+                            .error(function (data, status, headers, config) {
+                                $window.alert("Server error, round not removed.");
+                            })
+                            .success(function (data) {
+                                roundsFactory.getRound($scope.roundId)
+                                
+                                // Step 4
+                                
+                                    .error(function (data, status, headers, config) {
+                                        if (status === 404) {
+                                            $window.alert("\nRound successfully removed.\n");
+                                            $state.go('viewPlayer', {id: $scope.playerId});
+                                        } else {
+                                            $window.alert("Removal requested, unable to confirm.");
+                                        }
+                                    })
+                                    .success(function (round) {
+                                        if (null !== round) {
+                                            $window.alert("Server error, Round not removed.");
+                                        } else {
+                                            $window.alert("Round successfully removed.");
+                                            $state.go('viewPlayer', {id: $scope.playerId});
+                                        }
+                                    });
+                                
+                            });
+                    }
+                });
+        };
+        
+    
+        
+        $scope.updateTeeBoxes = function () {
+// this function refreshes the Tee Box list when the course selection changes.  
+            coursesFactory.getCourseTees($scope.round.courseId)
+                .error(function (data, status, headers, config) {
+                    $log.log("Server error " + status + " retrieving Tee Box details for selected course");
+                })
+                .success(function (tees) {
+                    if (tees !== null && tees.length > 0) {
+                        $scope.tees = tees.objSort("rating", -1);
+                    } else {
+                        $window.alert("No tee boxes are defined for this course.\nPlease select a different course or add Tee Box info.");
+                    }
+                });
+        };
+        
+        $scope.updateHcpParms = function (teeId) {
+            var i = 0;
+            for (i = 0; i < $scope.tees.length; i += 1) {
+                if ($scope.tees[i]._id === $scope.round.teeId) {
+                    $scope.hcpData.slopeRating = $scope.tees[i].slope;
+                    $scope.hcpData.courseRating = $scope.tees[i].rating;
+                    return;
+                }
+            }
+        };
+    
         function init() {
             roundsFactory.getRound(roundId)
                 .error(function (data, status, headers, config) {
@@ -22,6 +105,16 @@ angular.module('phoenixGolfGuysApp')
                 .success(function (round) {
                     $scope.round = round;
                     $scope.playerId = round.playerId;
+                
+                    coursesFactory.getCourses()
+                        .error(function (data, status, headers, config) {
+                            $log.warn('Server error getting courses: ', status);
+                        })
+                        .success(function (courses) {
+                            $scope.courses = courses;
+                            $scope.updateTeeBoxes();
+                        });
+
 
                     playersFactory.getPlayerHcp(round.playerId)
                         .error(function (data, status, headers, config) {
