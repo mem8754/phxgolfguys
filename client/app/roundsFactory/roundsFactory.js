@@ -129,6 +129,10 @@ angular.module('phoenixGolfGuysApp')
                 url = '/api/rounds/' + roundId;
             return $http({ method: method, url: url });
         };
+        
+        factory.saveRound = function (round) {
+            return $http.put('/api/rounds/' + round._id, round);
+        };
 
         factory.updateRound = function (round, hdcp) {
             var scores = {};

@@ -23,7 +23,8 @@ angular.module('phoenixGolfGuysApp').controller('MainCtrl', function ($scope, $h
             }
         });
     });
-    
+ 
+    /*
     $scope.addThing = function () {
         if ($scope.newThing === '') {
             return;
@@ -35,4 +36,5 @@ angular.module('phoenixGolfGuysApp').controller('MainCtrl', function ($scope, $h
     $scope.deleteThing = function (thing) {
         $http.delete('/api/things/' + thing._id);
     };
+    */
 });

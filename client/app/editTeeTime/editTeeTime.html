@@ -10,13 +10,6 @@
         <br />
         <form class="form-horizontal" ng-submit="updateTeeTime()">
             <div class="row">
-                <div class="col-xs-2"></div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Update</button>
-                </div>
-            </div>
-            <br/>
-            <div class="row">
                 <div class="form-group">
                     <label class="col-xs-4 control-label">Date and Time:</label>
                     <div class="col-xs-8">
@@ -67,6 +60,21 @@
                         <textarea type="text" class="form-control" rows="3" ng-model="event.notes"></textarea>
                     </div>
                     <br/>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <div class="col-xs-1"></div>
+                    <div class="col-xs-2">
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </div>
+                    <div class="col-xs-1">&nbsp;</div>
+                    <div class="col-xs-2">
+                            <span class="btn btn-danger" 
+                                  ng-click="removeTeeTime(event._id)">
+                                Delete
+                            </span>
+                    </div>
                 </div>
             </div>
         </form>

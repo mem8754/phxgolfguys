@@ -23,7 +23,7 @@ angular.module('phoenixGolfGuysApp')
 
 (function () {
     'use strict';
-    var playersFactory = function ($http) {
+    var playersFactory = function ($http, $log, $rootScope) {
         
         var factory = {},
             players = null;

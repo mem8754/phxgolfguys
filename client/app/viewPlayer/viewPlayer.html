@@ -28,7 +28,7 @@
             </tr>
             <tr>
                 <td><b>Handicap:</b></td>
-                <td>{{ player.hdcp }} / {{ hdcpIndex }} &nbsp;
+                <td>{{ player.hdcp }} / {{ hdcpIndex }} &nbsp;&nbsp;
                     <font color="0000ff">
                     <span class="glyphicon glyphicon-refresh pointer"
                           aria-hidden="true"
@@ -78,13 +78,10 @@
         </div>
         <br/>
         <div>
-            <h4><b>Posted Rounds</b>&nbsp;({{ rounds.length }})&nbsp;
-                <small>
-                    <a href="/addRound/{{ player._id }}">
-                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                        Add a Round
-                    </a>
-                </small>
+            <h4><b>Posted Rounds</b>&nbsp;({{ rounds.length }})&nbsp;&nbsp;
+                <span class="btn btn-default">
+                    <a href="/addRound/{{ player._id }}">Add</a>
+                </span>
             </h4>
         </div>
         

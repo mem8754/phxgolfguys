@@ -15,7 +15,7 @@ var express = require('express'),
 
 // Connect to database
 mongoose.connect(config.mongo.uri, config.mongo.options);
-
+console.log('Mongo URI: ', config.mongo.uri);
 
 // Populate DB with sample data
 if (config.seedDB) { require('./config/seed'); }
@@ -32,4 +32,5 @@ server.listen(config.port, config.ip, function () {
 });
 
 // Expose app
-exports = module.exports = app;
+module.exports = app;
+exports = module.exports;

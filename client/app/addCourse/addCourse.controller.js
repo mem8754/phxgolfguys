@@ -12,11 +12,18 @@ angular.module('phoenixGolfGuysApp')
 
 (function () {
     'use strict';
-    var AddCourseController = function ($scope, $window, $log, coursesFactory) {
+    var AddCourseController = function ($scope, $state, $window, $log, $rootScope, playersFactory, coursesFactory) {
         $scope.course = {};
         
         function init() {
-            $log.log("Add Course Controller initialized.");
+            if (!$rootScope.userAuthorized) {
+                $window.alert('\nUser ',
+                               $rootScope.user.email,
+                               ' is not authorized to access this web site.');
+                $state.go("main");
+            } else {
+                $scope.message = "Add Course Controller initialized.";
+            }
         }
    
         init();
@@ -72,7 +79,13 @@ angular.module('phoenixGolfGuysApp')
     };
 
     
-    AddCourseController.$inject = ['$scope', '$window', '$log', 'coursesFactory'];
+    AddCourseController.$inject = ['$scope',
+                                   '$state',
+                                   '$window',
+                                   '$log',
+                                   '$rootScope',
+                                   'playersFactory',
+                                   'coursesFactory'];
 
     angular.module('phoenixGolfGuysApp')
         .controller('AddCourseController', AddCourseController);

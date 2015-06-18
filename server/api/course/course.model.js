@@ -15,7 +15,9 @@ var CourseSchema = new Schema(
         phone: String,
         web: String,
         hcp: [],
-        par: []
+        par: [],
+        lat: [],
+        lon: []
     },
     {
         collection: 'courses'

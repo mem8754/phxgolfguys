@@ -33,18 +33,18 @@ angular.module('phoenixGolfGuysApp')
                     if ($stateParams.courseId) {
                         $scope.event.courseId = $stateParams.courseId;
                     }
+                });
 
-                    playersFactory.getPlayerNames()
-                        .error(function (data, status, headers, config) {
-                            $log.warn("Add Tee Time - server error reading player info: ", status);
-                        })
-                        .success(function (players) {
-                            var i = 0;
-                            for (i = 0; i < players.length; i += 1) {
-                                players[i].lastName = players[i].lastName + ", " + players[i].firstName;
-                            }
-                            $scope.players = players.objSort("lastName");
-                        });
+            playersFactory.getPlayerNames()
+                .error(function (data, status, headers, config) {
+                    $log.warn("Add Tee Time - server error reading player info: ", status);
+                })
+                .success(function (players) {
+                    var i = 0;
+                    for (i = 0; i < players.length; i += 1) {
+                        players[i].lastName = players[i].lastName + ", " + players[i].firstName;
+                    }
+                    $scope.players = players.objSort("lastName");
                 });
         }
    

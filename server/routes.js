@@ -35,7 +35,7 @@ module.exports = function (app) {
     
     app.use('/api/things', spMiddleware.authenticate, require('./api/thing'));
     app.use('/api/courses', spMiddleware.authenticate, require('./api/course'));
-    app.use('/api/players', require('./api/player')); // no auth
+    app.use('/api/players', spMiddleware.authenticate, require('./api/player')); // no auth
     app.use('/api/events', spMiddleware.authenticate, require('./api/event'));
     app.use('/api/teeTimes', spMiddleware.authenticate, require('./api/teeTime'));
     app.use('/api/tees', spMiddleware.authenticate, require('./api/tee'));

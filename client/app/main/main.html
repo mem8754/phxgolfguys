@@ -10,8 +10,8 @@
   <div class="row">
     <div>
       <h4 class="page-header"><strong>Upcoming Events:</strong></h4>
-      <ul ng-repeat="thing in upcomingEvents">
-        <li>{{thing.dateTime | date: 'h:mm a EEE, d-MMM-yyyy' }}: {{thing.eventType}} at {{ thing.loc }}. {{thing.notes}}</li>
+      <ul ng-repeat="event in upcomingEvents">
+        <li>{{event.dateTime | date: 'h:mm a EEE, d-MMM-yyyy' }} {{event.eventType}} at {{ event.loc }}. {{event.notes}}</li>
       </ul>
     </div>
   </div>

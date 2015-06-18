@@ -14,6 +14,50 @@ angular.module('phoenixGolfGuysApp')
                                             playersFactory) {
         var teeTimeId = $stateParams.id;
         
+        $scope.removeTeeTime = function (teeTimeId) {
+
+// Procedure to remove an Event (tee time event, in this case):
+//      1.  query the database for the event ID to be removed.
+//      2.  prompt the user for confirmation on the removal.
+//      3.  call the Events factory to process the removal.
+//      4.  confirm that the event has been removed by attempting to query again
+
+            
+            eventsFactory.getTeeTime(teeTimeId)                                                          /*  Step 1  */
+                .error(function (data, status, headers, config) {
+                    $window.alert("Server error " + status + " retrieving Tee Time event.");
+                })
+                .success(function (event) {
+                    var userResp = $window.confirm("Remove " + event.eventType + "Event for " + event.dateTime + "?");
+                    if (userResp) {                                                                     /*  Step 2  */
+                        eventsFactory.removeEvent(event._id)                                            /*  Step 3  */
+                            .error(function (data, status, headers, config) {
+                                $window.alert("Server error " + status + " removing Tee Time event.");
+                            })
+                            .success(function (data) {
+                                eventsFactory.getTeeTime(event._id)                                     /*  Step 4  */
+                                    .error(function (data, status, headers, config) {
+                                        if (status === 404) {
+                                            $window.alert("\nTee Time event successfully removed.\n");
+                                            $state.go('events');
+                                        } else {
+                                            $window.alert("\nServer error " + status + " removing Tee Time, not removed.\n");
+                                        }
+                                    })
+                                    .success(function (event) {
+                                        if (null !== event) {
+                                            $window.alert("\nEvent not removed from database.\n");
+                                        } else {
+                                            $window.alert("\nTee Time Event successfully removed.\n");
+                                            $scope.go('events');
+                                        }
+                                    });
+                                
+                            });
+                    }
+                });
+        };
+        
         function init() {
             var i = 0,
                 player = {

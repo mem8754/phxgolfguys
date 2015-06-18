@@ -166,4 +166,8 @@ angular.module('phoenixGolfGuysApp')
                 });
 
         };
+    
+        $scope.playRound = function (roundId) {
+            $state.go('playRound', { id: roundId });
+        };
     });
