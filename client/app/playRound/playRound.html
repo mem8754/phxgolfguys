@@ -1,94 +1,92 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
 <div class="container">
-    <h1>{{ courseTag }}</h1>
-    <h4>{{ teeName }} Tees</h4>
+    
+    <h3>{{ courseTag }} Hole #{{ hole }} ({{ teeName }} Tees)</h3>
 
     <div class="container">
-        <div class="col-xs-4">
-            <h2>Hole:</h2>
+        <div class="col-xs-4" ng-hide="firstHole">
+             <span class="btn btn-primary" ng-click="prevHole()">&LT;- Hole {{ hole - 1 }}</span>   
         </div>
-        <div class="col-xs-2">
-            <h2>{{ hole }}</h2>
-        </div>
-        <div class="col-xs-6">&nbsp;</div>
-    </div>
-
-    <div class="container">
-        <div class="col-xs-4">
-            <h2>Par:</h2>
-        </div>
-        <div class="col-xs-2">
-            <h2>{{ par }}</h2>
-        </div>
-        <div class="col-xs-6">&nbsp;</div>
-    </div>
-
-    <div class="container">
-        <div class="col-xs-4">
-            <h2>Length:</h2>
-        </div>
-        <div class="col-xs-2">
-            <h2>{{ length }}</h2>
-        </div>
-        <div class="col-xs-6">&nbsp;</div>
-    </div>
-
-    <div class="container">
-        <div class="col-xs-4">
-            <h2>Score:</h2>
+        <div class="col-xs-4" ng-show="firstHole">
+             <span class="btn btn-primary" ng-click="prevHole()">&LT;- Hole 18</span>   
         </div>
         <div class="col-xs-4">
-            <h2>{{ score }}</h2>
+            <span class="btn btn-success" ng-click="saveRound()">Save Scores</span>
         </div>
-        <div class="col-xs-3">
-            <h2>
-            <p class="glyphicon glyphicon-minus-sign" 
-               aria-hidden="true" 
-               ng-click="minusOne()"></p>
-            </h2>
+        <div class="col-xs-4" ng-hide="lastHole">
+             <span class="btn btn-primary" ng-click="nextHole()">Hole {{ hole + 1 }} -&GT;</span>   
         </div>
-        <div class="col-xs-1">
-            <h2>
-            <p class="glyphicon glyphicon-plus-sign" 
-               aria-hidden="true" 
-               ng-click="plusOne()"></p>
-            </h2>    
-        </div>
-    </div>
-    <div class="container" ng-show="locAvail">
-        <div class="col-xs-4">
-            <h2>Range:</h2>
-        </div>
-        <div class="col-xs-2">
-            <h2><p ng-model="yardage"></p></h2>
-        </div>
-        <div class="col-xs-6"></div>
-    </div>
-    <div class="container">
-        <div class="col-xs-4">
-             <span class="btn btn-success" ng-click="prevHole()">Prev</span>   
-        </div>
-        <div class="col-xs-4">
-            <span class="btn btn-default" ng-click="saveRound()">Save</span>
-        </div>
-        <div class="col-xs-4">
-             <span class="btn btn-success" ng-click="nextHole()">Next</span>   
+        <div class="col-xs-4" ng-show="lastHole">
+             <span class="btn btn-primary" ng-click="nextHole()">Hole 1 -&GT;</span>   
         </div>
     </div>
     <div class="col-xs-12">&nbsp;</div>
-    <div class="container" ng-show="locAvail">
+    <div class="well col-xs-12">
+        <table class="table table-responsive" style="text-align: left">
+            <tr>
+                <td><strong>Par:</strong></td>
+                <td>{{ par }}</td>
+            </tr>
+            <tr>
+                <td><strong>Length:</strong></td>
+                <td>{{ length }}</td>
+            </tr>
+            <tr>
+                <td><strong>Range:</strong></td>
+                <td>{{ yardage | number: 0 }} &PlusMinus; {{ position.coords.accuracy * 1.09361 | number: 0 }} yds</td>
+            </tr>
+            <tr ng-show="altAvail">
+                <td><strong>Elevation:</strong></td>
+                <td>{{ position.coords.altitude * 1.09361 *3 | number: 0 }} &PlusMinus; {{ position.coords.altitudeAccuracy * 1.09361 * 3 | number: 0 }} ft</td>
+            </tr>
+            <tr>
+                <td><strong>Score:</strong></td>
+                <td><strong>{{ score | number: 0 }}</strong></td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="container">
+        <div class="col-xs-4">&nbsp;</div>
+        <div class="col-xs-2">
+             <span class="btn btn-danger" ng-click="minusOne()">-</span>   
+        </div>
+        <div class="col-xs-2">
+            <span class="btn btn-success" ng-click="plusOne()">+</span>
+        </div>
+        <div class="col-xs-1">&nbsp;</div>
+        <div class="col-xs-3">
+            <span class="btn btn-danger" ng-click="setGreenCenter()">Green Loc</span>
+        </div>
+    </div>
+
+    <div class="col-xs-12">&nbsp;</div>
+    <div class="well col-xs-8">
         <small>
-            <div class="col-xs-2"></div>
-            <div class="col-xs-4">
-                <p>Current Location:</p>
-            </div>
-            <div class="col-xs-3">
-                <p ng-model="lat">&nbsp;N</p>
-            </div>
-            <div class="col-xs-3">
-                <p ng-model="lon">&nbsp;W</p>
-            </div>
-        </small>
+            <table class="table table-responsive" style="text-align: left">
+                <tr>
+                    <td><strong>Latitude:</strong></td>
+                    <td>{{ position.coords.latitude | number: 6}}</td>
+                </tr>
+                <tr>
+                    <td><strong>Logitude:</strong></td>
+                    <td>{{ position.coords.longitude | number: 6}}</td>
+                </tr>
+                <tr>
+                    <td><strong>Accuracy:</strong></td>
+                    <td>&PlusMinus; {{ position.coords.accuracy * 1.09361 }} Yards</td>
+                </tr>
+                <tr ng-show="altAvail">
+                    <td><strong>Elevation:</strong></td>
+                    <td>{{ position.coords.altitude * 1.09361 * 3 | number: 0 }} &PlusMinus; {{ position.coords.altitudeAccuracy * 1.09361 * 3 | number: 0 }} Feet</td>
+                </tr>
+                <tr>
+                    <td><strong>Updated:</strong></td>
+                    <td>{{ position.timestamp | date: 'yyyy-MM-dd hh:mm:ss a' }}</td>
+                </tr>
+            </table>
+        </small>    
     </div>
 </div> <!-- end outer container -->

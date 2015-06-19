@@ -6,8 +6,8 @@
 angular.module('phoenixGolfGuysApp')
     .controller('PlayRoundCtrl', function ($scope, $state, $stateParams, $window, $log, coursesFactory, roundsFactory) {
         var roundId = $stateParams.id;
-    
-        function calcDist(lat1, lon1, lat2, lon2) {
+        
+        function calcDistance(lat1, lon1, lat2, lon2) {
             /*
             var R = 6371000; // metres
             var φ1 = lat1.toRadians();
@@ -42,7 +42,8 @@ angular.module('phoenixGolfGuysApp')
         }
 
         function init() {
-            
+            $scope.courseUpdated = false;
+            $scope.locAvail = false;
             roundsFactory.getRound(roundId)
                 .error(function (data, status, headers, config) {
                     $log.warn('Server Error getting Round:', status);
@@ -62,6 +63,41 @@ angular.module('phoenixGolfGuysApp')
                             $scope.par = course.par[0];
                             $scope.holeLat = course.lat[0];
                             $scope.holeLon = course.lon[0];
+                            $scope.firstHole = true;
+                            $scope.lastHole = false;
+                        
+                            if (navigator.geolocation) {
+                                $scope.locAvail = false;
+                                navigator.geolocation.getCurrentPosition(
+                                    function (position) {
+                                        $scope.locAvail = true;
+                                        $scope.position = position;
+                                        $scope.yardage = calcDistance($scope.position.coords.latitude,
+                                                                      $scope.position.coords.longitude,
+                                                                    $scope.holeLat,
+                                                                    $scope.holeLon);
+                                        if ($scope.yardage > 999) {
+                                            $scope.yardage = 999;
+                                        }
+                                        if (position.coords.altitude) {
+                                            $scope.altAvail = true;
+                                        } else {
+                                            $scope.altAvail = false;
+                                        }
+                                    },
+                                    function error(msg) {
+                                        $log.log("Geolocation error: ", msg);
+                                        $window.alert('Please enable your GPS position.');
+                                    },
+                                    {
+                                        maximumAge: 15000,
+                                        timeout: 2500,
+                                        enableHighAccuracy: true
+                                    }
+                                );
+                            } else {
+                                $window.alert("Geolocation is not supported by your device/browser.");
+                            }
                         });
                 
                     coursesFactory.getTee($scope.round.teeId)
@@ -77,16 +113,35 @@ angular.module('phoenixGolfGuysApp')
         }
    
         init();
-        if ("geolocation" in navigator) {
-            $scope.locAvail = true;
-            navigator.geolocation.watchPosition(function (position) {
-                $scope.lat = position.coords.latitude;
-                $scope.lon = position.coords.longitude;
-                $scope.yardage = calcDist($scope.lat, $scope.lon, $scope.holeLat, $scope.holeLon);
-            });
-        } else {
-            $scope.locAvail = false;
-        }
+        setTimeout(function () {
+            if ($scope.locAvail) {
+                navigator.geolocation.watchPosition(
+                    function (position) {
+                        $scope.position = position;
+                        $scope.yardage = calcDistance($scope.position.coords.latitude,
+                                                    $scope.position.coords.longitude,
+                                                    $scope.holeLat,
+                                                    $scope.holeLon);
+                        if ($scope.yardage > 999) {
+                            $scope.yardage = 999;
+                        }
+                        if (position.coords.altitude) {
+                            $scope.altAvail = true;
+                        } else {
+                            $scope.altAvail = false;
+                        }
+                    },
+                    function error(msg) {
+                        $log.log("Geolocation error: ", msg);
+                    },
+                    {
+                        maximumAge: 5000,
+                        timeout: 1500,
+                        enableHighAccuracy: true
+                    }
+                );
+            }
+        }, 2000);  // wait 2 seconds for callback exec.
     
         $scope.saveRound = function () {
             $log.info('Update this Round:', $scope.round);
@@ -97,36 +152,92 @@ angular.module('phoenixGolfGuysApp')
                     $window.alert("Server error encountered, round not updated.");
                 })
                 .success(function (data, status) {
-                    $window.alert("\nRound scores successfully updated.\n" +
-                                  "Please save round on next screen.\n");
-                    $state.go('editRound', { id: $scope.round._id });
-
+                    $window.alert("\nRound scores successfully updated.\n");
+                    var userResp = $window.confirm("\nDo you want to continue scoring this round?\n");
+                    if (!userResp) {
+                        $window.alert("\nRemember to save the round on the Update page to re-calculate your handicap.\n");
+                        $state.go('editRound', { id: $scope.round._id });
+                    }
                 });
-
+            
+            if ($scope.courseUpdated) {
+                coursesFactory.updateCourse($scope.course)
+                    .error(function (data, status) {
+                        $log.warn("Server error updating course info: ", status);
+                        $window.alert("Server error encountered, course data not updated.");
+                    })
+                    .success(function (data, status) {
+                        $window.alert("\nCourse details successfully updated.\n");
+                    });
+            }
         };
     
         $scope.nextHole = function () {
             $scope.round.grossScore[$scope.hole - 1] = $scope.score;
+
             $scope.hole += 1;
             if ($scope.hole > 18) {
                 $scope.hole = 1;
             }
+
+            $scope.firstHole = false;
+            $scope.lastHole = false;
+            if ($scope.hole === 1) {
+                $scope.firstHole = true;
+            } else if ($scope.hole === 18) {
+                $scope.lastHole = true;
+            }
+ 
             $scope.score = $scope.round.grossScore[$scope.hole - 1];
+            $scope.par = $scope.course.par[$scope.hole - 1];
+            $scope.length = $scope.tee.yds[$scope.hole - 1];
             $scope.holeLat = $scope.course.lat[$scope.hole - 1];
             $scope.holeLon = $scope.course.lon[$scope.hole - 1];
-            $scope.yardage = calcDist($scope.lat, $scope.lon, $scope.holeLat, $scope.holeLon);
+
+            $scope.yardage = 0;
+            if ($scope.locAvail) {
+                $scope.yardage = calcDistance($scope.position.coords.latitude,
+                                          $scope.position.coords.longitude,
+                                          $scope.holeLat,
+                                          $scope.holeLon);
+            }
+            if ($scope.yardage > 999) {
+                $scope.yardage = 999;
+            }
         };
     
         $scope.prevHole = function () {
             $scope.round.grossScore[$scope.hole - 1] = $scope.score;
+
             $scope.hole -= 1;
             if ($scope.hole < 1) {
                 $scope.hole = 18;
             }
+            
+            $scope.firstHole = false;
+            $scope.lastHole = false;
+            if ($scope.hole === 1) {
+                $scope.firstHole = true;
+            } else if ($scope.hole === 18) {
+                $scope.lastHole = true;
+            }
+            
             $scope.score = $scope.round.grossScore[$scope.hole - 1];
+            $scope.par = $scope.course.par[$scope.hole - 1];
+            $scope.length = $scope.tee.yds[$scope.hole - 1];
             $scope.holeLat = $scope.course.lat[$scope.hole - 1];
             $scope.holeLon = $scope.course.lon[$scope.hole - 1];
-            $scope.yardage = calcDist($scope.lat, $scope.lon, $scope.holeLat, $scope.holeLon);
+ 
+            $scope.yardage = 0;
+            if ($scope.locAvail) {
+                $scope.yardage = calcDistance($scope.position.coords.latitude,
+                                          $scope.position.coords.longitude,
+                                          $scope.holeLat,
+                                          $scope.holeLon);
+            }
+            if ($scope.yardage > 999) {
+                $scope.yardage = 999;
+            }
         };
     
         $scope.plusOne = function () {
@@ -139,5 +250,16 @@ angular.module('phoenixGolfGuysApp')
             }
         };
     
+        $scope.setGreenCenter = function () {
+            var userResp = $window.confirm("\nUpdate green location for hole ", $scope.hole, "?\n");
+            if (userResp) {
+                if (!$scope.course.coords) {
+                    $scope.course.coords = [];
+                }
+                $scope.course.coords[$scope.hole - 1] = $scope.position.coords;
+                $scope.courseUpdated = true;
+            }
+           
+        };
         
     });
