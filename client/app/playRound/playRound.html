@@ -1,9 +1,9 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
 <div class="container">
+    <h4><strong>{{ courseTag }}</strong> - {{ teeName }} Tees</h4>
+    <h5><strong>Hole #{{ hole }}</strong></h5>
     
-    <h3>{{ courseTag }} Hole #{{ hole }} ({{ teeName }} Tees)</h3>
-
     <div class="container">
         <div class="col-xs-4" ng-hide="firstHole">
              <span class="btn btn-primary" ng-click="prevHole()">&LT;- Hole {{ hole - 1 }}</span>   
@@ -12,7 +12,7 @@
              <span class="btn btn-primary" ng-click="prevHole()">&LT;- Hole 18</span>   
         </div>
         <div class="col-xs-4">
-            <span class="btn btn-success" ng-click="saveRound()">Save Scores</span>
+            <span class="btn btn-success" ng-click="saveRound()">Save</span>
         </div>
         <div class="col-xs-4" ng-hide="lastHole">
              <span class="btn btn-primary" ng-click="nextHole()">Hole {{ hole + 1 }} -&GT;</span>   
