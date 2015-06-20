@@ -1,10 +1,57 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
+<!--
 <header class="hero-unit" id="banner">
     <div class="container">
         <img src="assets/images/az-golf.jpg" alt=""><br/>
     </div>
 </header>
+  -->
+
+<div class="carousel slide" id="myCarousel">
+    
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        <li class="active" data-slide-to="0" dta-target="#myCarousel"></li>
+        <li data-slide-to="1" data-target="#myCarousel"></li>
+        <li data-slide-to="2" data-target="#myCarousel"></li>
+    </ol><!-- carousel-indicators -->
+    
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner">
+        <div class="item active" id="slide1">
+            <div class="carousel-caption">
+                <h4>Courses</h4>
+                <p>Information on several courses in the Phoenix/Scottsdale area, and a few elsewhere.</p>
+            </div><!-- end carousel caption 1 -->
+        </div><!-- end item 1 -->
+        
+        <div class="item" id="slide2">
+            <div class="carousel-caption">
+                <h4>Players</h4>
+                <p>Contact information and round history for registered players.</p>
+            </div><!-- end carousel caption 2 -->
+        </div><!-- end item 2 -->
+
+        <div class="item" id="slide3">
+            <div class="carousel-caption">
+                <h4>Events</h4>
+                <p>Upcoming and past tee times and other group events.</p>
+            </div><!-- end carousel caption 3 -->
+        </div><!-- end item 3 -->
+
+    </div><!-- end carousel-inner -->
+    
+    <!-- Controls -->
+    <a class="left carousel-control" data-slide="prev" href="#myCarousel">
+        <span class="icon-prev"></span>
+    </a>
+    
+    <a class="right carousel-control" data-slide="next" href="#myCarousel">
+        <span class="icon-next"></span>
+    </a>
+    
+</div><!-- end carousel-slide-->
 
 <div class="container">
   <div class="row">
