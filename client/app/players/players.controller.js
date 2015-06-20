@@ -30,9 +30,7 @@ angular.module('phoenixGolfGuysApp')
                         $log.warn('Data: ', data);
                     });
             } else {
-                $window.alert("\nUser ",
-                              $rootScope.user.email,
-                              " is not authorized to access this web site.\n");
+                $window.alert("\nUser is not authorized to access this web site.\n");
                 $state.go("main");
             }
         }

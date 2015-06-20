@@ -3,3 +3,7 @@
     overflow-y: auto;
     display: block;
 }
+
+body {
+    margin-top: 60px;   
+}

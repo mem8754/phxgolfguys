@@ -12,9 +12,7 @@
 // User authorization not required to view the courses.
             
             if (!$rootScope.userAuthorized) {
-                $window.alert('\nUser ',
-                               $rootScope.user.email,
-                               ' is not authorized to access this web site.');
+                $window.alert('\nUser is not authorized to access this web site.');
                 $state.go("main");
             } else {
                 coursesFactory.getCourses()

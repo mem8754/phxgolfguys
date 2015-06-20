@@ -16,9 +16,7 @@ angular.module('phoenixGolfGuysApp')
             
 // Begin by getting the future Tee Times from the database.
             if (!$rootScope.userAuthorized) {
-                $window.alert("\nUser ",
-                              $rootScope.user.email,
-                              " is not authorized to access this web site.\n");
+                $window.alert("\nUser is not authorized to access this web site.\n");
                 $state.go("main");
                 return;
             }
