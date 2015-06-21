@@ -83,7 +83,7 @@
 
 /*  Landscape phone to portrait tablet  */
 @media (max-width: 768px) {
-
+    
     #myCarousel .item { height: 300px; }
     
     #slide1 {
