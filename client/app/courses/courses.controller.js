@@ -1,3 +1,4 @@
+/*jslint node: true, nomen: true */
 /*global angular */
 
 (function () {
@@ -37,6 +38,7 @@
                     $rootScope.userAuthenticated = true;
                     if (player.length === 1) {
                         $rootScope.userAuthorized = true;
+                        $rootScope.playerId = player[0]._id;
                     } else {
                         $log.log("User not authorized (Courses).");
                     }

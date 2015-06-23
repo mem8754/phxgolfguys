@@ -1,29 +1,33 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
 <div class="container">
-    <h4><strong>{{ courseTag }}</strong> - {{ teeName }} Tees</h4>
-    <h4><strong>Hole #:&nbsp;&nbsp;{{ hole }}</strong></h4>
+    <h2><strong>{{ round.courseTag }}</strong> - {{ teeName }} Tees</h2>
     
     <div class="container">
         <div class="col-xs-4" ng-hide="firstHole">
-             <span class="btn btn-primary" ng-click="prevHole()">&LT;- Hole {{ hole - 1 }}</span>   
+             <span class="btn btn-primary big" ng-click="prevHole()">&LT;- Hole {{ hole - 1 }}</span>   
         </div>
         <div class="col-xs-4" ng-show="firstHole">
-             <span class="btn btn-primary" ng-click="prevHole()">&LT;- Hole 18</span>   
+             <span class="btn btn-primary big" ng-click="prevHole()">&LT;- Hole 18</span>   
         </div>
         <div class="col-xs-4">
-            <span class="btn btn-success" ng-click="saveRound()">Save</span>
+            <p class="huge ctr-text"><strong>Hole {{ hole }}</strong></p>
         </div>
         <div class="col-xs-4" ng-hide="lastHole">
-             <span class="btn btn-primary" ng-click="nextHole()">Hole {{ hole + 1 }} -&GT;</span>   
+             <span class="btn btn-primary big" ng-click="nextHole()">Hole {{ hole + 1 }} -&GT;</span>   
         </div>
         <div class="col-xs-4" ng-show="lastHole">
-             <span class="btn btn-primary" ng-click="nextHole()">Hole 1 -&GT;</span>   
+             <span class="btn btn-primary big" ng-click="nextHole()">Hole 1 -&GT;</span>   
         </div>
     </div>
     <div class="col-xs-12">&nbsp;</div>
-    <div class="well col-xs-12">
-        <table class="table table-responsive" style="text-align: left">
+    <div class="col-xs-12">
+        <strong>
+            <p class="huge ctr-text">{{ yardage | number: 0 }} &PlusMinus; {{ position.coords.accuracy * 1.09361 | number: 0 }} yds</strong></p>
+         </strong>
+    </div>
+    <div class="container col-xs-12">
+        <table class="table table-responsive big" style="text-align: left">
             <tr>
                 <td><strong>Par:</strong></td>
                 <td>{{ par }}</td>
@@ -32,10 +36,6 @@
                 <td><strong>Length:</strong></td>
                 <td>{{ length }}</td>
             </tr>
-            <tr>
-                <td><strong>Range:</strong></td>
-                <td>{{ yardage | number: 0 }} &PlusMinus; {{ position.coords.accuracy * 1.09361 | number: 0 }} yds</td>
-            </tr>
             <tr ng-show="altAvail">
                 <td><strong>Elevation:</strong></td>
                 <td>{{ position.coords.altitude * 1.09361 *3 | number: 0 }} &PlusMinus; {{ position.coords.altitudeAccuracy * 1.09361 * 3 | number: 0 }} ft</td>
@@ -43,27 +43,27 @@
             <tr>
                 <td><strong>Score:</strong></td>
                 <td><strong>{{ score | number: 0 }}</strong></td>
-                <td></td>
             </tr>
         </table>
     </div>
 
     <div class="container">
-        <div class="col-xs-4">&nbsp;</div>
-        <div class="col-xs-2">
-             <span class="btn btn-danger" ng-click="minusOne()">-</span>   
-        </div>
-        <div class="col-xs-2">
-            <span class="btn btn-success" ng-click="plusOne()">+</span>
-        </div>
-        <div class="col-xs-1">&nbsp;</div>
         <div class="col-xs-3">
-            <span class="btn btn-danger" ng-click="setGreenCenter()">Green Loc</span>
+            <span class="btn btn-primary big" ng-click="setGreenCenter()">Loc</span>
+        </div>
+        <div class="col-xs-3">
+            <span class="btn btn-success big" ng-click="saveRound()">Save</span>            
+        </div>
+        <div class="col-xs-2">
+             <span class="btn btn-danger big" ng-click="minusOne()">-</span>   
+        </div>
+        <div class="col-xs-2">
+            <span class="btn btn-success big" ng-click="plusOne()">+</span>
         </div>
     </div>
 
     <div class="col-xs-12">&nbsp;</div>
-    <div class="well col-xs-8">
+    <div class="container col-xs-8">
         <small>
             <table class="table table-responsive" style="text-align: left">
                 <tr>
@@ -76,7 +76,7 @@
                 </tr>
                 <tr>
                     <td><strong>Accuracy:</strong></td>
-                    <td>&PlusMinus; {{ position.coords.accuracy * 1.09361 }} Yards</td>
+                    <td>&PlusMinus; {{ position.coords.accuracy * 1.09361 | number: 0}} Yards</td>
                 </tr>
                 <tr ng-show="altAvail">
                     <td><strong>Elevation:</strong></td>

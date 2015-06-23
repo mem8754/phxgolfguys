@@ -34,6 +34,7 @@ module.exports = function (app) {
 //    app.use(cookieParser(credentials.cookieSecret));
     
     app.use('/api/things', spMiddleware.authenticate, require('./api/thing'));
+    app.use('/api/activeRounds', require('./api/activeRound'));
     app.use('/api/courses', spMiddleware.authenticate, require('./api/course'));
     app.use('/api/players', spMiddleware.authenticate, require('./api/player')); // no auth
     app.use('/api/events', spMiddleware.authenticate, require('./api/event'));

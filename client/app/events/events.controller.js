@@ -4,7 +4,7 @@
 'use strict';
 
 angular.module('phoenixGolfGuysApp')
-    .controller('EventsCtrl', function ($scope, $rootScope, $state, $stateParams, $window, $log, eventsFactory, coursesFactory, playersFactory) {
+    .controller('EventsCtrl', function ($scope, $rootScope, $state, $stateParams, $timeout, $window, $log, eventsFactory, coursesFactory, playersFactory) {
 
         $scope.scheduledTeeTimes = null;
         $scope.pastTeeTimes = null;
@@ -85,6 +85,7 @@ angular.module('phoenixGolfGuysApp')
         function authenticateUser() {
 
     // Authorize this user if logged in email is found in Players.
+            
             playersFactory.getPlayerByEmail($rootScope.user.email)
                 .error(function (data, status, headers, config) {
                     $log.log("Error querying for authorization (Events).");
@@ -93,16 +94,16 @@ angular.module('phoenixGolfGuysApp')
                     $rootScope.userAuthenticated = true;
                     if (player.length === 1) {
                         $rootScope.userAuthorized = true;
+                        $rootScope.playerId = player[0]._id;
                     } else {
                         $log.log("User not authorized (Events).");
                     }
                 });
         }
-
         
         if (!$rootScope.userAuthenticated) {
             authenticateUser();  // request user authentication with factory.
-            setTimeout(function () { init(); }, 100);  // wait 0.1 seconds for callback.
+            $timeout(function () { init(); }, 1000);  // wait 1 second for callback.
         } else {
             init();
         }

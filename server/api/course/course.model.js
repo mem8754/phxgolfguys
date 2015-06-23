@@ -16,6 +16,13 @@ var CourseSchema = new Schema(
         web: String,
         hcp: [],
         par: [],
+        coords: {
+            latitude: [ Number ],
+            longitude: [ Number ],
+            altitude: [ Number ],
+            accuracy: [ Number ],
+            altitudeAccuracy: [ Number ]
+        },
         lat: [],
         lon: []
     },

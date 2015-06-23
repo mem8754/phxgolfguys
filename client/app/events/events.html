@@ -13,10 +13,12 @@
                 <tr>
                     <th>Date</th>
                     <th>Course</th>
+                    <th></th>
                 </tr>
                 <tr ng-repeat="teeTime in scheduledTeeTimes | orderBy:'dateTime': false">
                     <td><a href="/editTeeTime/{{ teeTime._id }}">{{ teeTime.dateTime | date: 'shortDate' }}</a></td>
-                    <td><a href="/viewCourse//{{ teeTime.courseId }}">{{ teeTime.courseTag }}</a></td>
+                    <td><a href="/viewCourse/{{ teeTime.courseId }}">{{ teeTime.courseTag }}</a></td>
+                    <td><a href="/addActiveRound/{{ teeTime._id }}">Play</a></td>
                 </tr>
             </table>
             <br/>

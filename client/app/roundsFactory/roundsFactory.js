@@ -103,6 +103,8 @@ angular.module('phoenixGolfGuysApp')
         }
 
 //========================================================================================================
+//  Requests related to rounds (rounds that have been completed / posted.
+//========================================================================================================
         
         factory.getRounds = function () {
             return $http.get('/api/rounds');
@@ -160,6 +162,44 @@ angular.module('phoenixGolfGuysApp')
             $log.log('roundsFactory addRound: ', round);
             return $http.post('/api/rounds', round);
         };
+        
+//-----------------------------------------------------------------------------------------
+// Requests related to Active Rounds (rounds being played / scored).
+//-----------------------------------------------------------------------------------------
+        
+        factory.getActiveRounds = function () {
+            return $http.get('/api/activeRounds');
+        };
+        
+        factory.getPlayerActiveRounds = function (id) {
+            return $http.get('/api/activeRounds?playerId=' + id);
+        };
+        
+        factory.getActiveRound = function (roundId) {
+            return $http.get('/api/activeRounds/' + roundId);
+        };
+ 
+        factory.removeActiveRound = function (roundId) {
+            var method = "DELETE",
+                url = '/api/activeRounds/' + roundId;
+            return $http({ method: method, url: url });
+        };
+        
+        factory.saveActiveRound = function (round) {
+            return $http.put('/api/activeRounds/' + round._id, round);
+        };
+         
+        factory.updateActiveRound = function (round) {
+            return $http.put('/api/activeRounds/' + round._id, round);
+        };
+        
+        factory.addActiveRound = function (round) {
+            return $http.post('/api/activeRounds', round);
+        };
+        
+//-----------------------------------------------------------------------------------------
+// End of Factory functions
+//-----------------------------------------------------------------------------------------
         
         return factory;
 

@@ -45,13 +45,8 @@
     <div>
 
         <div ng-show="eventsFound">
-            <br/>
             <h4>
-                <b>
-                    Upcoming Tee Times
-                </b>
-                &nbsp;({{ events.length }})&nbsp;
-                <a class="font-small" href="/events">See all</a>
+                <strong>Upcoming Tee Times</strong>&nbsp;({{ events.length }})&nbsp;<a class="font-small" href="/events">See all</a>
             </h4>
             <table class="table table-condensed table-bordered table-striped table-responsive" style="text-align: left">
                 <tr>
@@ -59,24 +54,68 @@
                     <th style="text-align:center">Time</th>
                     <th style="text-align:center">Event Type</th>
                     <th style="text-align:center">Location</th>
+                    <th style=></th>
                 </tr>
                 <tr ng-repeat="event in events">
-                    <td>
-                        {{ event.dateTime | date: 'MM/dd/yy' }}
-                    </td>
-                    <td>
-                        {{ event.dateTime | date: 'h:mm a' }}
-                    </td>
-                    <td>
-                        {{ event.eventType }}
-                    </td>
-                    <td>
-                        {{ event.location }}
-                    </td>
+                    <td>{{ event.dateTime | date: 'MM/dd/yy' }}</td>
+                    <td>{{ event.dateTime | date: 'h:mm a' }}</td>
+                    <td>{{ event.eventType }}</td>
+                    <td>{{ event.location }}</td>
+                    <td><a href="/addActiveRound/{{ event._id }}">Play</a></td>
                 </tr>
             </table>
         </div>
-        <br/>
+
+        <div>
+            <h4><strong>Active Rounds</strong>&nbsp;({{ activeRounds.length }})</h4>
+        </div>
+        
+        <div class="col-xs-12" ng-show="activeRoundsFound">
+            <table class="table table-condensed table-bordered table-striped table-responsive" style="text-align:center">
+                <tr>
+                    <th style="text-align:center">Date</th>
+                    <th style="text-align:center">Course</th>
+                    <th style="text-align:center">Tee</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                <tr ng-repeat="round in activeRounds | orderBy:'date':'true'">
+                    <td>{{ round.date | date: 'MM/dd' }}</td>
+                    <td>{{ round.courseTag }}</td>
+                    <td>{{ round.teeName }}</td>
+                    <td><a href="/playRound/{{ round._id }}">Score</a></td>
+                    <td>Post</td>
+                </tr>
+            </table>
+        </div>
+
+        <div>
+            <h4><strong>Posted Rounds</strong>&nbsp;({{ rounds.length }})&nbsp;&nbsp;
+                <span class="btn btn-default"><a href="/addRound/{{ player._id }}">Add</a></span>
+            </h4>
+        </div>
+        
+        <div class="col-lg-9" ng-show="roundsFound">
+            <table class="table table-condensed table-bordered table-striped table-responsive" style="text-align:center">
+                <tr>
+                    <th style="text-align:center">Date</th>
+                    <th style="text-align:center">Course</th>
+                    <th style="text-align:center">Score</th>
+                </tr>
+                <tr ng-repeat="round in rounds | orderBy:'date':'true'">
+                    <td>
+                        {{ round.date | date: 'MM/dd' }}
+                    </td>
+                    <td style="text-align:left">
+                        <a href="/editRound/{{ round._id }}">
+                            {{ round.courseTag }}
+                        </a>
+                    </td>
+                    <td>{{ round.grossScore[20] }}</td>
+                </tr>
+            </table>
+        </div>
+
         <div>
             <h4><b>Posted Rounds</b>&nbsp;({{ rounds.length }})&nbsp;&nbsp;
                 <span class="btn btn-default">

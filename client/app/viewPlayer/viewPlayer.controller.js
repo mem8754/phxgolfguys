@@ -20,6 +20,7 @@ angular.module('phoenixGolfGuysApp')
         $scope.rounds = [];
         $scope.eventsFound = false;
         $scope.roundsFound = false;
+        $scope.activeRoundsFound = false;
         
 // Procedure to remove a Round:
 //      1.  query the database for the Round ID to be removed.
@@ -64,7 +65,47 @@ angular.module('phoenixGolfGuysApp')
                     }
                 });
         };
-        
+
+// Duplicate for removal of Active Rounds
+    
+        $scope.removeActiveRound = function (roundId) {
+            $scope.roundId = roundId;
+            roundsFactory.getActiveRound(roundId)                                                          /*  Step 1  */
+                .error(function (data, status, headers, config) {
+                    $log.warn("Remove Round - server error reading Round info: ", status);
+                    $window.alert("Unable to access Round in database.\nRound not removed.");
+                })
+                .success(function (round) {
+                    var userResp = $window.confirm("Remove Active Round at " + round.courseTag + " on " + round.date + "?");
+                    if (userResp) {                                                                     /*  Step 2  */
+                        roundsFactory.removeActiveRound(round._id)                                            /*  Step 3  */
+                            .error(function (data, status, headers, config) {
+                                $window.alert("Server error, round not removed.");
+                            })
+                            .success(function (data) {
+                                roundsFactory.getActiveRound($scope.roundId)                                   /*  Step 4  */
+                                    .error(function (data, status, headers, config) {
+                                        if (status === 404) {
+                                            $window.alert("\nRound successfully removed.\n");
+                                            $state.go('viewPlayer', {id: $stateParams.id});
+                                        } else {
+                                            $window.alert("Round removal requested, unable to confirm.");
+                                        }
+                                    })
+                                    .success(function (round) {
+                                        if (null !== round) {
+                                            $window.alert("Server error removing Round; not removed.");
+                                        } else {
+                                            $window.alert("Round successfully removed.");
+                                            $state.go('viewPlayer', {id: $stateParams.id});
+                                        }
+                                    });
+                                
+                            });
+                    }
+                });
+        };
+
         function init() {
             playersFactory.getPlayer(playerId)
                 .success(function (player) {
@@ -72,6 +113,17 @@ angular.module('phoenixGolfGuysApp')
                 })
                 .error(function (data, status, headers, config) {
                     $log.error('Error reading player details: ', status);
+                });
+            
+            roundsFactory.getPlayerActiveRounds(playerId)
+                .error(function (data, status) {
+                
+                })
+                .success(function (playerActiveRounds) {
+                    $scope.activeRounds = playerActiveRounds;
+                    if (playerActiveRounds.length > 0) {
+                        $scope.activeRoundsFound = true;
+                    }
                 });
             
             roundsFactory.getPlayerRounds(playerId)

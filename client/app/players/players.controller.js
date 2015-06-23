@@ -46,6 +46,7 @@ angular.module('phoenixGolfGuysApp')
                     $rootScope.userAuthenticated = true;
                     if (player.length === 1) {
                         $rootScope.userAuthorized = true;
+                        $rootScope.playerId = player[0]._id;
                     } else {
                         $log.log("User not authorized (Players).");
                     }
