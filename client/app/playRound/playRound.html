@@ -24,6 +24,7 @@
     <div class="col-xs-12">
         <strong>
             <p class="huge ctr-text">{{ yardage | number: 0 }} &PlusMinus; {{ position.coords.accuracy * 1.09361 | number: 0 }} yds</strong></p>
+            <p class="huge ctr-text">{{ elevation * 1.09361 * 3 | number: 0 }} &PlusMinus; {{ position.coords.altitudeAccuracy * 1.09361 * 3 }} ft</p>
          </strong>
     </div>
     <div class="container col-xs-12">
