@@ -1,23 +1,23 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
 <div class="container">
-    <h2><strong>{{ round.courseTag }}</strong> - {{ teeName }} Tees</h2>
+    <h2><strong>{{ round.courseTag }}</strong> - {{ round.teeName }} Tees</h2>
     
     <div class="container">
         <div class="col-xs-4" ng-hide="firstHole">
-             <span class="btn btn-primary big" ng-click="prevHole()">&LT;- Hole {{ hole - 1 }}</span>   
+             <span class="btn btn-primary big" ng-click="prevHole()">&LT;- {{ hole }}</span>   
         </div>
         <div class="col-xs-4" ng-show="firstHole">
-             <span class="btn btn-primary big" ng-click="prevHole()">&LT;- Hole 18</span>   
+             <span class="btn btn-primary big" ng-click="prevHole()">&LT;- 18</span>   
         </div>
         <div class="col-xs-4">
-            <p class="huge ctr-text"><strong>{{ hole }}</strong></p>
+            <p class="huge ctr-text"><strong>{{ hole + 1 }}</strong></p>
         </div>
         <div class="col-xs-4" ng-hide="lastHole">
-             <span class="btn btn-primary big" ng-click="nextHole()">Hole {{ hole + 1 }} -&GT;</span>   
+             <span class="btn btn-primary big" ng-click="nextHole()">{{ hole + 2 }} -&GT;</span>   
         </div>
         <div class="col-xs-4" ng-show="lastHole">
-             <span class="btn btn-primary big" ng-click="nextHole()">Hole 1 -&GT;</span>   
+             <span class="btn btn-primary big" ng-click="nextHole()">1 -&GT;</span>   
         </div>
     </div>
     <div class="col-xs-12">&nbsp;</div>
@@ -31,6 +31,10 @@
             <tr>
                 <td><strong>Par:</strong></td>
                 <td>{{ par }}</td>
+            </tr>
+            <tr>
+                <td><strong>Hdcp:</strong></td>
+                <td>{{ hcp }}</td>
             </tr>
             <tr>
                 <td><strong>Length:</strong></td>
@@ -49,16 +53,16 @@
 
     <div class="container">
         <div class="col-xs-3">
-            <span class="btn btn-primary big" ng-click="setGreenCenter()">Loc</span>
+            <span class="btn btn-default huge" ng-click="setGreenCenter()">Loc</span>
         </div>
         <div class="col-xs-3">
-            <span class="btn btn-success big" ng-click="saveRound()">Save</span>            
+            <span class="btn btn-primary huge" ng-click="saveRound()">Save</span>            
         </div>
         <div class="col-xs-2">
-             <span class="btn btn-danger big" ng-click="minusOne()">-</span>   
+             <span class="btn btn-danger huge" ng-click="minusOne()">&nbsp;-&nbsp;</span>   
         </div>
         <div class="col-xs-2">
-            <span class="btn btn-success big" ng-click="plusOne()">+</span>
+            <span class="btn btn-success huge" ng-click="plusOne()">&nbsp;+&nbsp;</span>
         </div>
     </div>
 

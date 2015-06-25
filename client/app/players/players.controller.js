@@ -27,10 +27,9 @@ angular.module('phoenixGolfGuysApp')
                     })
                     .error(function (data, status, headers, config) {
                         $log.warn('Server error getting player documents: ', status);
-                        $log.warn('Data: ', data);
                     });
             } else {
-                $window.alert("\nUser is not authorized to access this web site.\n");
+                $window.alert("\nUser is not authorized to access this web site. (02.02)\n");
                 $state.go("main");
             }
         }
@@ -40,15 +39,18 @@ angular.module('phoenixGolfGuysApp')
     // Authorize this user if logged in email is found in Players.
             playersFactory.getPlayerByEmail($rootScope.user.email)
                 .error(function (data, status, headers, config) {
-                    $log.log("Error querying for authorization (Players).");
+                    $window.alert("\nUnable to authenticate user at this time.\n (02.03)");
+                    $state.go("main");
                 })
                 .success(function (player) {
                     $rootScope.userAuthenticated = true;
                     if (player.length === 1) {
                         $rootScope.userAuthorized = true;
                         $rootScope.playerId = player[0]._id;
+                        init();
                     } else {
-                        $log.log("User not authorized (Players).");
+                        $window.alert("\nUser is not authorized to access this web site. (02.01)\n");
+                        $state.go("main");
                     }
                 });
         }
@@ -56,8 +58,7 @@ angular.module('phoenixGolfGuysApp')
         
         if (!$rootScope.userAuthenticated) {
             authenticateUser();  // request user authentication with factory.
-            setTimeout(function () { init(); }, 100);  // wait 0.1 seconds for callback exec.
-        } else {
+         } else {
             init();
         }
         

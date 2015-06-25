@@ -4,7 +4,7 @@
 (function () {
     'use strict';
     var CoursesCtrl = function ($scope, $rootScope, $state, $log, $window, coursesFactory, playersFactory) {
-        $scope.cSortBy = 'name';
+        $scope.cSortBy = 'tag';
         $scope.cReverse = false;
         $scope.courses = [];
         
@@ -13,7 +13,7 @@
 // User authorization not required to view the courses.
             
             if (!$rootScope.userAuthorized) {
-                $window.alert('\nUser is not authorized to access this web site.');
+                $window.alert('\nUser is not authorized to access this web site. (01.02)');
                 $state.go("main");
             } else {
                 coursesFactory.getCourses()
@@ -22,7 +22,6 @@
                     })
                     .error(function (data, status, headers, config) {
                         $log.warn('Server error getting Courses: ', status);
-                        $log.warn('Data: ' + data);
                     });
             }
         }
@@ -39,8 +38,10 @@
                     if (player.length === 1) {
                         $rootScope.userAuthorized = true;
                         $rootScope.playerId = player[0]._id;
+                        init();
                     } else {
-                        $log.log("User not authorized (Courses).");
+                        $window.alert("\nUser is not authorized to access this web site. (01.01)\n.");
+                        $state.go("main");
                     }
                 });
         }
@@ -48,7 +49,6 @@
         
         if (!$rootScope.userAuthenticated) {
             authenticateUser();  // request user authentication with factory.
-            setTimeout(function () { init(); }, 500);  // wait 0.5 seconds for callback.
         } else {
             init();
         }

@@ -17,15 +17,13 @@ var activeRoundsSchema = new Schema(
         hcp: [],
         par: [],
         yds: [Number],
-        coords: {
-            latitude: [ Number ],
-            longitude: [ Number ],
-            altitude: [ Number ],
-            accuracy: [ Number ],
-            altitudeAccuracy: [ Number ]
-        },
-        lat: [],
-        lon: []
+        greenCenter: [{
+            latitude: Number,
+            longitude: Number,
+            altitude: Number,
+            accuracy: Number,
+            altitudeAccuracy: Number
+        }]
     },
     {
         collection: 'activeRounds'

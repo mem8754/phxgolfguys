@@ -79,6 +79,24 @@ angular.module('phoenixGolfGuysApp')
                 url = '/api/tees/' + teeId;
             return $http({ method: method, url: url });
         };
+
+//  COORDS related requests / routes
+            
+        factory.getCoords = function () {
+            return $http.get('/api/coords');
+        };
+        
+        factory.getCourseCoords = function (courseId) {
+            return $http.get('/api/coords/by/course/' + courseId);
+        };
+        
+        factory.addCoords = function (coords) {
+            return $http.post('/api/coords', coords);
+        };
+        
+        factory.updateCoords = function (coords) {
+            return $http.put('/api/coords/' + coords._id, locData);
+        };
         
         return factory;
     };

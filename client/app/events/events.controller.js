@@ -16,7 +16,7 @@ angular.module('phoenixGolfGuysApp')
             
 // Begin by getting the future Tee Times from the database.
             if (!$rootScope.userAuthorized) {
-                $window.alert("\nUser is not authorized to access this web site.\n");
+                $window.alert("\nUser is not authorized to access this site. (03.02)\n");
                 $state.go("main");
                 return;
             }
@@ -83,7 +83,7 @@ angular.module('phoenixGolfGuysApp')
         }
     
         function authenticateUser() {
-
+            
     // Authorize this user if logged in email is found in Players.
             
             playersFactory.getPlayerByEmail($rootScope.user.email)
@@ -91,19 +91,22 @@ angular.module('phoenixGolfGuysApp')
                     $log.log("Error querying for authorization (Events).");
                 })
                 .success(function (player) {
+                    $log.log("Events authenticated user at " + new Date());
                     $rootScope.userAuthenticated = true;
                     if (player.length === 1) {
+                        $log.log("Events authorized user at " + new Date());
                         $rootScope.userAuthorized = true;
                         $rootScope.playerId = player[0]._id;
+                        init();
                     } else {
-                        $log.log("User not authorized (Events).");
+                        $log.log("Events failed to authorize user at " + new Date());
+                        $window.alert("\nUser is not authorized to access this site. (03.01)\n");
                     }
                 });
         }
         
         if (!$rootScope.userAuthenticated) {
             authenticateUser();  // request user authentication with factory.
-            $timeout(function () { init(); }, 1000);  // wait 1 second for callback.
         } else {
             init();
         }

@@ -22,90 +22,6 @@ angular.module('phoenixGolfGuysApp')
         $scope.roundsFound = false;
         $scope.activeRoundsFound = false;
         
-// Procedure to remove a Round:
-//      1.  query the database for the Round ID to be removed.
-//      2.  prompt the user for confirmation on the removal.
-//      3.  call the Rounds factory to process the removal.
-//      4.  confirm that the Round has been removed by attempting to query again
-
-        $scope.removeRound = function (roundId) {
-            $scope.roundId = roundId;
-            roundsFactory.getRound(roundId)                                                          /*  Step 1  */
-                .error(function (data, status, headers, config) {
-                    $log.warn("Remove Round - server error reading Round info: ", status);
-                    $window.alert("Unable to access Round in database.\nRound not removed.");
-                })
-                .success(function (round) {
-                    var userResp = $window.confirm("Remove Round at " + round.courseTag + " on " + round.date + "?");
-                    if (userResp) {                                                                     /*  Step 2  */
-                        roundsFactory.removeRound(round._id)                                            /*  Step 3  */
-                            .error(function (data, status, headers, config) {
-                                $window.alert("Server error, round not removed.");
-                            })
-                            .success(function (data) {
-                                roundsFactory.getRound($scope.roundId)                                   /*  Step 4  */
-                                    .error(function (data, status, headers, config) {
-                                        if (status === 404) {
-                                            $window.alert("\nRound successfully removed.\n");
-                                            $state.go('viewPlayer', {id: $stateParams.id});
-                                        } else {
-                                            $window.alert("Round removal requested, unable to confirm.");
-                                        }
-                                    })
-                                    .success(function (round) {
-                                        if (null !== round) {
-                                            $window.alert("Server error removing Round; not removed.");
-                                        } else {
-                                            $window.alert("Round successfully removed.");
-                                            $state.go('viewPlayer', {id: $stateParams.id});
-                                        }
-                                    });
-                                
-                            });
-                    }
-                });
-        };
-
-// Duplicate for removal of Active Rounds
-    
-        $scope.removeActiveRound = function (roundId) {
-            $scope.roundId = roundId;
-            roundsFactory.getActiveRound(roundId)                                                          /*  Step 1  */
-                .error(function (data, status, headers, config) {
-                    $log.warn("Remove Round - server error reading Round info: ", status);
-                    $window.alert("Unable to access Round in database.\nRound not removed.");
-                })
-                .success(function (round) {
-                    var userResp = $window.confirm("Remove Active Round at " + round.courseTag + " on " + round.date + "?");
-                    if (userResp) {                                                                     /*  Step 2  */
-                        roundsFactory.removeActiveRound(round._id)                                            /*  Step 3  */
-                            .error(function (data, status, headers, config) {
-                                $window.alert("Server error, round not removed.");
-                            })
-                            .success(function (data) {
-                                roundsFactory.getActiveRound($scope.roundId)                                   /*  Step 4  */
-                                    .error(function (data, status, headers, config) {
-                                        if (status === 404) {
-                                            $window.alert("\nRound successfully removed.\n");
-                                            $state.go('viewPlayer', {id: $stateParams.id});
-                                        } else {
-                                            $window.alert("Round removal requested, unable to confirm.");
-                                        }
-                                    })
-                                    .success(function (round) {
-                                        if (null !== round) {
-                                            $window.alert("Server error removing Round; not removed.");
-                                        } else {
-                                            $window.alert("Round successfully removed.");
-                                            $state.go('viewPlayer', {id: $stateParams.id});
-                                        }
-                                    });
-                                
-                            });
-                    }
-                });
-        };
-
         function init() {
             playersFactory.getPlayer(playerId)
                 .success(function (player) {
@@ -183,6 +99,23 @@ angular.module('phoenixGolfGuysApp')
                     $log.error('Data: ', data);
                     $log.error('Status: ', status);
                 });
+        };
+    
+//==========================================================================================================
+//  Function to update the rounds database and the coords database upon posting of a round.
+//==========================================================================================================
+    
+        $scope.postRound = function (id) {
+            roundsFactory.getActiveRound(playerId)
+                .error(function (data, status) {
+                    $window.alert("\nServer error retrieving active round.\n");
+                })
+                .success(function (activeRound) {
+                    var newRound = {};
+                    
+                });
+            
+        
         };
 
     });
