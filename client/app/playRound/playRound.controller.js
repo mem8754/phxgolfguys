@@ -136,6 +136,7 @@ angular.module('phoenixGolfGuysApp')
                 
                     if (navigator.geolocation) {
                         $scope.locAvail = false;
+                        $scope.message = null;
                         navigator.geolocation.getCurrentPosition(
                             function (position) {
                                 $scope.locAvail = true;
@@ -145,9 +146,11 @@ angular.module('phoenixGolfGuysApp')
                                                               $scope.holeLat,
                                                               $scope.holeLon);
                                 $scope.accuracy = $scope.position.coords.accuracy * 1.09361;
-                           },
+                                $scope.message = null;
+                            },
                             function error(msg) {
-                                $window.alert('\nPosition info is not currently available.\n');
+                                $log.log('Geolocation error: ' + msg);
+                                $scope.message = msg;
                             },
                             {
                                 maximumAge: 1000,
@@ -184,7 +187,10 @@ angular.module('phoenixGolfGuysApp')
                         });
                     },
                     function error(msg) {
-                        $log.log("Geolocation error: ", msg);
+                        $scope.apply(function () {
+                            $log.log("Geolocation error: ", msg);
+                            $scope.message = msg;
+                        });
                     },
                     {
                         maximumAge: 1000,
