@@ -103,19 +103,37 @@ angular.module('phoenixGolfGuysApp')
     
 //==========================================================================================================
 //  Function to update the rounds database and the coords database upon posting of a round.
+//      1.  Save the round.
+//      2.  Re-calculate player handicap (updates player record).
+//      3.  Remove the active round.
 //==========================================================================================================
     
-        $scope.postRound = function (id) {
-            roundsFactory.getActiveRound(playerId)
+        $scope.postRound = function (roundId) {
+            $scope.activeRoundId = roundId;
+            roundsFactory.getActiveRound(roundId)
                 .error(function (data, status) {
-                    $window.alert("\nServer error retrieving active round.\n");
+                    $window.alert("\nServer error " + status + " reading active round.\n");
                 })
-                .success(function (activeRound) {
-                    var newRound = {};
-                    
+                .success(function (round) {
+                    if (round._id) {
+                        delete round._id;
+                    }
+                    roundsFactory.addRound(round)
+                        .error(function (data, status) {
+                            $window.alert("\nServer error " + status + " adding new round.\n");
+                        })
+                        .success(function (data) {
+                            $scope.calcHandicap();
+                            roundsFactory.removeActiveRound($scope.activeRoundId)
+                                .error(function (data, status) {
+                                    $log.log("Server error " + status + " removing Active Round.");
+                                })
+                                .success(function (data) {});
+
+                            $state.go("viewPlayer", { id: $scope.player._id });
+
+                        });
                 });
-            
-        
         };
 
     });

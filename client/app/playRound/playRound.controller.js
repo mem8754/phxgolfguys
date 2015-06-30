@@ -37,7 +37,7 @@ angular.module('phoenixGolfGuysApp')
             
             /*  Save current hole score and write the round to the database.  */
             
-            $scope.round.grossScore[$scope.hole] = $scope.score;
+            $scope.round.grossScore[$scope.hole - 1] = $scope.score;
             roundsFactory.saveActiveRound($scope.round)
                 .error(function (data, status) {})
                 .success(function (data, status) {});
@@ -53,77 +53,60 @@ angular.module('phoenixGolfGuysApp')
 //      5.  if available, assign holeElev from round.coords.altitude (convert to feet)
 //      6.  assign hole par, yds, hcp values from round.par, round.yds, round.hcp
 //      7.  calculate yardage and elevation.
-//      8.  save the round record.
+//      8.  convert accuracy from meters to yards (feet for altitude / elevation).
+//      9.  save the round record.
 //-----------------------------------------------------------------------------------------------------------
 
-        function changeHole(i) {
+        function changeHole(incr) {
         /*  Step 1: save score for current hole if we're switching to a different hole (param !== 0).  */
-            if (i !== 0) {
-                $scope.round.grossScore[$scope.hole] = $scope.score;
+            if (incr !== 0) {
+                $scope.round.grossScore[$scope.hole - 1] = $scope.score;
             }
         
         /*  Only allow a change to the next or previous hole. */
-            if (i > 0) { i = 1; }
-            if (i < 0) { i = -1; }
+            if (incr > 0) { incr = 1; }
+            if (incr < 0) { incr = -1; }
             
 
         /*  Step 2: move to the next hole, wrap at hole 18 (index 17).  */
-            $scope.hole += i;
-            if ($scope.hole > 17) {
-                $scope.hole = 0;
-            } else if ($scope.hole < 0) {
-                $scope.hole = 17;
+            $scope.hole += incr;
+            if ($scope.hole > 18) {
+                $scope.hole = 1;
+            } else if ($scope.hole < 1) {
+                $scope.hole = 18;
             }
 
-        /*  Step 2 (add'l): set flags for first hole and last hole. */
-            $scope.firstHole = false;
-            $scope.lastHole = false;
-            if ($scope.hole === 0) {
-                $scope.firstHole = true;
-            } else if ($scope.hole === 17) {
-                $scope.lastHole = true;
-            }
- 
         /*  Step 3: set score to value for new hole. */
-            $scope.score = $scope.round.grossScore[$scope.hole];
+            $scope.score = $scope.round.grossScore[$scope.hole - 1];
         
-        /*  Step 4: pick up hole latitude and longitude values for green center */
-            if ($scope.round.greenCenter[$scope.hole].latitude) {
-                $scope.holeLat = $scope.round.greenCenter[$scope.hole].latitude;
-                $scope.accuracy = $scope.round.greenCenter[$scope.hole].accuracy;
+        /*  Step 4: pick up hole latitude and longitude values for green center. Convert accuracy from meters to yards. */
+            if ($scope.round.greenCenter[$scope.hole - 1].latitude) {
+                $scope.holeLat = $scope.round.greenCenter[$scope.hole - 1].latitude;
+                $scope.accuracy = $scope.round.greenCenter[$scope.hole - 1].accuracy  * 1.09361;
             } else {
                 $scope.holeLat = 0;
                 $scope.accuracy = 999;
             }
-            if ($scope.round.greenCenter[$scope.hole].longitude) {
-                $scope.holeLon = $scope.round.greenCenter[$scope.hole].longitude;
+            if ($scope.round.greenCenter[$scope.hole - 1].longitude) {
+                $scope.holeLon = $scope.round.greenCenter[$scope.hole - 1].longitude;
             } else {
                 $scope.holeLon = 0;
             }
 
-        /*  Step 5: pick up new hole elevation value */
-            if ($scope.round.greenCenter[$scope.hole].altitude) {
-                $scope.holeElev = $scope.round.greenCenter[$scope.hole].altitude;
-                $scope.elevAccuracy = $scope.round.greenCenter[$scope.hole].altitudeAccuracy;
-            } else {
-                $scope.holeElev = 0;
-                $scope.elevAccuracy = 999;
-            }
+        /*  Step 5: Removed.  */
  
         /*  Step 6: pick up new hole par, length, and handicap values */
-            $scope.par = $scope.round.par[$scope.hole];
-            $scope.length = $scope.round.yds[$scope.hole];
-            $scope.hcp = $scope.round.hcp[$scope.hole];
+            $scope.par = $scope.round.par[$scope.hole - 1];
+            $scope.length = $scope.round.yds[$scope.hole - 1];
+            $scope.hcp = $scope.round.hcp[$scope.hole - 1];
 
         /*  Step 7: calculate yardage and elevation to hole */
             $scope.yardage = 0;
             if ($scope.locAvail) {
                 $scope.yardage = calcDistance($scope.position.coords.latitude,
-                                          $scope.position.coords.longitude,
-                                          $scope.holeLat,
-                                          $scope.holeLon);
-            
-                $scope.elevation = $scope.holeElev - $scope.position.coords.altitude;
+                                              $scope.position.coords.longitude,
+                                              $scope.holeLat,
+                                              $scope.holeLon);
             }
         
         /*  Step 8: save the round record.  */
@@ -131,6 +114,11 @@ angular.module('phoenixGolfGuysApp')
         
             return;
         }
+//-----------------------------------------------------------------------------------------------------------
+//  Initialize the controller.
+//
+//  Pull in the active round data and attempt to get current geolocation information.
+//-----------------------------------------------------------------------------------------------------------
     
         function init() {
             
@@ -141,7 +129,7 @@ angular.module('phoenixGolfGuysApp')
                 })
                 .success(function (round) {
                     $scope.round = round;
-                    $scope.hole = 0;
+                    $scope.hole = 1;
                     changeHole(0);      /*  call changeHole to initialize everything for first hole */
                  
 // initial read of geolocation data and calculation of distances.
@@ -156,17 +144,10 @@ angular.module('phoenixGolfGuysApp')
                                                               $scope.position.coords.longitude,
                                                               $scope.holeLat,
                                                               $scope.holeLon);
-                                if (position.coords.altitude) {
-                                    $scope.altAvail = true;
-                                    $scope.elevation = $scope.holeElev - $scope.position.coords.altitude;
-                                } else {
-                                    $scope.altAvail = false;
-                                    $scope.elevation = 0;
-                                }
-                            },
+                                $scope.accuracy = $scope.position.coords.accuracy * 1.09361;
+                           },
                             function error(msg) {
-                                $log.log("Geolocation error: ", msg);
-                                $window.alert('Please enable your GPS position.');
+                                $window.alert('\nPosition info is not currently available.\n');
                             },
                             {
                                 maximumAge: 1000,
@@ -174,12 +155,17 @@ angular.module('phoenixGolfGuysApp')
                                 enableHighAccuracy: true
                             }
                         );
-                    } else {
-                        $window.alert("Geolocation is not supported by your device/browser.");
                     }
                 });
         }
    
+//-----------------------------------------------------------------------------------------------------------
+//  Main routine:
+//
+//  Call the initialization routine.
+//  Set up a geolocation watch to continually update position information.
+//-----------------------------------------------------------------------------------------------------------
+
         init();
 
 // set up geolocation watching. When position changes, calculate new yardage and elevation deltas to green center.
@@ -194,14 +180,7 @@ angular.module('phoenixGolfGuysApp')
                                                         $scope.position.coords.longitude,
                                                         $scope.holeLat,
                                                         $scope.holeLon);
-                            if (position.coords.altitude) {
-                                $scope.altAvail = true;
-                                $scope.elevation = $scope.holeElev - $scope.position.coords.altitude;
-                                
-                            } else {
-                                $scope.altAvail = false;
-                                $scope.elevation = 0;
-                            }
+                            $scope.accuracy = $scope.position.coords.accuracy * 1.09361;
                         });
                     },
                     function error(msg) {
@@ -217,55 +196,56 @@ angular.module('phoenixGolfGuysApp')
         }, 2000);  // wait 2 seconds for callback exec.
     
     
-    
+//-----------------------------------------------------------------------------------------------------------
 // function to save the current score and write the round to the database upon user request.
+//-----------------------------------------------------------------------------------------------------------
     
         $scope.saveRound = function () {
-            $scope.round.grossScore[$scope.hole] = $scope.score;
+            $scope.round.grossScore[$scope.hole - 1] = $scope.score;
             saveActiveRound();
         };
     
+//-----------------------------------------------------------------------------------------------------------
 // function to move to the next hole.
+//-----------------------------------------------------------------------------------------------------------
     
         $scope.nextHole = function () {
             changeHole(+1);
         };
 
+//-----------------------------------------------------------------------------------------------------------
 // function to move to the previous hole.
+//-----------------------------------------------------------------------------------------------------------
     
         $scope.prevHole = function () {
             changeHole(-1);
         };
     
+//-----------------------------------------------------------------------------------------------------------
 // function to increment the current score by one.
+//-----------------------------------------------------------------------------------------------------------
     
         $scope.plusOne = function () {
             $scope.score += 1;
         };
     
+//-----------------------------------------------------------------------------------------------------------
 // function to decrement the current score by one; don't go below zero.
+//-----------------------------------------------------------------------------------------------------------
     
         $scope.minusOne = function () {
             if ($scope.score > 0) {
                 $scope.score -= 1;
             }
         };
-    
-// function to set the coordinates of the green center upon user selection.
-    
-        $scope.setGreenCenter = function () {
-            var userResp = $window.confirm("\nUpdate green location for hole ", $scope.hole + 1, "?\n");
-            if (userResp) {
-                $scope.round.greenCenter[$scope.hole] = $scope.position.coords;
-            }
-           
-        };
         
+//-----------------------------------------------------------------------------------------------------------
 // Procedure to remove an Active Round:
 //      1.  query the database for the Active Round ID to be removed.
 //      2.  prompt the user for confirmation on the removal.
 //      3.  call the Rounds factory to process the removal.
 //      4.  confirm that the Active Round has been removed by attempting to query again
+//-----------------------------------------------------------------------------------------------------------
 
     
         $scope.removeThisActiveRound = function () {

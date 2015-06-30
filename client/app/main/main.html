@@ -1,13 +1,5 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
-<!--
-<header class="hero-unit" id="banner">
-    <div class="container">
-        <img src="assets/images/az-golf.jpg" alt=""><br/>
-    </div>
-</header>
-  -->
-
 <div class="carousel slide" id="myCarousel">
     
     <!-- Indicators -->
@@ -29,7 +21,7 @@
         <div class="item" id="slide2">
             <div class="carousel-caption">
                 <h4>Players</h4>
-                <p>Contact information and round history for registered players.</p>
+                <p>Contact information, on-course scoring, GPS yardages, and round history for registered players.</p>
             </div><!-- end carousel caption 2 -->
         </div><!-- end item 2 -->
 
@@ -53,7 +45,7 @@
     
 </div><!-- end carousel-slide-->
 
-<div class="container">
+<div class="container" ng-show="eventsFound">
   <div class="row">
     <div>
       <h4 class="page-header"><strong>Upcoming Events:</strong></h4>
@@ -66,6 +58,6 @@
 
 <footer class="footer">
   <div class="container">
-      <p>Built using AngularJS, Angular Fullstack, MongoDB and Stormpath.</p>
+      <p>Built using NodeJS / ExpressJS, AngularJS, Angular Fullstack, MongoDB / Mongoose, Bootstrap, and Stormpath.</p>
   </div>
 </footer>

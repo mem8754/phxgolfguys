@@ -4,6 +4,7 @@
 angular.module('phoenixGolfGuysApp').controller('MainCtrl', function ($scope, $http) {
     'use strict';
     $scope.upcomingEvents = [];
+    $scope.eventsFound = false;
 
 //    $http.get('/api/things').success(function(awesomeThings) {
 //      $scope.awesomeThings = awesomeThings;
@@ -14,6 +15,7 @@ angular.module('phoenixGolfGuysApp').controller('MainCtrl', function ($scope, $h
         $http.get('/api/courses').success(function (courses) {
             var i, j;
             for (i = 0; i < $scope.upcomingEvents.length; i++) {
+                $scope.eventsFound = true;
                 for (j = 0; j < courses.length; j++) {
                     if ($scope.upcomingEvents[i].courseId === courses[j]._id) {
                         $scope.upcomingEvents[i].loc = courses[j].tag;

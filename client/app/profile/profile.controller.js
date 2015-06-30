@@ -12,7 +12,7 @@ angular.module('phoenixGolfGuysApp')
                     $log.warn('Server error ' + status + ' getting Player data.');
                 })
                 .success(function (player) {
-                    $scope.player = player;
+                    $scope.player = player[0];
                 });
         }
         

@@ -50,18 +50,20 @@
             </div>
 
             <div class="col-xs-12">
-                <table class="table table-condensed table-bordered table-striped table-responsive" style="text-align:center">
+                <table class="table table-condensed table-bordered table-striped table-responsive">
                     <tr>
-                        <th style="text-align:center">Date</th>
-                        <th style="text-align:center">Course</th>
-                        <th></th>
-                        <th></th>
+                        <th class="ctr-text">Date</th>
+                        <th class="ctr-text">Course</th>
                     </tr>
                     <tr ng-repeat="round in activeRounds | orderBy:'date':'true'">
                         <td>{{ round.date | date: 'MM/dd' }}</td>
                         <td>{{ round.courseTag }}</td>
                         <td><a href="/playRound/{{ round._id }}">Score</a></td>
-                        <td>Post</td>
+                        <td>
+                            <font color="#428bca">
+                                <span class="pointer" ng-click="postRound(round._id)">Post</span>
+                            </font>
+                        </td>
                     </tr>
                 </table>
             </div>
@@ -69,7 +71,7 @@
 
         <div ng-show="eventsFound">
             <h4>
-                <strong>Upcoming Tee Times</strong>&nbsp;({{ events.length }})&nbsp;<a class="font-small" href="/events">See all</a>
+                <strong>Upcoming Tee Times</strong>&nbsp;({{ events.length }})&nbsp;<a class="btn btn-default font-small" href="/events"><font color="#428bca">See all</font></a>
             </h4>
             <table class="table table-condensed table-bordered table-striped table-responsive" style="text-align: left">
                 <tr>
@@ -77,7 +79,6 @@
                     <th class="ctr-text">Time</th>
                     <th style="text-align:center">Event Type</th>
                     <th style="text-align:center">Location</th>
-                    <th></th>
                 </tr>
                 <tr ng-repeat="event in events">
                     <td>{{ event.dateTime | date: 'MM/dd/yy' }}</td>

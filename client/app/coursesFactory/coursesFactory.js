@@ -95,9 +95,15 @@ angular.module('phoenixGolfGuysApp')
         };
         
         factory.updateCoords = function (coords) {
-            return $http.put('/api/coords/' + coords._id, locData);
+            return $http.put('/api/coords/' + coords._id, coords);
         };
         
+        factory.removeCoords = function (coordsId) {
+            var method = "DELETE",
+                url = '/api/coords/' + coordsId;
+            return $http({ method: method, url: url });
+        };
+
         return factory;
     };
     

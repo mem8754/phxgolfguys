@@ -10,10 +10,7 @@ var CoordSchema = new Schema(
         courseTag: String,
         greenCenter: [{
             latitude: Number,
-            longitude: Number,
-            altitude: Number,
-            accuracy: Number,
-            altitudeAccuracy: Number
+            longitude: Number
         }]
     },
     {

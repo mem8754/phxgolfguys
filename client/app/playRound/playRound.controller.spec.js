@@ -1,6 +1,8 @@
-'use strict';
+/*jslint node: true, nomen: true */
+/*global angular, describe, beforeEach, inject, it, expect */
 
-describe('Controller: ProfileCtrl', function () {
+describe('Controller: PlayRoundCtrl', function () {
+    'use strict';
 
   // load the controller's module
     beforeEach(module('phoenixGolfGuysApp'));

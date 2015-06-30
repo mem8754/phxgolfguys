@@ -10,7 +10,6 @@ var roundsSchema = new Schema(
         playerId: Schema.Types.ObjectId,
         teeId: Schema.Types.ObjectId,
         courseTag: String,
-        teeIndex: Number,
         teeName: String,
         notes: String,
         hdcpIndex: Number,

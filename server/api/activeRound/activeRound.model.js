@@ -10,19 +10,14 @@ var activeRoundsSchema = new Schema(
         playerId: Schema.Types.ObjectId,
         teeId: Schema.Types.ObjectId,
         courseTag: String,
-        coordsUpdated: Boolean,
         teeName: String,
-        notes: String,
         grossScore: [Number],
         hcp: [],
         par: [],
         yds: [Number],
         greenCenter: [{
             latitude: Number,
-            longitude: Number,
-            altitude: Number,
-            accuracy: Number,
-            altitudeAccuracy: Number
+            longitude: Number
         }]
     },
     {
