@@ -3,13 +3,7 @@
 <div class="container">
     <div  class="col-lg-6">
         <div class="row">
-            <h3><b>Player Profile</b>&nbsp;
-                <font color="00ff00">
-                    <a href="/editPlayer/{{ player._id }}">
-                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                    </a>
-                </font>
-            </h3>
+            <h3>Player Profile</h3>
         </div>
     </div>
     <div class="well">
@@ -28,7 +22,10 @@
             </tr>
             <tr>
                 <td><b>Handicap:</b></td>
-                <td>{{ player.hdcp }} / {{ hdcpIndex }} &nbsp;&nbsp;
+                <td>
+                    <span ng-hide="hdcpIndex">{{ player.hdcp | number: 1 }}</span>
+                    <span ng-show="hdcpIndex">{{ hdcpIndex | number: 1 }}</span> 
+                    &nbsp;&nbsp;
                     <font color="0000ff">
                     <span class="glyphicon glyphicon-refresh pointer"
                           aria-hidden="true"
@@ -57,7 +54,7 @@
                     </tr>
                     <tr ng-repeat="round in activeRounds | orderBy:'date':'true'">
                         <td>{{ round.date | date: 'MM/dd' }}</td>
-                        <td>{{ round.courseTag }}</td>
+                        <td>{{ round.courseTag }} - {{ round.teeName }}</td>
                         <td><a href="/playRound/{{ round._id }}">Score</a></td>
                         <td>
                             <font color="#428bca">

@@ -80,14 +80,14 @@ angular.module('phoenixGolfGuysApp')
             $scope.score = $scope.round.grossScore[$scope.hole - 1];
         
         /*  Step 4: pick up hole latitude and longitude values for green center. Convert accuracy from meters to yards. */
-            if ($scope.round.greenCenter[$scope.hole - 1].latitude) {
+            if ($scope.round.greenCenter[$scope.hole - 1]) {
                 $scope.holeLat = $scope.round.greenCenter[$scope.hole - 1].latitude;
                 $scope.accuracy = $scope.round.greenCenter[$scope.hole - 1].accuracy  * 1.09361;
             } else {
                 $scope.holeLat = 0;
                 $scope.accuracy = 999;
             }
-            if ($scope.round.greenCenter[$scope.hole - 1].longitude) {
+            if ($scope.round.greenCenter[$scope.hole - 1]) {
                 $scope.holeLon = $scope.round.greenCenter[$scope.hole - 1].longitude;
             } else {
                 $scope.holeLon = 0;
@@ -129,6 +129,7 @@ angular.module('phoenixGolfGuysApp')
                 })
                 .success(function (round) {
                     $scope.round = round;
+                    $scope.playerId = round.playerId;
                     $scope.hole = 1;
                     changeHole(0);      /*  call changeHole to initialize everything for first hole */
                  
@@ -187,7 +188,7 @@ angular.module('phoenixGolfGuysApp')
                         });
                     },
                     function error(msg) {
-                        $scope.apply(function () {
+                        $scope.$apply(function () {
                             $log.log("Geolocation error: ", msg);
                             $scope.message = msg;
                         });
@@ -267,7 +268,7 @@ angular.module('phoenixGolfGuysApp')
                         .success(function (data) {
                             $window.alert("\nRound successfully removed.\n");
                             $scope.round = {};
-                            $state.go('main');
+                            $state.go('viewPlayer', {id: $scope.playerId});
                         });
                 }
             }

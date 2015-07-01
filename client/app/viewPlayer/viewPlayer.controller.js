@@ -130,7 +130,7 @@ angular.module('phoenixGolfGuysApp')
                                 })
                                 .success(function (data) {});
 
-                            $state.go("viewPlayer", { id: $scope.player._id });
+                            $state.go("viewPlayer", { id: $stateParams.id });
 
                         });
                 });

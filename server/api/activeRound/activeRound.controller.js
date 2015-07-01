@@ -53,9 +53,10 @@ exports.update = function (req, res) {
 // Deletes a round from the DB.
 exports.destroy = function (req, res) {
     ActiveRound.findById(req.params.id, function (err, round) {
+        console.log("Delete active round id: " + req.params.id);
         if (err) { return handleError(res, err); }
         if (!round) { return res.send(404); }
-        ActiveRound.remove(function (err) {
+        ActiveRound.remove({ _id: req.params.id }, function (err) {
             if (err) { return handleError(res, err); }
             return res.send(204);
         });
