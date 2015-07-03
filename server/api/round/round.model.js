@@ -17,6 +17,7 @@ var roundsSchema = new Schema(
         adjGrossScore: [Number],
         crsHdcp: Number,
         netScore: Number,
+        nineHole: Boolean,
         hdcpDiff: Number
     },
     {

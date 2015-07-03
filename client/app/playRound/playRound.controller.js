@@ -207,9 +207,15 @@ angular.module('phoenixGolfGuysApp')
 // function to save the current score and write the round to the database upon user request.
 //-----------------------------------------------------------------------------------------------------------
     
-        $scope.saveRound = function () {
+        $scope.endRound = function () {
+            var userResp = $window.confirm("\nFinish current round?\n");
+            if (!userResp) {
+                return;
+            }
+            
             $scope.round.grossScore[$scope.hole - 1] = $scope.score;
             saveActiveRound();
+            $state.go("viewPlayer", { id: $scope.playerId });
         };
     
 //-----------------------------------------------------------------------------------------------------------
@@ -258,19 +264,14 @@ angular.module('phoenixGolfGuysApp')
         $scope.removeThisActiveRound = function () {
             var userResp = $window.confirm("\nDelete current round?\n");
             if (userResp) {
-                userResp = $window.confirm("\nWARNING: All updated round data will be lost!!!\n" +
-                                           "Select 'OK' to delete, or 'Cancel' to continue with this round.\n");
-                if (userResp) {
-                    roundsFactory.removeActiveRound($scope.round._id)
-                        .error(function (data, status, headers, config) {
-                            $window.alert("Server error, round not removed.");
-                        })
-                        .success(function (data) {
-                            $window.alert("\nRound successfully removed.\n");
-                            $scope.round = {};
-                            $state.go('viewPlayer', {id: $scope.playerId});
-                        });
-                }
+                roundsFactory.removeActiveRound($scope.round._id)
+                    .error(function (data, status, headers, config) {
+                        $window.alert("Server error, round not removed.");
+                    })
+                    .success(function (data) {
+                        $scope.round = {};
+                        $state.go('viewPlayer', {id: $scope.playerId});
+                    });
             }
         };
 

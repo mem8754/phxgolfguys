@@ -39,7 +39,7 @@
             </tr>
         </table>
     </div>
-    <div>
+    <div class="container">
 
         <div ng-show="activeRoundsFound">
             <div>
@@ -52,7 +52,7 @@
                         <th class="ctr-text">Date</th>
                         <th class="ctr-text">Course</th>
                     </tr>
-                    <tr ng-repeat="round in activeRounds | orderBy:'date':'true'">
+                    <tr ng-repeat="round in activeRounds | orderBy:'date':false">
                         <td>{{ round.date | date: 'MM/dd' }}</td>
                         <td>{{ round.courseTag }} - {{ round.teeName }}</td>
                         <td><a href="/playRound/{{ round._id }}">Score</a></td>

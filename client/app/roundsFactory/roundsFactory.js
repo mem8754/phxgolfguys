@@ -138,8 +138,6 @@ angular.module('phoenixGolfGuysApp')
 
         factory.updateRound = function (round, hdcp) {
             var scores = {};
-            $log.log('roundsFactory updateRound: ', round);
-            $log.log('Hdcp Data: ', hdcp);
             
             round.crsHdcp = Math.round(round.hdcpIndex * hdcp.slopeRating / 113.0);
             
