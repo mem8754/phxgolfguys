@@ -151,8 +151,6 @@ angular.module('phoenixGolfGuysApp')
             
             round.netScore = scores.grossScore[20] - round.crsHdcp;
             
-            $log.log('Updated Round: ', round);
-            
             return $http.put('/api/rounds/' + round._id, round);
         };
         

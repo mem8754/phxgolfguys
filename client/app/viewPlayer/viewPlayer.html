@@ -99,6 +99,7 @@
                     <th style="text-align:center">Date</th>
                     <th style="text-align:center">Course</th>
                     <th style="text-align:center">Score</th>
+                    <th class="ctr-text">#</th>
                 </tr>
                 <tr ng-repeat="round in rounds | orderBy:'date':'true'">
                     <td>
@@ -110,6 +111,8 @@
                         </a>
                     </td>
                     <td>{{ round.grossScore[20] }}</td>
+                    <td class="ctr-text" ng-show="round.nineHole">9</td>
+                    <td class="ctr-text" ng-hide="round.nineHole">18</td>
                 </tr>
             </table>
         </div>

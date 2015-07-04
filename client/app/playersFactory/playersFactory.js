@@ -56,7 +56,7 @@ angular.module('phoenixGolfGuysApp')
     //  Step 1.  Determine the handicap differentials to use.
     //==========================================================================================
             for (rd = 0; rd < rounds.length; rd += 1) {
-                if (undefined !== rounds[rd].netScore) {  /* net score calculated - round posted */
+                if (undefined !== rounds[rd].netScore && !rounds[rd].nineHole) {  /* full round posted */
                     hcpDiffs[i] = rounds[rd].hdcpDiff;
                     i += 1;
                 }
