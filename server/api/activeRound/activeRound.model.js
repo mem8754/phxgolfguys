@@ -18,7 +18,28 @@ var activeRoundsSchema = new Schema(
         greenCenter: [{
             latitude: Number,
             longitude: Number
-        }]
+        }],
+        greenFront: [{
+            latitude: Number,
+            longitude: Number
+        }],
+        greenBack: [{
+            latitude: Number,
+            longitude: Number
+        }],
+        hazards: [
+            {
+                name: [String],
+                reach: [{
+                    latitude: Number,
+                    longitude: Number
+                }],
+                carry: [{
+                    latitude: Number,
+                    longitude: Number
+                }]
+            }
+        ]
     },
     {
         collection: 'activeRounds'

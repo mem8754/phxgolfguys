@@ -15,9 +15,18 @@
         </div>
     </div>
     <div class="col-xs-12">&nbsp;</div>
-    <div class="container">
-        <div class="col-xs-12 big" ng-show="locAvail">
-            <p class="huge ctr-text"><strong>{{ yardage | number: 0 }} (&plusmn; {{ accuracy | number: 0 }}) yd</strong></p>
+    <div class="container" ng-show="locAvail">
+        <div class="col-xs-3 big">
+            <p class="left-text">{{ frontYardage | number: 0 }}</p>
+        </div>
+        <div class="col-xs-6 big">
+            <p class="huge ctr-text"><strong>{{ centerYardage | number: 0 }}</strong></p>
+        </div>
+        <div class="col-xs-3 big"
+            <p class="right-text">{{ backYardage | number: 0 }}</p>
+        </div>
+        <div class="col-xs-12 big">
+            <p class="ctr-text">&plusmn; {{ accuracy | number: 0 }}</p>
         </div>
     </div>
     <div class="col-xs-12" ng-hide="locAvail">

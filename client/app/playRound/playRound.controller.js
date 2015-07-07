@@ -28,6 +28,35 @@ angular.module('phoenixGolfGuysApp')
             
             return d;
         }
+
+//-----------------------------------------------------------------------------------------------------------
+//  function to calculate the distances to present to the user: Green Center, Front, Back, and Hazards.
+//-----------------------------------------------------------------------------------------------------------
+    
+        function calculateYardages() {
+            var i = 0;
+            $scope.centerYardage = 0;
+            $scope.frontYardage = 0;
+            $scope.backYardage = 0;
+            
+            if (!$scope.locAvail) {
+                return;
+            }
+            
+            $scope.centerYardage = calcDistance($scope.position.coords.latitude,
+                                                $scope.position.coords.longitude,
+                                                $scope.centerLat,
+                                                $scope.centerLon);
+            $scope.frontYardage = calcDistance($scope.position.coords.latitude,
+                                               $scope.position.coords.longitude,
+                                               $scope.frontLat,
+                                               $scope.frontLon);
+            $scope.backYardage = calcDistance($scope.position.coords.latitude,
+                                              $scope.position.coords.longitude,
+                                              $scope.backLat,
+                                              $scope.backLon);
+            
+        }
     
 //-----------------------------------------------------------------------------------------------------------
 // function to save the current round back to the database upon user request.
@@ -76,39 +105,49 @@ angular.module('phoenixGolfGuysApp')
                 $scope.hole = 18;
             }
 
-        /*  Step 3: set score to value for new hole. */
-            $scope.score = $scope.round.grossScore[$scope.hole - 1];
+        /*  Step 3: set score to value for new hole, if defined, otherwise set score to null. */
+            $scope.score = null;
+            if (undefined !== $scope.round.grossScore[$scope.hole - 1]) {
+                $scope.score = $scope.round.grossScore[$scope.hole - 1];
+            }
         
         /*  Step 4: pick up hole latitude and longitude values for green center. Convert accuracy from meters to yards. */
             if ($scope.round.greenCenter[$scope.hole - 1]) {
-                $scope.holeLat = $scope.round.greenCenter[$scope.hole - 1].latitude;
-                $scope.accuracy = $scope.round.greenCenter[$scope.hole - 1].accuracy  * 1.09361;
+                $scope.centerLat = $scope.round.greenCenter[$scope.hole - 1].latitude;
+                $scope.centerLon = $scope.round.greenCenter[$scope.hole - 1].longitude;
             } else {
-                $scope.holeLat = 0;
-                $scope.accuracy = 999;
-            }
-            if ($scope.round.greenCenter[$scope.hole - 1]) {
-                $scope.holeLon = $scope.round.greenCenter[$scope.hole - 1].longitude;
-            } else {
-                $scope.holeLon = 0;
+                $scope.centerLat = 0;
+                $scope.centerLon = 0;
             }
 
-        /*  Step 5: Removed.  */
+        /*  Step 4a: pick up hole latitude and longitude values for green front.  */
+            if ($scope.round.greenFront[$scope.hole - 1]) {
+                $scope.frontLat = $scope.round.greenFront[$scope.hole - 1].latitude;
+                $scope.frontLon = $scope.round.greenFront[$scope.hole - 1].longitude;
+            } else {
+                $scope.frontLat = null;
+                $scope.frontLon = null;
+            }
+
+        /*  Step 4: pick up hole latitude and longitude values for green center. Convert accuracy from meters to yards. */
+            if ($scope.round.greenBack[$scope.hole - 1]) {
+                $scope.backLat = $scope.round.greenBack[$scope.hole - 1].latitude;
+                $scope.backLon = $scope.round.greenBack[$scope.hole - 1].longitude;
+            } else {
+                $scope.backLat = null;
+                $scope.backLon = null;
+            }
+
+        /*  Step 5: FUTURE: Load locations of hazards.  */
  
         /*  Step 6: pick up new hole par, length, and handicap values */
             $scope.par = $scope.round.par[$scope.hole - 1];
             $scope.length = $scope.round.yds[$scope.hole - 1];
             $scope.hcp = $scope.round.hcp[$scope.hole - 1];
 
-        /*  Step 7: calculate yardage and elevation to hole */
-            $scope.yardage = 0;
-            if ($scope.locAvail) {
-                $scope.yardage = calcDistance($scope.position.coords.latitude,
-                                              $scope.position.coords.longitude,
-                                              $scope.holeLat,
-                                              $scope.holeLon);
-            }
-        
+        /*  Step 7: calculate yardage to green front/center/back and to hazards (reach/clear) */
+            calculateYardages();
+            
         /*  Step 8: save the round record.  */
             saveActiveRound();
         
@@ -142,10 +181,7 @@ angular.module('phoenixGolfGuysApp')
                             function (position) {
                                 $scope.locAvail = true;
                                 $scope.position = position;
-                                $scope.yardage = calcDistance($scope.position.coords.latitude,
-                                                              $scope.position.coords.longitude,
-                                                              $scope.holeLat,
-                                                              $scope.holeLon);
+                                calculateYardages();
                                 $scope.accuracy = $scope.position.coords.accuracy * 1.09361;
                                 $scope.message = null;
                             },
@@ -180,10 +216,7 @@ angular.module('phoenixGolfGuysApp')
                     function (position) {
                         $scope.$apply(function () {
                             $scope.position = position;
-                            $scope.yardage = calcDistance($scope.position.coords.latitude,
-                                                        $scope.position.coords.longitude,
-                                                        $scope.holeLat,
-                                                        $scope.holeLon);
+                            calculateYardages();
                             $scope.accuracy = $scope.position.coords.accuracy * 1.09361;
                         });
                     },
@@ -239,7 +272,11 @@ angular.module('phoenixGolfGuysApp')
 //-----------------------------------------------------------------------------------------------------------
     
         $scope.plusOne = function () {
-            $scope.score += 1;
+            if ($scope.score === null) {
+                $scope.score = $scope.round.par[$scope.hole - 1];
+            } else {
+                $scope.score += 1;
+            }
         };
     
 //-----------------------------------------------------------------------------------------------------------
@@ -247,8 +284,12 @@ angular.module('phoenixGolfGuysApp')
 //-----------------------------------------------------------------------------------------------------------
     
         $scope.minusOne = function () {
-            if ($scope.score > 0) {
-                $scope.score -= 1;
+            if ($scope.score === null) {
+                $scope.score = $scope.round.par[$scope.hole - 1];
+            } else {
+                if ($scope.score > 0) {
+                    $scope.score -= 1;
+                }
             }
         };
         

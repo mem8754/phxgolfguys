@@ -55,9 +55,6 @@ angular.module('phoenixGolfGuysApp')
                             $scope.round.courseTag = course.tag;
                             $scope.round.par = course.par;
                             $scope.round.grossScore = [];
-                            for (i = 0; i < 18; i++) {
-                                $scope.round.grossScore[i] = course.par[i];
-                            }
                             $scope.round.hcp = course.hcp;
                         
                         });
@@ -70,6 +67,9 @@ angular.module('phoenixGolfGuysApp')
                         })
                         .success(function (coords) {
                             $scope.round.greenCenter = coords[0].greenCenter;
+                            $scope.round.greenFront = coords[0].greenFront;
+                            $scope.round.greenBack = coords[0].greenBack;
+                            $scope.round.hazards = coords[0].hazards;
                         });
                 
                 //  get tees for this course to allow user selection via the DOM.
