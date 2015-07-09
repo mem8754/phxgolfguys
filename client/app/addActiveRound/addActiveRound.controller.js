@@ -34,15 +34,15 @@ angular.module('phoenixGolfGuysApp')
                         }
                     }
                     if (!$scope.round.playerId) {
-                        userResp = $window.confirm("\nYou are not scheduled for this tee time.\n" +
-                                                   "Are you sure you want to play this round?\n");
+                        userResp = $window.confirm("\nplayer not found on this teeTime, playerId=" + $rootScope.playerId + "\n" +
+                                                   "Are you sure you want to add this active round?\n");
                         if (!userResp) {
-                            $state.go("viewPlayer", {id: $rootScope.playerId});
+                            $state.go("viewPlayer", { id: $rootScope.playerId });
                         } else {
                             $scope.round.playerId = $rootScope.playerId;
                         }
-                        
                     }
+                
                     $scope.round.date = teeTime.dateTime;
                     $scope.round.courseId = teeTime.courseId;
                  
@@ -66,10 +66,7 @@ angular.module('phoenixGolfGuysApp')
                             $log.log('Server error ' + status + ' retrieving Course Coords for new Active Round.');
                         })
                         .success(function (coords) {
-                            $scope.round.greenCenter = coords[0].greenCenter;
-                            $scope.round.greenFront = coords[0].greenFront;
-                            $scope.round.greenBack = coords[0].greenBack;
-                            $scope.round.hazards = coords[0].hazards;
+                            $scope.round.hole = coords[0].hole;
                         });
                 
                 //  get tees for this course to allow user selection via the DOM.

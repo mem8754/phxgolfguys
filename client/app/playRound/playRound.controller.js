@@ -1,4 +1,4 @@
-/*jslint node: true, nomen: true  */
+/*jslint node: true, nomen: true, plusplus: true  */
 /*global angular  */
 
 'use strict';
@@ -6,7 +6,26 @@
 angular.module('phoenixGolfGuysApp')
     .controller('PlayRoundCtrl', function ($scope, $state, $stateParams, $window, $log, $timeout, coursesFactory, roundsFactory) {
         var roundId = $stateParams.id;
-        
+
+        function clone(obj) {
+            var key = null,
+                temp = null;
+            if (obj === null || typeof (obj) !== 'object' || obj.hasOwnProperty('isActiveClone')) {
+                return obj;
+            }
+
+            temp = obj.constructor(); // changed
+
+            for (key in obj) {
+                if (Object.prototype.hasOwnProperty.call(obj, key)) {
+                    obj.isActiveClone = null;
+                    temp[key] = clone(obj[key]);
+                    delete obj.isActiveClone;
+                }
+            }
+
+            return temp;
+        }
 //-----------------------------------------------------------------------------------------------------------
 // function to calculate the distance between two coordinate points (lat/lon pairs).
 //-----------------------------------------------------------------------------------------------------------
@@ -47,15 +66,19 @@ angular.module('phoenixGolfGuysApp')
                                                 $scope.position.coords.longitude,
                                                 $scope.centerLat,
                                                 $scope.centerLon);
-            $scope.frontYardage = calcDistance($scope.position.coords.latitude,
-                                               $scope.position.coords.longitude,
-                                               $scope.frontLat,
-                                               $scope.frontLon);
-            $scope.backYardage = calcDistance($scope.position.coords.latitude,
-                                              $scope.position.coords.longitude,
-                                              $scope.backLat,
-                                              $scope.backLon);
             
+            /*  Calculate distance to defined hole hazards.  */
+            
+            for (i = 0; i < $scope.hazards.length; i++) {
+                $scope.hazards[i].reach = calcDistance($scope.position.coords.latitude,
+                                                       $scope.position.coords.longitude,
+                                                       $scope.hazards[i].loc[0],
+                                                       $scope.hazards[i].loc[1]);
+                $scope.hazards[i].carry = calcDistance($scope.position.coords.latitude,
+                                                       $scope.position.coords.longitude,
+                                                       $scope.hazards[i].loc[2],
+                                                       $scope.hazards[i].loc[3]);
+            }
         }
     
 //-----------------------------------------------------------------------------------------------------------
@@ -87,6 +110,10 @@ angular.module('phoenixGolfGuysApp')
 //-----------------------------------------------------------------------------------------------------------
 
         function changeHole(incr) {
+            var i = 1,
+                j = 0,
+                hazard = {};
+            
         /*  Step 1: save score for current hole if we're switching to a different hole (param !== 0).  */
             if (incr !== 0) {
                 $scope.round.grossScore[$scope.hole - 1] = $scope.score;
@@ -112,34 +139,21 @@ angular.module('phoenixGolfGuysApp')
             }
         
         /*  Step 4: pick up hole latitude and longitude values for green center. Convert accuracy from meters to yards. */
-            if ($scope.round.greenCenter[$scope.hole - 1]) {
-                $scope.centerLat = $scope.round.greenCenter[$scope.hole - 1].latitude;
-                $scope.centerLon = $scope.round.greenCenter[$scope.hole - 1].longitude;
+            if ($scope.round.hole[$scope.hole - 1].flag) {
+                $scope.centerLat = $scope.round.hole[$scope.hole - 1].flag[0];
+                $scope.centerLon = $scope.round.hole[$scope.hole - 1].flag[1];
             } else {
                 $scope.centerLat = 0;
                 $scope.centerLon = 0;
             }
 
-        /*  Step 4a: pick up hole latitude and longitude values for green front.  */
-            if ($scope.round.greenFront[$scope.hole - 1]) {
-                $scope.frontLat = $scope.round.greenFront[$scope.hole - 1].latitude;
-                $scope.frontLon = $scope.round.greenFront[$scope.hole - 1].longitude;
-            } else {
-                $scope.frontLat = null;
-                $scope.frontLon = null;
+        /*  Step 5: Load locations of hazards. First element (index 0 is the green location), will be pulled off array in next step. */
+            $scope.hazards = [];
+            for (i = 0; i < $scope.round.hole[$scope.hole - 1].locs.length; i++) {
+                hazard = clone($scope.round.hole[$scope.hole - 1].locs[i]);
+                $scope.hazards.push(hazard);
             }
 
-        /*  Step 4: pick up hole latitude and longitude values for green center. Convert accuracy from meters to yards. */
-            if ($scope.round.greenBack[$scope.hole - 1]) {
-                $scope.backLat = $scope.round.greenBack[$scope.hole - 1].latitude;
-                $scope.backLon = $scope.round.greenBack[$scope.hole - 1].longitude;
-            } else {
-                $scope.backLat = null;
-                $scope.backLon = null;
-            }
-
-        /*  Step 5: FUTURE: Load locations of hazards.  */
- 
         /*  Step 6: pick up new hole par, length, and handicap values */
             $scope.par = $scope.round.par[$scope.hole - 1];
             $scope.length = $scope.round.yds[$scope.hole - 1];
@@ -160,7 +174,7 @@ angular.module('phoenixGolfGuysApp')
 //-----------------------------------------------------------------------------------------------------------
     
         function init() {
-            
+            $scope.showHazards = false;
             $scope.locAvail = false;
             roundsFactory.getActiveRound(roundId)
                 .error(function (data, status) {
@@ -293,6 +307,13 @@ angular.module('phoenixGolfGuysApp')
             }
         };
         
+//-----------------------------------------------------------------------------------------------------------
+// Procedure to toggle the display of the hazards on the DOM.
+//-----------------------------------------------------------------------------------------------------------
+        $scope.toggleHazards = function () {
+            $scope.showHazards = !$scope.showHazards;
+        };
+    
 //-----------------------------------------------------------------------------------------------------------
 // Procedure to remove an Active Round:
 //      1.  query the database for the Active Round ID to be removed.

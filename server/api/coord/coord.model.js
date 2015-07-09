@@ -8,10 +8,17 @@ var CoordSchema = new Schema(
     {
         courseId: Schema.Types.ObjectId,
         courseTag: String,
-        greenCenter: [{
-            latitude: Number,
-            longitude: Number
-        }]
+        hole: [
+            {
+                flag: [Number],
+                locs: [
+                    {
+                        name: String,
+                        loc: [Number]
+                    }
+                ]
+            }
+        ]
     },
     {
         collection: 'coords'

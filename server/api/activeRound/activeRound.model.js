@@ -15,29 +15,15 @@ var activeRoundsSchema = new Schema(
         hcp: [],
         par: [],
         yds: [Number],
-        greenCenter: [{
-            latitude: Number,
-            longitude: Number
-        }],
-        greenFront: [{
-            latitude: Number,
-            longitude: Number
-        }],
-        greenBack: [{
-            latitude: Number,
-            longitude: Number
-        }],
-        hazards: [
+        hole: [
             {
-                name: [String],
-                reach: [{
-                    latitude: Number,
-                    longitude: Number
-                }],
-                carry: [{
-                    latitude: Number,
-                    longitude: Number
-                }]
+                flag: [Number],
+                locs: [
+                    {
+                        name: String,
+                        loc: [Number]
+                    }
+                ]
             }
         ]
     },
