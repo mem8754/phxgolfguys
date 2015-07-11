@@ -4,6 +4,10 @@
         font-size: 4em !important;   
     }
     */
+    .tiny {
+        font-size: 0.85em;    
+    }
+
     .big {
         font-size: 1.5em;    
     }

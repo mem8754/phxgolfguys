@@ -2,7 +2,14 @@
 
 <div class="container">
     <h2 class="ctr-text"><strong>{{ round.courseTag }}</strong> ({{ round.teeName }})</h2>
-    <div class="col-xs-12">&nbsp;</div>    
+    <div class="container">
+        <div class="col-xs-6">
+            <p class="ctr-text big"><strong>Hole</strong></p>
+        </div>
+        <div class="col-xs-6">
+            <p class="ctr-text big"><strong>Strokes</strong></p>
+        </div>
+    </div>
     <div class="container">
         <div class="col-xs-2">
              <span class="btn btn-primary big" ng-click="prevHole()">&lt;</span>
@@ -23,13 +30,11 @@
              <span class="btn btn-success big" ng-click="plusOne()">&#43;</span> 
         </div>
     </div>
-    <div class="container">
-        <div class="col-xs-6">
-            <p class="ctr-text big"><strong>Hole</strong></p>
-        </div>
-        <div class="col-xs-6">
-            <p class="ctr-text big"><strong>Score</strong></p>
-        </div>
+    <div class="col-xs-6">
+        <p class="huge ctr-text"><strong>Par {{ par }} {{ length }} #{{ hcp }}</strong></p>
+    </div>
+    <div class="col xs-6">
+        <p class="huge ctr-text"><strong>Score: {{ roundScore }}</strong></p>
     </div>
     <div class="container" ng-show="locAvail">
         <div class="col-xs-12 big">
@@ -49,7 +54,7 @@
         <div class="col-xs-3">&nbsp;</div>
 
         <div class="col-xs-12" ng-show="showHazards">
-            <table class="table table-striped table-responsive">
+            <table class="table table-striped table-responsive big">
                 <thead>
                     <tr>
                         <th>Hazard</th>
@@ -59,9 +64,9 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="hazard in hazards">
-                        <td>{{ hazard.name}}</td>
-                        <td>{{ hazard.reach | number: 0 }}</td>
-                        <td>{{ hazard.carry | number: 0 }}</td>
+                        <td big>{{ hazard.name}}</td>
+                        <td big>{{ hazard.reach | number: 0 }}</td>
+                        <td big>{{ hazard.carry | number: 0 }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -72,25 +77,8 @@
         <p class="big ctr-text"><strong>Location Info Unavailable</strong></p>
     </div>
 
-    <div class="well col-xs-12">
-        <table class="table table-responsive table-bordered table-condensed" style="text-align: left">
-            <tr>
-                <td><strong>Par:</strong></td>
-                <td class="ctr-text">{{ par }}</td>
-            </tr>
-            <tr>
-                <td><strong>Hdcp:</strong></td>
-                <td class="ctr-text">{{ hcp }}</td>
-            </tr>
-            <tr>
-                <td><strong>Length:</strong></td>
-                <td class="ctr-text">{{ length }}</td>
-            </tr>
-        </table>
-    </div>
-
     <div class="col-xs-12">&nbsp;</div>
-    <div class="container col-xs-12" ng-show="locAvail">
+    <div class="container col-xs-12 tiny" ng-show="locAvail">
         <small>
             <table class="table table-responsive" style="text-align: left">
                 <tr>

@@ -164,6 +164,14 @@ angular.module('phoenixGolfGuysApp')
             
         /*  Step 8: save the round record.  */
             saveActiveRound();
+            
+        /*  Step 9: calculate current round score  */
+            $scope.roundScore = 0;
+            for (i = 0; i < $scope.round.grossScore.length; i++) {
+                if ($scope.round.grossScore[i]) {
+                    $scope.roundScore += $scope.round.grossScore[i];
+                }
+            }
         
             return;
         }
@@ -184,6 +192,7 @@ angular.module('phoenixGolfGuysApp')
                     $scope.round = round;
                     $scope.playerId = round.playerId;
                     $scope.hole = 1;
+                    $scope.roundScore = 0;
                     changeHole(0);      /*  call changeHole to initialize everything for first hole */
                  
 // initial read of geolocation data and calculation of distances.
