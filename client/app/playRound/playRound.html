@@ -31,14 +31,14 @@
              <span class="btn btn-success big" ng-click="plusOne()">&#43;</span> 
         </div>
     </div>
-    <div class="col-xs-3">
+    <div class="col-xs-4">
         <p class="huge left-text"><strong>Par {{ par }}</strong></p>
     </div>
     <div class="col-xs-3">
         <p class="huge right-text"><strong>#{{ hcp }}</strong></p>
     </div>
-   <div class="col xs-6">
-        <p class="huge ctr-text"><strong>Score: {{ roundScore }}</strong></p>
+   <div class="col xs-5">
+        <p class="huge ctr-text"><strong>{{ roundScore | number: 0 }} ({{ toPar | number: 0 }})</strong></p>
     </div>
     <div class="container" ng-show="locAvail">
         <div class="col-xs-12 big">
@@ -56,6 +56,7 @@
         </div>
 
         <div class="col-xs-3">&nbsp;</div>
+        <div class="col-xs-12">&nbsp;</div>
 
         <div class="col-xs-12" ng-show="showHazards">
             <table class="table table-striped table-responsive big">

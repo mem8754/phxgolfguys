@@ -112,6 +112,7 @@ angular.module('phoenixGolfGuysApp')
         function changeHole(incr) {
             var i = 1,
                 j = 0,
+                roundPar = 0,
                 hazard = {};
             
         /*  Step 1: save score for current hole if we're switching to a different hole (param !== 0).  */
@@ -167,11 +168,14 @@ angular.module('phoenixGolfGuysApp')
             
         /*  Step 9: calculate current round score  */
             $scope.roundScore = 0;
+            $scope.roundPar = 0
             for (i = 0; i < $scope.round.grossScore.length; i++) {
                 if ($scope.round.grossScore[i]) {
                     $scope.roundScore += $scope.round.grossScore[i];
+                    roundPar += $scope.round.par[i];
                 }
             }
+            $scope.toPar = $scope.roundScore - roundPar;
         
             return;
         }
