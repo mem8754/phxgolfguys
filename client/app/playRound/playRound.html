@@ -1,7 +1,8 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
 <div class="container">
-    <h2 class="ctr-text"><strong>{{ round.courseTag }}</strong> ({{ round.teeName }})</h2>
+    <h2 class="ctr-text"><strong>{{ round.courseTag }}</strong></h2>
+    <h4>{{ round.teeName }} Tees</h4>
     <div class="container">
         <div class="col-xs-6">
             <p class="ctr-text big"><strong>Hole</strong></p>
@@ -30,10 +31,13 @@
              <span class="btn btn-success big" ng-click="plusOne()">&#43;</span> 
         </div>
     </div>
-    <div class="col-xs-6">
-        <p class="huge ctr-text"><strong>Par {{ par }} {{ length }} #{{ hcp }}</strong></p>
+    <div class="col-xs-3">
+        <p class="huge left-text"><strong>Par {{ par }}</strong></p>
     </div>
-    <div class="col xs-6">
+    <div class="col-xs-3">
+        <p class="huge right-text"><strong>#{{ hcp }}</strong></p>
+    </div>
+   <div class="col xs-6">
         <p class="huge ctr-text"><strong>Score: {{ roundScore }}</strong></p>
     </div>
     <div class="container" ng-show="locAvail">
