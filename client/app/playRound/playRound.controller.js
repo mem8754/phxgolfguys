@@ -190,8 +190,6 @@ angular.module('phoenixGolfGuysApp')
     
         function init() {
             $scope.showHazards = false;
-            $scope.locAvail = false;
-            $scope.message = "Reading initial position ...";
             roundsFactory.getActiveRound(roundId)
                 .error(function (data, status) {
                     $log.warn('Server Error getting Round:' + status);
@@ -205,26 +203,31 @@ angular.module('phoenixGolfGuysApp')
                  
 // initial read of geolocation data and calculation of distances.
                 
+                    $scope.locAvail = false;
+                    $scope.message = "Reading initial position ...";
                     if (navigator.geolocation) {
                         $scope.locAvail = false;
                         navigator.geolocation.getCurrentPosition(
                             function (position) {
                                 $scope.locAvail = true;
+                                $scope.message = "Success on initial read.";
                                 $scope.position = position;
                                 calculateYardages();
                                 $scope.accuracy = $scope.position.coords.accuracy * 1.09361;
-                                $scope.message = "Success on initial read.";
                             },
                             function error(msg) {
                                 $log.log('Geolocation error: ' + msg);
+                                $scope.locAvail = false;
                                 $scope.message = msg;
                             },
                             {
-                                maximumAge: 1000,
-                                timeout: 500,
+                                maximumAge: 2000,
+                                timeout: 1000,
                                 enableHighAccuracy: true
                             }
                         );
+                    } else {
+                        $scope.message = "Geolocation is not available.";
                     }
                 });
         }
@@ -246,22 +249,22 @@ angular.module('phoenixGolfGuysApp')
                     function (position) {
                         $scope.$apply(function () {
                             $scope.locAvail = true;
+                            $scope.message = "Success on position update.";
                             $scope.position = position;
                             calculateYardages();
                             $scope.accuracy = $scope.position.coords.accuracy * 1.09361;
-                            $scope.message = "Success on position update.";
                         });
                     },
                     function error(msg) {
                         $scope.$apply(function () {
                             $scope.locAvail = false;
-                            $log.log("Geolocation error: ", msg);
                             $scope.message = msg;
+                            $log.log("Geolocation error: ", msg);
                         });
                     },
                     {
-                        maximumAge: 1000,
-                        timeout: 500,
+                        maximumAge: 2000,
+                        timeout: 1000,
                         enableHighAccuracy: true
                     }
                 );
