@@ -20,7 +20,7 @@
     <div>
         <h6><strong>Tee Boxes:</strong></h6>
         <small>
-            <table class="table table-condensed table-responsive">
+            <table class="table table-condensed table-responsive table-striped">
                 <tr>
                     <th>Tee</th>
                     <th>Rating</th>
@@ -28,8 +28,8 @@
                     <th>Par</th>
                     <th>Yards</th>
                 </tr>
-                <tr ng-repeat="tee in tees">
-                    <td style="text-align:left">
+                <tr ng-repeat="tee in tees | orderBy:'tee.rating':'true'">
+                    <td class="left-text">
                         <a href="/editTeeBox/{{ tee._id }}">{{ tee.teeName }}</a>
                     </td>
                     <td>{{ tee.rating | number:1 }}</td>
@@ -40,15 +40,12 @@
                 </tr>
                 <tr>
                     <td>
-                        <span><a class="glyphicon glyphicon-plus-sign" 
-                           aria-hidden="true" 
-                           href="/addTeeBox/{{ course._id }}">&nbsp;Add</a>
-                        </span>
+                        <a href="/addTeeBox/{{ course._id }}">Add Tee Box</a>
                     </td>
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td><a href="/addTeeTime/{{course._id}}"</td>
+                    <td></td>
                 </tr>
 
             </table>
@@ -59,7 +56,7 @@
         <h6><strong>Front 9:</strong></h6>
         <small>
             <div class="table-responsive">
-                <table class="table table-condensed table-bordered">
+                <table class="table table-condensed table-bordered table-striped">
                     <tr>
                         <th></th>
                         <th>1</th>
@@ -99,7 +96,7 @@
                         <td>{{ course.par[8] }}</td>
                         <td>{{ course.par[18] }}</td>
                     </tr>
-                    <tr ng-repeat="tee in tees">
+                    <tr ng-repeat="tee in tees | orderBy:'tee.rating':'true'">
                         <td style="text-align:left">{{ tee.teeName }}</td>
                         <td>{{ tee.yds[0] }}</td>
                         <td>{{ tee.yds[1] }}</td>
@@ -120,7 +117,7 @@
         <small>
             <h6><strong>Back 9:</strong></h6>
             <div class="table-responsive">
-                <table class="table table-condensed table-bordered">
+                <table class="table table-condensed table-bordered table-striped">
                     <tr>
                         <th></th>
                         <th>10</th>
@@ -160,7 +157,7 @@
                         <td>{{ course.par[17] }}</td>
                         <td>{{ course.par[19] }}</td>
                     </tr>
-                    <tr ng-repeat="tee in tees">
+                    <tr ng-repeat="tee in tees | orderBy:'tee.rating':'true'">
                         <td style="text-align:left">{{ tee.teeName }}</td>
                         <td>{{ tee.yds[9] }}</td>
                         <td>{{ tee.yds[10] }}</td>
@@ -186,7 +183,7 @@
                 </strong>
             </h6>
             <div class="table-responsive">
-                <table class="table table-condensed table-bordered">
+                <table class="table table-condensed table-bordered table-striped">
                     <tr>
                         <th style="text-align:center">Date</th>
                         <th style="text-align:center">Player</th>

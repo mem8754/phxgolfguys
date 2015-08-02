@@ -19,6 +19,7 @@ angular.module('phoenixGolfGuysApp')
             
             var teeTimeId = $stateParams.id;
             $scope.round = {};
+            $scope.round.modified = false;
             eventsFactory.getTeeTime(teeTimeId)
                 .error(function (data, status) {
                     $log.log('Server Error ' + status + ' getting tee time.');

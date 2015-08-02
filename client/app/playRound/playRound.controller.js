@@ -143,6 +143,9 @@ angular.module('phoenixGolfGuysApp')
             if ($scope.round.hole[$scope.hole - 1].flag) {
                 $scope.centerLat = $scope.round.hole[$scope.hole - 1].flag[0];
                 $scope.centerLon = $scope.round.hole[$scope.hole - 1].flag[1];
+                if ($scope.round.hole[$scope.hole - 1].flag.length > 2) {
+                    $scope.centerElev = $scope.round.hole[$scope.hole - 1].flag[2];
+                }
             } else {
                 $scope.centerLat = 0;
                 $scope.centerLon = 0;
@@ -168,7 +171,7 @@ angular.module('phoenixGolfGuysApp')
             
         /*  Step 9: calculate current round score  */
             $scope.roundScore = 0;
-            $scope.roundPar = 0
+            $scope.roundPar = 0;
             for (i = 0; i < $scope.round.grossScore.length; i++) {
                 if ($scope.round.grossScore[i]) {
                     $scope.roundScore += $scope.round.grossScore[i];
@@ -188,6 +191,7 @@ angular.module('phoenixGolfGuysApp')
         function init() {
             $scope.showHazards = false;
             $scope.locAvail = false;
+            $scope.message = "Reading initial position ...";
             roundsFactory.getActiveRound(roundId)
                 .error(function (data, status) {
                     $log.warn('Server Error getting Round:' + status);
@@ -203,14 +207,13 @@ angular.module('phoenixGolfGuysApp')
                 
                     if (navigator.geolocation) {
                         $scope.locAvail = false;
-                        $scope.message = null;
                         navigator.geolocation.getCurrentPosition(
                             function (position) {
                                 $scope.locAvail = true;
                                 $scope.position = position;
                                 calculateYardages();
                                 $scope.accuracy = $scope.position.coords.accuracy * 1.09361;
-                                $scope.message = null;
+                                $scope.message = "Success on initial read.";
                             },
                             function error(msg) {
                                 $log.log('Geolocation error: ' + msg);
@@ -242,13 +245,16 @@ angular.module('phoenixGolfGuysApp')
                 navigator.geolocation.watchPosition(
                     function (position) {
                         $scope.$apply(function () {
+                            $scope.locAvail = true;
                             $scope.position = position;
                             calculateYardages();
                             $scope.accuracy = $scope.position.coords.accuracy * 1.09361;
+                            $scope.message = "Success on position update.";
                         });
                     },
                     function error(msg) {
                         $scope.$apply(function () {
+                            $scope.locAvail = false;
                             $log.log("Geolocation error: ", msg);
                             $scope.message = msg;
                         });
@@ -325,6 +331,20 @@ angular.module('phoenixGolfGuysApp')
 //-----------------------------------------------------------------------------------------------------------
         $scope.toggleHazards = function () {
             $scope.showHazards = !$scope.showHazards;
+        };
+    
+//-----------------------------------------------------------------------------------------------------------
+//  Procedure to save the current position's "altitude" parameter as "flag" elevation, converted from meters to feet.
+//-----------------------------------------------------------------------------------------------------------
+        $scope.setGreenElev = function () {
+            var alt = $scope.position.coords.altitude * 3 * 1.09361;
+            if ($scope.round.hole[$scope.hole - 1].flag.length > 2) {
+                $scope.round.hole[$scope.hole - 1].flag[2] = alt;
+            } else {
+                $scope.round.hole[$scope.hole - 1].flag.push(alt);
+            }
+            
+            $scope.round.modified = true;       /*  flag to let post round controller know to update coordinates collection  */
         };
     
 //-----------------------------------------------------------------------------------------------------------
