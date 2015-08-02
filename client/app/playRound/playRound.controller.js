@@ -206,7 +206,6 @@ angular.module('phoenixGolfGuysApp')
                     $scope.locAvail = false;
                     $scope.message = "Reading initial position ...";
                     if (navigator.geolocation) {
-                        $scope.locAvail = false;
                         navigator.geolocation.getCurrentPosition(
                             function (position) {
                                 $scope.locAvail = true;
@@ -218,7 +217,7 @@ angular.module('phoenixGolfGuysApp')
                             function error(msg) {
                                 $log.log('Geolocation error: ' + msg);
                                 $scope.locAvail = false;
-                                $scope.message = msg;
+                                $scope.message = "Error on initial read: " + msg;
                             },
                             {
                                 maximumAge: 2000,
@@ -258,7 +257,7 @@ angular.module('phoenixGolfGuysApp')
                     function error(msg) {
                         $scope.$apply(function () {
                             $scope.locAvail = false;
-                            $scope.message = msg;
+                            $scope.message = "Error on watch position update:" + msg;
                             $log.log("Geolocation error: ", msg);
                         });
                     },
